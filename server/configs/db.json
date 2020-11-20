@@ -1,6 +1,6 @@
 {
     "mongodb" :{
-        "host": "mongodb://localhost:27017/",
+        "host": "mongodb+srv://TimPhongTro:DaoR8jm01wSK1Lwl@cluster0.oiucn.mongodb.net/Test?retryWrites=true&w=majority",
         "database": "Test"
     }
 }
