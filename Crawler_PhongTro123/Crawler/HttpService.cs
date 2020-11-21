@@ -31,7 +31,7 @@ namespace Crawler
             while (content.IndexOf(Config.lstProperty[1].start) > 0)
             {
                 content = content.Substring(content.IndexOf(Config.lstProperty[1].start) + Config.lstProperty[1].start.Length);
-                var link = content.Substring(0, content.IndexOf(Config.lstProperty[1].end) + Config.lstProperty[1].end.Length);
+                var link = content.Substring(0, content.IndexOf(Config.lstProperty[1].end));
                 if (!lst.Contains(link)) lst.Add(link);
             }
             return lst;
@@ -51,23 +51,28 @@ namespace Crawler
                     var multiValue = "";
                     while (content.IndexOf(Config.lstProperty[i].start) >= 0)
                     {
-                        content = content.Substring(content.IndexOf(Config.lstProperty[i].start) + Config.lstProperty[i].start.Length);
+                        content = Trim(Config.lstProperty[i], content);
                         multiValue += content.Substring(0, content.IndexOf(Config.lstProperty[i].end)) + ";";
                     }
                     propValue = multiValue;
                 }
                 else
                 {
-                    content = content.Substring(content.IndexOf(Config.lstProperty[i].start) + Config.lstProperty[i].start.Length);
+                    content = Trim(Config.lstProperty[i], content);
                     propValue = content.Substring(0, content.IndexOf(Config.lstProperty[i].end));
                 }
-                //if (Config.lstProperty[i].hasHTML)
-                //{
-                //    propValue = Helper.ClearHTML(propValue);
-                //}
                 json.add_property(Config.lstProperty[i].name, propValue);
             }
             return json;
+        }
+
+        static string Trim(CrawlProperty crawl, string content)
+        {
+            content = content.Substring(content.IndexOf(crawl.start) + crawl.start.Length);
+            if (!string.IsNullOrEmpty(crawl.substart))
+                content = content.Substring(content.IndexOf(crawl.substart) + crawl.substart.Length);
+
+            return content;
         }
     }
 }

@@ -1,15 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
-<PhongTro123 URL="https://phongtro123.com/tinh-thanh/ho-chi-minh?page=" START_PAGE="1" TOTAL_PAGE="1" RECORD_PER_FILE="40">
+<PhongTro123 URL="https://phongtro123.com/tinh-thanh/ho-chi-minh?page=" START_PAGE="1608" TOTAL_PAGE="1" RECORD_PER_FILE="20">
   <indentify start="ul class=&quot;list-post&quot;&gt;" end="&lt;/ul&gt;" name="ListPageContent" />
-  <indentify start="style=&quot;color:#E13427;&quot; href=&quot;" end="html" name="PageDetailLink" />
-  <indentify start="post_single_page tin-vip vipnoibat" end="&quot;whyus&quot;" name="DetailPageContent" />
+  <indentify start="class=&quot;post-link&quot; href=&quot;" end="&quot; alt=&quot;" name="PageDetailLink" />
+  <indentify start="id=&quot;main&quot;" end="&quot;whyus&quot;" name="DetailPageContent" />
   
-  <indentify start="style=&quot;color:#E13427;&quot;&gt;" end="&lt;/h1&gt;" name="Title" />
+  <indentify start="page-title" end="&lt;/h1&gt;" name="Title" substart="&gt;" />
   <indentify start="colspan=&quot;3&quot;&gt;" end="&lt;/td&gt;" name="Address" />
   <indentify start="Người đăng:&lt;/td&gt;&lt;td&gt;" end="&lt;/td&gt;&lt;/tr&gt;" name="Owner" />
-  <indentify start="span style=&quot;color: #4cae4c; font-weight: bold; font-size: 1.5rem;&quot;&gt;" end="&lt;/span&gt;" name="Phone" />
+  <indentify start="font-size: 1.5rem;&quot;&gt;" end="&lt;/span&gt;" name="Phone" />
   <indentify start="Diện tích:&lt;/td&gt;&lt;td&gt;&lt;span style=&quot;color: #E74C3C; font-weight: bold;&quot;&gt;" end="&lt;/span&gt;" name="Area" />
-  <indentify start="Giá cho thuê:&lt;/td&gt;&lt;td&gt;&lt;span class=&quot;price&quot; style=&quot;color: #E74C3C; font-weight: bold;&quot;&gt;" end="&lt;/span&gt;" name="Price" />
-  <indentify start="Thông tin mô tả&lt;/span&gt;" end="&lt;p&gt;☎️ Điện thoại liên hệ:" name="Description" hasHTML="true" />
+  <indentify start="class=&quot;price&quot; style=&quot;color: #E74C3C; font-weight: bold;&quot;&gt;" end="&lt;/span&gt;" name="Price" />
+  <indentify start="Thông tin mô tả&lt;/span&gt;" end="&lt;p&gt;☎️ Điện thoại liên hệ:" name="Description" />
   <indentify start="class=&quot;photo_item_image&quot; data-image=&quot;" end="&quot; src=" name="Imgs" hasMany="true" />
 </PhongTro123>

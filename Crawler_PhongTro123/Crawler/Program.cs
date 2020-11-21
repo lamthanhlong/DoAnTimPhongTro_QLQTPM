@@ -11,13 +11,12 @@ namespace Crawler
         [Obsolete]
         static void Main(string[] args)
         {
+            //args = new string[] { @"E:\Projects\TimPhongTro_QLQTPM\DoAnTimPhongTro_QLQTPM\Crawler_PhongTro123\PhongTro123.xml" };
             if (args.Length <= 0) return;
             try
             {
                 WriteColor("# Loading config file...", ConsoleColor.Yellow);
-                //var configloaded = Config.ReadConfig(@"C:\Users\llam30\Desktop\PhongTro123.xml");
-                var configloaded = Config.ReadConfig(args[0]);
-                if (!configloaded)
+                if (!Config.ReadConfig(args[0]))
                 {
                     WriteColor("ERROR: Couldn't Found Config File!", ConsoleColor.Blue);
                     Console.ReadLine();
@@ -25,18 +24,21 @@ namespace Crawler
                 }
                 List <JSON> lst = new List<JSON>();
                 var mainThread = Thread.CurrentThread;
-                for (int i = Config.StartPage; i <= Config.TotalPage; i++)
+                for (int i = Config.StartPage; i < Config.StartPage + Config.TotalPage; i++)
                 {
                     WriteColor("# Start Reading Page " + i, ConsoleColor.Yellow);
-                    var links = HttpService.GetDetail_URLs(Config.MainURL);
+                    var links = HttpService.GetDetail_URLs(Config.MainURL + i);
+                    if (links.Count == 0) continue;
+                    var count = 0;
                     foreach(var link in links)
                     {
                         ThreadPool.QueueUserWorkItem((obj)=>{
                             var item = HttpService.GetDetailPage(link);
                             Console.WriteLine(link.Substring(link.LastIndexOf("/") + 1));
                             lock (lst){
-                                lst.Add(item); 
-                                if (lst.Count >= links.Count * i) mainThread.Resume();
+                                lst.Add(item);
+                                count++;
+                                if (count == links.Count) mainThread.Resume();
                             }
                         });
                     }

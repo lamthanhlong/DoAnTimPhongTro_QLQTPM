@@ -34,7 +34,7 @@ namespace Crawler
                         end = node.Attributes["end"].Value,
                         name = node.Attributes["name"].Value,
                         hasMany = node.Attributes["hasMany"] != null && node.Attributes["hasMany"].Value == "true",
-                        //hasHTML = node.Attributes["hasHTML"] != null && node.Attributes["hasHTML"].Value == "true"
+                        substart = node.Attributes["substart"] != null ? node.Attributes["substart"].Value : ""
                     });
                 }
                 return true;
@@ -48,7 +48,7 @@ namespace Crawler
         public string end { get; set; }
         public string name { get; set; }
         public bool hasMany { get; set; }
-        //public bool hasHTML { get; set; }
+        public string substart { get; set; }
     }
     class Helper
     {
