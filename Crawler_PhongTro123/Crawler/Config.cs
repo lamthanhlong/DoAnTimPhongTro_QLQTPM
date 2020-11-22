@@ -14,8 +14,10 @@ namespace Crawler
         public static string MainURL;
         public static string ResultDirectory = "./Results";
         public static int RecordPerFile;
+        public static int TotalFile = 1;
         public static int TotalPage;
         public static int StartPage;
+
         public static bool ReadConfig(string path)
         {
             var xdoc = new XmlDocument();

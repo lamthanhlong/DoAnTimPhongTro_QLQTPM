@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading;
@@ -11,8 +12,10 @@ namespace Crawler
         [Obsolete]
         static void Main(string[] args)
         {
-            //args = new string[] { @"E:\Projects\TimPhongTro_QLQTPM\DoAnTimPhongTro_QLQTPM\Crawler_PhongTro123\PhongTro123.xml" };
+            args = new string[] { @"E:\Projects\TimPhongTro_QLQTPM\DoAnTimPhongTro_QLQTPM\Crawler_PhongTro123\PhongTro123.xml" };
             if (args.Length <= 0) return;
+            Console.Title = $"CRAWLER [{Path.GetFileName(args[0])}]";
+            Console.WriteLine("Crawler Tool [Version 1.0]\n");
             try
             {
                 WriteColor("# Loading config file...", ConsoleColor.Yellow);
@@ -22,6 +25,7 @@ namespace Crawler
                     Console.ReadLine();
                     return;
                 }
+                Console.WriteLine();
                 List <JSON> lst = new List<JSON>();
                 var mainThread = Thread.CurrentThread;
                 for (int i = Config.StartPage; i < Config.StartPage + Config.TotalPage; i++)
@@ -43,11 +47,15 @@ namespace Crawler
                         });
                     }
                     mainThread.Suspend();
+                    if (lst.Count >= Config.RecordPerFile || i == Config.StartPage + Config.TotalPage - 1)
+                    {
+                        WriteColor($"# Writing JSON file [{Config.TotalFile}]...", ConsoleColor.Yellow);
+                        JSON.WriteFile(lst);
+                        lst.Clear();
+                    }
                     Console.WriteLine();
                 }
-                WriteColor("# Writing JSON file...", ConsoleColor.Yellow);
-                JSON.WriteFile(lst);
-                WriteColor("\n# Completed!", ConsoleColor.Green);
+                WriteColor($"\n# Completed!, {Config.TotalFile - 1} File is Exported.", ConsoleColor.Green, false);
             }
             catch(Exception ex)
             {
@@ -57,10 +65,11 @@ namespace Crawler
             Console.ReadLine();
         }
 
-        static void WriteColor(string text, ConsoleColor color)
+        static void WriteColor(string text, ConsoleColor color, bool isNewLine = true)
         {
             Console.ForegroundColor = color;
-            Console.WriteLine(text);
+            if(isNewLine) Console.WriteLine(text);
+            else Console.Write(text);
             Console.ResetColor();
         }
     }

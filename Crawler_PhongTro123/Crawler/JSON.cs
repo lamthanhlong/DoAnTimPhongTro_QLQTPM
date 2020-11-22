@@ -21,7 +21,7 @@ namespace Crawler
         public string toJsonString()
         {
             var json = "";
-            foreach(var item in props)
+            foreach (var item in props)
             {
                 json += $"\"{item.key}\":\"{item.value.Replace("\"", "&quot;")}\",";
             }
@@ -31,24 +31,12 @@ namespace Crawler
         public static void WriteFile(List<JSON> lst)
         {
             var jsonString = "";
-            var count = 1;
             Directory.CreateDirectory(Config.ResultDirectory);
             for (int i = 0; i < lst.Count; i++)
             {
                 jsonString += lst[i].toJsonString() + ",";
-                if (i + 1 == Config.RecordPerFile * count)
-                {
-                    File.WriteAllText($"{Config.ResultDirectory}/data_{count}.json", "[" + jsonString.Remove(jsonString.Length - 1) + "]");
-                    Console.Write(count + " ");
-                    count++;
-                    jsonString = "";
-                }
             }
-            if (jsonString != "")
-            {
-                File.WriteAllText($"{Config.ResultDirectory}\\data_{count}.json", "[" + jsonString.Remove(jsonString.Length - 1) + "]");
-                Console.Write(count);
-            }
+            File.WriteAllText($"{Config.ResultDirectory}\\data_{Config.TotalFile++}.json", "[" + jsonString.Remove(jsonString.Length - 1) + "]");
         }
     }
 
