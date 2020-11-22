@@ -11,6 +11,7 @@ namespace Crawler
     class Config
     {
         public static List<CrawlProperty> lstProperty = new List<CrawlProperty>();
+        public static List<CrawlerError> lstError = new List<CrawlerError>();
         public static string MainURL;
         public static string ResultDirectory = "./Results";
         public static int RecordPerFile;
@@ -59,6 +60,22 @@ namespace Crawler
             var xdoc = new XmlDocument();
             xdoc.LoadXml("<root>" + html + "</root>");
             return xdoc.DocumentElement.InnerText;
+        }
+    }
+    class CrawlerError
+    {
+        public string URL { get; set; }
+        public string Message { get; set; }
+
+        public static void LogError()
+        {
+            if (Config.lstError.Count == 0) return;
+            var errorString = "";
+            foreach(var err in Config.lstError)
+            {
+                errorString += $"[{err.Message}] {err.URL}\n";
+            }
+            File.WriteAllText("./CrawlerErrors.log", errorString);
         }
     }
 }

@@ -12,12 +12,17 @@ namespace Crawler
         [Obsolete]
         static void Main(string[] args)
         {
-            args = new string[] { @"E:\Projects\TimPhongTro_QLQTPM\DoAnTimPhongTro_QLQTPM\Crawler_PhongTro123\PhongTro123.xml" };
+            //args = new string[] { @"E:\Projects\TimPhongTro_QLQTPM\DoAnTimPhongTro_QLQTPM\Crawler_PhongTro123\PhongTro123.xml" };
             if (args.Length <= 0) return;
             Console.Title = $"CRAWLER [{Path.GetFileName(args[0])}]";
             Console.WriteLine("Crawler Tool [Version 1.0]\n");
+            
+            
             try
             {
+                List<JSON> lst = new List<JSON>();
+                var mainThread = Thread.CurrentThread;
+
                 WriteColor("# Loading config file...", ConsoleColor.Yellow);
                 if (!Config.ReadConfig(args[0]))
                 {
@@ -26,8 +31,7 @@ namespace Crawler
                     return;
                 }
                 Console.WriteLine();
-                List <JSON> lst = new List<JSON>();
-                var mainThread = Thread.CurrentThread;
+                
                 for (int i = Config.StartPage; i < Config.StartPage + Config.TotalPage; i++)
                 {
                     WriteColor("# Start Reading Page " + i, ConsoleColor.Yellow);
@@ -36,10 +40,12 @@ namespace Crawler
                     var count = 0;
                     foreach(var link in links)
                     {
-                        ThreadPool.QueueUserWorkItem((obj)=>{
+                        ThreadPool.QueueUserWorkItem((obj) =>
+                        {
                             var item = HttpService.GetDetailPage(link);
                             Console.WriteLine(link.Substring(link.LastIndexOf("/") + 1));
-                            lock (lst){
+                            lock (lst)
+                            {
                                 lst.Add(item);
                                 count++;
                                 if (count == links.Count) mainThread.Resume();
@@ -55,7 +61,8 @@ namespace Crawler
                     }
                     Console.WriteLine();
                 }
-                WriteColor($"\n# Completed!, {Config.TotalFile - 1} File is Exported.", ConsoleColor.Green, false);
+                CrawlerError.LogError();
+                WriteColor($"\n# Completed!, {Config.TotalFile - 1} FILE, {Config.lstError.Count} ERROR", ConsoleColor.Green, false);
             }
             catch(Exception ex)
             {

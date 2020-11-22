@@ -24,44 +24,86 @@ namespace Crawler
         }
         public static List<string> GetDetail_URLs(string pageURL)
         {
-            var content = HttpService.GetAsync(pageURL).Result;
-            content = content.Substring(content.IndexOf(Config.lstProperty[0].start));
-            content = content.Substring(0, content.IndexOf(Config.lstProperty[0].end) + Config.lstProperty[0].end.Length);
             var lst = new List<string>();
-            while (content.IndexOf(Config.lstProperty[1].start) > 0)
+            try
             {
-                content = content.Substring(content.IndexOf(Config.lstProperty[1].start) + Config.lstProperty[1].start.Length);
-                var link = content.Substring(0, content.IndexOf(Config.lstProperty[1].end));
-                if (!lst.Contains(link)) lst.Add(link);
+                var content = HttpService.GetAsync(pageURL).Result;
+                if (string.IsNullOrEmpty(content))
+                {
+                    Config.lstError.Add(new CrawlerError
+                    {
+                        URL = pageURL,
+                        Message = "Can't get HTML"
+                    });
+                    return lst;
+                }
+                content = content.Substring(content.IndexOf(Config.lstProperty[0].start));
+                content = content.Substring(0, content.IndexOf(Config.lstProperty[0].end) + Config.lstProperty[0].end.Length);
+                
+                while (content.IndexOf(Config.lstProperty[1].start) > 0)
+                {
+                    content = content.Substring(content.IndexOf(Config.lstProperty[1].start) + Config.lstProperty[1].start.Length);
+                    var link = content.Substring(0, content.IndexOf(Config.lstProperty[1].end));
+                    if (!lst.Contains(link)) lst.Add(link);
+                }
+            }
+            catch(Exception ex)
+            {
+                Config.lstError.Add(new CrawlerError
+                {
+                    URL = pageURL,
+                    Message = ex.Message
+                });
             }
             return lst;
         }
 
         public static JSON GetDetailPage(string pageURL)
         {
-            var content = HttpService.GetAsync(pageURL).Result;
-            content = content.Substring(content.IndexOf(Config.lstProperty[2].start));
-            content = content.Substring(0, content.IndexOf(Config.lstProperty[2].end) + Config.lstProperty[2].end.Length);
             var json = new JSON();
-            for (int i = 3; i < Config.lstProperty.Count; i++)
+            try
             {
-                var propValue = "";
-                if (Config.lstProperty[i].hasMany)
+                var content = HttpService.GetAsync(pageURL).Result;
+                if (string.IsNullOrEmpty(content))
                 {
-                    var multiValue = "";
-                    while (content.IndexOf(Config.lstProperty[i].start) >= 0)
+                    Config.lstError.Add(new CrawlerError
+                    {
+                        URL = pageURL,
+                        Message = "Can't get HTML"
+                    });
+                    return json;
+                }
+                content = content.Substring(content.IndexOf(Config.lstProperty[2].start));
+                content = content.Substring(0, content.IndexOf(Config.lstProperty[2].end) + Config.lstProperty[2].end.Length);
+
+                for (int i = 3; i < Config.lstProperty.Count; i++)
+                {
+                    var propValue = "";
+                    if (Config.lstProperty[i].hasMany)
+                    {
+                        var multiValue = "";
+                        while (content.IndexOf(Config.lstProperty[i].start) >= 0)
+                        {
+                            content = Trim(Config.lstProperty[i], content);
+                            multiValue += content.Substring(0, content.IndexOf(Config.lstProperty[i].end)) + ";";
+                        }
+                        propValue = multiValue;
+                    }
+                    else
                     {
                         content = Trim(Config.lstProperty[i], content);
-                        multiValue += content.Substring(0, content.IndexOf(Config.lstProperty[i].end)) + ";";
+                        propValue = content.Substring(0, content.IndexOf(Config.lstProperty[i].end));
                     }
-                    propValue = multiValue;
+                    json.add_property(Config.lstProperty[i].name, propValue);
                 }
-                else
+            }
+            catch(Exception ex)
+            {
+                Config.lstError.Add(new CrawlerError
                 {
-                    content = Trim(Config.lstProperty[i], content);
-                    propValue = content.Substring(0, content.IndexOf(Config.lstProperty[i].end));
-                }
-                json.add_property(Config.lstProperty[i].name, propValue);
+                    URL = pageURL,
+                    Message = ex.Message
+                });
             }
             return json;
         }

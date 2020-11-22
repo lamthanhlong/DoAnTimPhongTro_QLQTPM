@@ -27,6 +27,10 @@ namespace Crawler
             }
             return "{" + json.Remove(json.Length - 1) + "}";
         }
+        public bool isEmpty()
+        {
+            return props.Count == 0;
+        }
 
         public static void WriteFile(List<JSON> lst)
         {
@@ -36,7 +40,7 @@ namespace Crawler
             {
                 jsonString += lst[i].toJsonString() + ",";
             }
-            File.WriteAllText($"{Config.ResultDirectory}\\data_{Config.TotalFile++}.json", "[" + jsonString.Remove(jsonString.Length - 1) + "]");
+            File.WriteAllText($"{Config.ResultDirectory}/data_{Config.TotalFile++}.json", "[" + jsonString.Remove(jsonString.Length - 1) + "]");
         }
     }
 
