@@ -10,7 +10,19 @@ exports.getAll = asyncHandler(async (req, res, next) => {
   test
     .GetAll()
     .then((data) => {
-      res.status(200).json(data);
+      res.status(200).json(JSON.parse(data));
+    })
+    .catch(next);
+});
+
+//@desc Get all users with addresses
+//@route GET /api/v1/test
+//@access Public
+exports.GetAddress = asyncHandler(async (req, res, next) => {
+  test
+    .GetAddress()
+    .then((data) => {
+      res.status(200).json(JSON.parse(data));
     })
     .catch(next);
 });
