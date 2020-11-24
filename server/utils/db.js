@@ -84,4 +84,22 @@ module.exports = {
       return await db.collection(table).find(obj_query).count();
     });
   },
+  join: (table1, table2, obj1, obj2, assign_value) =>
+    connect(async (db) =>
+      JSON.stringify(
+        await db
+          .collection(table1)
+          .aggregate([
+            {
+              $lookup: {
+                from: table2,
+                localField: obj2,
+                foreignField: obj1,
+                as: assign_value,
+              },
+            },
+          ])
+          .toArray()
+      )
+    ),
 };

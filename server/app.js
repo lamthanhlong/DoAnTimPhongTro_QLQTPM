@@ -7,28 +7,34 @@ const fileupload = require('express-fileupload');
 const connectDB = require('./configs/db');
 const app = express();
 
-//Route files
-const test = require('./routes/test.route');
-
-//Mount routers
-app.use('/api/v1/test', test);
-
 // Load env vars
 dotenv.config({ path: './configs/config.env' });
 
-//Connect to database
-connectDB();
+//Route files
+const test = require('./routes/test.route');
 
-//Setting port
-const PORT = process.env.PORT || 3000;
+app.get('/ok', (req, res) => {
+  res.status(200);
+  res.send('hello world');
+});
 
 // Dev logging middleware
 if (process.env.NODE_ENV === 'development') {
   app.use(morgan('dev'));
 }
 
+//Connect to database Mongoose
+connectDB();
+
+//Mount routers
+app.use('/api/v1/test', test);
+
+//Setting port
+const PORT = process.env.PORT || 3000;
+
 //Body parser
 app.use(express.json());
+
 //Start Server
 const server = app.listen(
   PORT,
@@ -40,7 +46,7 @@ const server = app.listen(
 // error handler
 app.use((req, res, next) => {});
 
-// Handle unhandled promise rejections
+//Handle unhandled promise rejections
 process.on('unhandledRejection', (err, promise) => {
   console.log(`Error: ${err.message}`.red);
   // Close server & exit process
