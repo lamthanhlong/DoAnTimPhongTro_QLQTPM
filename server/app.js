@@ -5,29 +5,22 @@ const dotenv = require('dotenv');
 const colors = require('colors');
 const fileupload = require('express-fileupload');
 const connectDB = require('./configs/db');
+const errorHandler = require('./middleware/error');
 const app = express();
 
 // Load env vars
 dotenv.config({ path: './configs/config.env' });
-
-//Route files
-const test = require('./routes/test.route');
-
-app.get('/ok', (req, res) => {
-  res.status(200);
-  res.send('hello world');
-});
 
 // Dev logging middleware
 if (process.env.NODE_ENV === 'development') {
   app.use(morgan('dev'));
 }
 
+//Mount routers
+app.use('/api/v1/test', require('./routes/test.route'));
+
 //Connect to database Mongoose
 connectDB();
-
-//Mount routers
-app.use('/api/v1/test', test);
 
 //Setting port
 const PORT = process.env.PORT || 3000;
@@ -44,8 +37,22 @@ const server = app.listen(
 );
 
 // error handler
-app.use((req, res, next) => {});
+app.use(errorHandler);
 
+app.use(function (req, res, next) {
+  res.status(404).send({
+    success: false,
+    error_message: 'Endpoint not found!',
+  });
+});
+/*
+app.use(function (err, req, res, next) {
+  res.status(500).send({
+    success: false,
+    error: 'Something broke',
+  });
+});
+ */
 //Handle unhandled promise rejections
 process.on('unhandledRejection', (err, promise) => {
   console.log(`Error: ${err.message}`.red);
