@@ -18,7 +18,7 @@ exports.getAll = asyncHandler(async (req, res, next) => {
 //@desc Get all users with addresses
 //@route GET /api/v1/test
 //@access Public
-exports.GetAddress = asyncHandler(async (req, res, next) => {
+exports.getAddress = asyncHandler(async (req, res, next) => {
   test
     .GetAddress()
     .then((data) => {

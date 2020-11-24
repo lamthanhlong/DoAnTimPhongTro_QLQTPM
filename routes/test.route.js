@@ -4,7 +4,7 @@ const test = require('../models/test.model');
 const {
   getAll,
   getPaginate,
-  GetAddress,
+  getAddress,
 } = require('../controllers/test.controller.js');
 
 /* router.get('/', async (req, res, next) => {
@@ -16,10 +16,10 @@ const {
     .catch(next);
 }); */
 
-router.get('/', GetAddress);
+//router.get('/', getAddress);
 //router.get('/paginate', getPaginate);
 
-//router.route('/').get(getAll);
+router.route('/').get(getAddress);
 router.route('/paginate').get(getPaginate);
 
 module.exports = router;
