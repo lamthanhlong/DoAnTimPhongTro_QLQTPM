@@ -2,6 +2,7 @@ const path = require('path');
 const asyncHandler = require('../middleware/async');
 const ErrorResponse = require('../utils/errorResponse');
 const test = require('../models/test.model');
+
 //@desc Get all users
 //@route GET /api/v1/test
 //@access Public
