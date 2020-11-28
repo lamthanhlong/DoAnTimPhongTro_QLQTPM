@@ -1,0 +1,24 @@
+{
+  "required": [ "phone", "password", "name", "address", "role", "images" ],
+  "additionalProperties": false,
+  "properties": {
+    "phone": {
+      "type": "string"
+    },
+    "password": {
+      "type": "string"
+    },
+    "name": {
+      "type": "string"
+    }
+    ,"address": {
+      "type": "string"
+    }
+    ,"role": {
+      "type": "string"
+    },
+    "images": {
+      "type": "string"
+    }
+  }
+}

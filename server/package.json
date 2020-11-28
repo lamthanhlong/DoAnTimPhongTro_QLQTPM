@@ -5,13 +5,18 @@
   "main": "app.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node app"
+    "start": "node app",
+    "crawl": "node utils/phongtro123"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "ajv": "^6.12.6",
+    "cors": "^2.8.5",
     "express": "^4.17.1",
-    "mongodb": "^3.6.3"
+    "express-async-errors": "^3.1.1",
+    "mongodb": "^3.6.3",
+    "morgan": "^1.10.0"
   }
 }
