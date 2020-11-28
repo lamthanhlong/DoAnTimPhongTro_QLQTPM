@@ -3,27 +3,32 @@ const MongoClient = require('mongodb').MongoClient;
 
 
 const connect = async (exec) => {
-    try{
-        var mongo = await MongoClient.connect(config.host);
-        var val = exec(mongo.db(config.database));
+    try {
+        var mongo = await MongoClient.connect(config.host.replace("{DataBaseName}", config.database));
+        var val = await exec(mongo.db(config.database));
         mongo.close();
         return val;
-    }
-    catch(ex)
-    {
+    } catch (ex) {
         console.log(ex);
         return null;
     }
 };
 const get_update_obj = (obj) => {
-    var update_obj = { $set: {} };
+    var update_obj = {
+        $set: {}
+    };
     update_obj.$set = obj;
     return update_obj;
 };
 module.exports = {
+    createCollection: (table) => {
+        return connect(async (db) => {
+            return await db.createCollection(table);
+        });
+    },
     find: (table, obj_query) => {
         return connect(async (db) => {
-            return JSON.stringify(await db.collection(table).find(obj_query).toArray());
+            return await db.collection(table).find(obj_query).toArray();
         });
     },
     insertOne: (table, obj) => {
@@ -59,16 +64,28 @@ module.exports = {
     paginate: (table, obj_query, obj_sort, start, limit) => {
         return connect(async (db) => {
             return await db.collection(table).aggregate([
-              { $match:  obj_query },
-              { $sort :  obj_sort },
-              { $limit:  limit },
-              { $skip:  start }
+                { $match: obj_query },
+                { $sort: obj_sort },
+                { $limit: limit },
+                { $skip: start }
             ]).toArray();
         });
     },
     count: (table, obj_query) => {
         return connect(async (db) => {
             return await db.collection(table).find(obj_query).count();
+        });
+    },
+    join: (table_1, table_2, key_1, key_2) => {
+        return connect(async (db) => {
+            return await db.collection(table_1).aggregate([{
+                $lookup: {
+                    from: table_2,
+                    localField: key_1,
+                    foreignField: key_2,
+                    as: table_1
+                }
+            }]).toArray();
         });
     }
 }
