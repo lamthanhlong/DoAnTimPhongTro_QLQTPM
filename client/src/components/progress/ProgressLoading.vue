@@ -1,21 +1,16 @@
 <template>
   <div>
-    <v-progress-linear
+    <v-progress-circular
       :indeterminate="indeterminate"
       color="cyan"
-      v-show="isLoading"
-    ></v-progress-linear>
+      v-show="true"
+    ></v-progress-circular>
   </div>
 </template>
 
-<style scoped>
-.v-progress-linear {
-  z-index: 1000;
-}
-</style>
 
 <script>
-import Component from "@/store/models/component";
+
 
 export default {
   props: {
@@ -33,8 +28,8 @@ export default {
   mounted() {},
 
   computed: {
-    isLoading() {
-      return Component.getters("headerProgress");
+    isLoading(){
+      return this.$store.getters["components/progressLoading"];
     }
   }
 };
