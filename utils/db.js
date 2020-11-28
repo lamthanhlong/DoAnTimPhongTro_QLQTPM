@@ -1,7 +1,6 @@
 const config = require('../configs/db.json').mongodb;
 const MongoClient = require('mongodb').MongoClient;
 
-
 const connect = async (exec) => {
     try {
         var mongo = await MongoClient.connect(config.host.replace("{DataBaseName}", config.database));
