@@ -1,6 +1,6 @@
 const { ObjectId } = require('mongodb');
 const db = require('../utils/db');
-const TableName = 'Users';
+const TableName = 'Ratings';
 
 module.exports = {
   GetAll: () => {
@@ -11,8 +11,12 @@ module.exports = {
       _id: ObjectId(`${id}`),
     });
   },
-  FindByPhone: (phone) => {
-    return db.find(TableName, { phone: phone });
+  GetAllRatingByMotelId: (id) => db.find(TableName, { motel_id: id }),
+  FindRating: (obj) => {
+    return db.find(TableName, {
+      user_id: obj.user_id,
+      motel_id: obj.motel_id,
+    });
   },
   GetPaginate: (start, limit) => {
     return db.paginate(TableName, {}, { name: 1 }, start, limit);
