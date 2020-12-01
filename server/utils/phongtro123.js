@@ -22,7 +22,9 @@ for (item of data) {
                 name: item.Owner,
                 address: item.Address,
                 images: '',
+                description: '',
                 role: "MOTEL_OWNER",
+                is_verified: false,
                 modified_date: now,
                 created_date: now
             });
@@ -38,8 +40,9 @@ for (item of data) {
                 has_furniture: item.Description.toLowerCase().indexOf("nội thất") >= 0,
                 price: parseFloat(item.Price.replace(" triệu/tháng", "")),
                 is_verified: item.Imgs != "",
-                rating: 0,
+                rating: 0.0,
                 owner_id: ListPhone.indexOf(item.Phone),
+                rating_code: '',
                 modified_date: now,
                 created_date: now
             });
