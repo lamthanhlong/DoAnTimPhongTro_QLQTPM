@@ -1,0 +1,15 @@
+{
+  "required": ["user_1", "user_2", "content"],
+  "additionalProperties": false,
+  "properties": {
+    "user_1": {
+      "type": "string"
+    },
+    "user_2": {
+      "type": "string"
+    },
+    "content": {
+      "type": "string"
+    }
+  }
+}

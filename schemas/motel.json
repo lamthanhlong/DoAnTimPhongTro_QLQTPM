@@ -1,0 +1,49 @@
+{
+  "required": [
+    "title",
+    "description",
+    "address",
+    "images",
+    "area",
+    "has_furniture",
+    "price",
+    "rating",
+    "is_verified",
+    "owner_id"
+  ],
+  "additionalProperties": true,
+  "properties": {
+    "title": {
+      "type": "string"
+    },
+    "description": {
+      "type": "string"
+    },
+    "address": {
+      "type": "string"
+    },
+    "images": {
+      "type": "string"
+    },
+    "area": {
+      "type": "integer"
+    },
+    "has_funiture": {
+      "type": "boolean"
+    },
+    "is_verified": {
+      "type": "boolean"
+    },
+    "owner_id": {
+      "type": "string"
+    },
+    "rating": {
+      "type": "number",
+      "minimum": 0,
+      "maximum": 5
+    },
+    "price": {
+      "type": "number"
+    }
+  }
+}
