@@ -10,24 +10,26 @@ app.use(express.json());
 
 // Hello
 app.get('/', function (req, res) {
-    res.end('Hello from The Best Solution backend!');
+  res.end('Hello from The Best Solution backend!');
 });
 
 // Routes
 app.use('/api/user', require('./routes/user.route'));
-
+app.use('/api/motel', require('./routes/motel.route'));
+app.use('/api/rating', require('./routes/rating.route'));
+app.use('/api/conversation', require('./routes/conversation.route'));
 // Error Handlers
 app.use(function (req, res, next) {
-    res.status(404).send({
-        error_message: 'Endpoint not found!'
-    })
+  res.status(404).send({
+    error_message: 'Endpoint not found!',
+  });
 });
 
 app.use(function (err, req, res, next) {
-    console.error(err.stack)
-    res.status(500).send({
-        error_message: 'Something broke!'
-    });
+  console.error(err.stack);
+  res.status(500).send({
+    error_message: 'Something broke!',
+  });
 });
 
 // Listening

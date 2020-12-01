@@ -1,6 +1,6 @@
 {
-  "required": [ "phone", "password", "name", "address", "role", "images" ],
-  "additionalProperties": false,
+  "required": ["phone", "password", "name", "address", "role", "images"],
+  "additionalProperties": true,
   "properties": {
     "phone": {
       "type": "string"
@@ -10,12 +10,13 @@
     },
     "name": {
       "type": "string"
-    }
-    ,"address": {
+    },
+    "address": {
       "type": "string"
-    }
-    ,"role": {
-      "type": "string"
+    },
+    "role": {
+      "type": "string",
+      "enum": ["MOTEL_OWNER", "ADMIN", "CUSTOMER"]
     },
     "images": {
       "type": "string"
