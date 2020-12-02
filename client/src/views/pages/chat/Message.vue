@@ -10,7 +10,7 @@
 
             <v-list class="overflow-y-auto" style="max-height: 680px">
               <v-card-text>
-                <div class="text-left pb-4">
+                <div class="text-left pb-4 left">
                   <v-card-text
                     style="
                       background-color: #f1f1f1;
@@ -24,7 +24,7 @@
                   <span style="font-size: 10px">10:10</span>
                 </div>
 
-                <div class="text-right pb-4">
+                <div class="text-right pb-4 right">
                   <v-card-text
                     style="
                       background-color: #c8e7ff;
@@ -38,7 +38,49 @@
                   <span style="font-size: 10px">10:11</span>
                 </div>
 
-                <div class="text-right pb-4">
+                <div class="text-left pb-4 left">
+                  <v-card-text
+                    style="
+                      background-color: #f1f1f1;
+                      color: #000000;
+                      border-radius: 5px;
+                    "
+                  >
+                    <div><b>Nguyễn Trí</b></div>
+                    Lorem ipsum dolor, sit amet consectetur adipisicing elit.
+                  </v-card-text>
+                  <span style="font-size: 10px">10:10</span>
+                </div>
+
+                <div class="text-left pb-4 left">
+                  <v-card-text
+                    style="
+                      background-color: #f1f1f1;
+                      color: #000000;
+                      border-radius: 5px;
+                    "
+                  >
+                    <div><b>Nguyễn Trí</b></div>
+                    Lorem ipsum dolor, sit amet consectetur adipisicing elit.
+                  </v-card-text>
+                  <span style="font-size: 10px">10:10</span>
+                </div>
+
+                <div class="text-right pb-4 right">
+                  <v-card-text
+                    style="
+                      background-color: #c8e7ff;
+                      color: #000000;
+                      border-radius: 5px;
+                    "
+                  >
+                    <div><b>Hoàng Quân</b></div>
+                    Lorem ipsum dolor, sit amet consectetur adipisicing elit.
+                  </v-card-text>
+                  <span style="font-size: 10px">10:11</span>
+                </div>
+
+                <div class="text-right pb-4 right">
                   <v-card-text
                     style="
                       background-color: #c8e7ff;
@@ -70,3 +112,21 @@
     </v-container>
   </v-app>
 </template>
+
+<style>
+.left,
+.right {
+  display: block;
+  position: relative;
+  clear: both;
+}
+
+.left {
+  float: left;
+  margin-left: 20px;
+}
+.right {
+  float: right;
+  margin-right: 20px;
+}
+</style>
