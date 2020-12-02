@@ -18,6 +18,7 @@ import ForbiddenPage from "./views/pages/errors/403.vue";
 
 // pages
 import Home from "./views/pages/home/Index.vue";
+import Detail from './views/pages/home/Detail';
 
 import store from "./store/index";
 
@@ -66,6 +67,10 @@ const routes = [
       {
         path: "",
         component: Home,
+      },
+      {
+        path: "/detail",
+        component: Detail
       }
     ]
   },
