@@ -9,6 +9,10 @@ import Logout from "./views/pages/auth/Logout";
 import AuthLayout from "./views/layouts/AuthLayout";
 import MainLayout from "./views/layouts/MainLayout";
 
+import ChatLayout from './views/layouts/ChatLayout';
+
+import Message from "./views/pages/chat/Message";
+
 import NotFoundPage from "./views/pages/errors/404.vue";
 import ForbiddenPage from "./views/pages/errors/403.vue";
 
@@ -39,6 +43,18 @@ const routes = [
         path: "logout",
         component: Logout,
         name: "logout"
+      }
+    ]
+  },
+  {
+    path: "/chat",
+    component: ChatLayout,
+    name: "chat",
+    children: [
+      {
+        path: "message",
+        component: Message,
+        name: "message"
       }
     ]
   },
