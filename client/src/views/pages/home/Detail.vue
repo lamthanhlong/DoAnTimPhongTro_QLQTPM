@@ -58,9 +58,21 @@
             </v-toolbar>
 
             <v-tabs-items v-model="tab">
-              <v-tab-item v-for="item in itemsTab" :key="item">
+              <v-tab-item>
                 <v-card flat>
-                  <v-card-text v-text="text"></v-card-text>
+                  <v-card-text>Description</v-card-text>
+                </v-card>
+              </v-tab-item>
+
+              <v-tab-item>
+                <v-card flat>
+                  <v-card-text>Reviews</v-card-text>
+                </v-card>
+              </v-tab-item>
+
+              <v-tab-item>
+                <v-card flat>
+                  <v-card-text>Write a review</v-card-text>
                 </v-card>
               </v-tab-item>
             </v-tabs-items>
@@ -109,8 +121,6 @@ export default {
       ],
       tab: null,
       itemsTab: ["DESCRIPTION", "REVIEWS", "WRITE A REVIEW"],
-      text:
-        "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",
     };
   },
 };
