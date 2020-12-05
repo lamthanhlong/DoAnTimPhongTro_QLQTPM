@@ -2,15 +2,15 @@
   <v-app id="detail">
     <v-container>
       <v-layout row>
-        <v-flex xs7>
+        <v-flex xs12 sm12 md7>
           <v-carousel>
             <v-carousel-item v-for="(item, i) in items" :key="i" :src="item.src" reverse-transition="fade-transition" transition="fade-transition"></v-carousel-item>
           </v-carousel>
         </v-flex>
-        <v-flex xs1 class="squeeze"></v-flex>
+        <v-flex xs12 sm12 md12 class="squeeze"></v-flex>
 
         <!-- Table Information-->
-        <v-flex xs4>
+        <v-flex xs12 sm12 md4>
           <v-card>
             <div class="pl-4 pt-2 text-center">
               <h1>Hilton Hotel</h1>
@@ -53,7 +53,7 @@
       <div class="pt-10"></div>
 
       <v-layout row>
-        <v-flex xs7>
+        <v-flex xs12 sm12 md7>
           <v-card>
             <v-toolbar color="cyan" dark flat>
               <template>
@@ -78,58 +78,63 @@
 
               <!-- Review -->
               <v-tab-item>
-                <v-card flat>
-                  <v-layout row>
-                    <v-row justify="space-around" xs3 style="margin-top: 55px !important">
-                      <div>
-                        <v-avatar size="110">
-                          <img src="https://cdn.vuetifyjs.com/images/john.jpg" alt="John" />
-                        </v-avatar>
-                        <div class="text-center pt-5">
-                          <span class="font-weight-bold">John Doe</span>
-                        </div>
-                      </div>
-                    </v-row>
-
-                    <v-flex xs9>
-                      <v-card-title>
-                        <div class="pr-4 pl-2">
-                          <div class="pl-4 pb-2 pt-2">
-                            <h3 class="headline mb-0">"Kangaroo Valley Safari"</h3>
-                            <v-rating background-color="yellow lighten-3" color="yellow" large></v-rating>
+                <v-list class="overflow-y-auto" style="max-height: 400px">
+                  <v-card flat>
+                    <v-layout row>
+                      <v-row justify="space-around" xs3 style="margin-top: 55px !important">
+                        <div>
+                          <v-avatar size="110">
+                            <img src="https://cdn.vuetifyjs.com/images/john.jpg" alt="John" />
+                          </v-avatar>
+                          <div class="text-center pt-5">
+                            <span class="font-weight-bold">John Doe</span>
                           </div>
-                          <div class="font-weight-light">{{ card_text }}</div>
                         </div>
-                      </v-card-title>
-                    </v-flex>
-                  </v-layout>
+                      </v-row>
 
-                  <v-layout row>
-                    <v-row justify="space-around" xs3 style="margin-top: 55px !important">
-                      <div>
-                        <v-avatar size="110">
-                          <img src="https://cdn.vuetifyjs.com/images/john.jpg" alt="John" />
-                        </v-avatar>
-                        <div class="text-center pt-5">
-                          <span class="font-weight-bold">John Doe</span>
-                        </div>
-                      </div>
-                    </v-row>
-
-                    <v-flex xs9>
-                      <v-card-title>
-                        <div class="pr-4 pl-2">
-                          <div class="pl-4 pb-2 pt-2">
-                            <h3 class="headline mb-0">"Kangaroo Valley Safari"</h3>
-                            <v-rating background-color="yellow lighten-3" color="yellow" large></v-rating>
+                      <v-flex xs9>
+                        <v-card-title>
+                          <div class="pr-4 pl-2">
+                            <div class="pl-4 pb-2 pt-2">
+                              <h3 class="headline mb-0">"Kangaroo Valley Safari"</h3>
+                              <v-rating background-color="yellow lighten-3" color="yellow" large></v-rating>
+                            </div>
+                            <div class="font-weight-light">{{ card_text }}</div>
                           </div>
-                          <div class="font-weight-light">{{ card_text }}</div>
+                        </v-card-title>
+                      </v-flex>
+                    </v-layout>
+                  </v-card>
+
+                  <v-card flat>
+                    <v-layout row>
+                      <v-row justify="space-around" xs3 style="margin-top: 55px !important">
+                        <div>
+                          <v-avatar size="110">
+                            <img src="https://cdn.vuetifyjs.com/images/john.jpg" alt="John" />
+                          </v-avatar>
+                          <div class="text-center pt-5">
+                            <span class="font-weight-bold">John Doe</span>
+                          </div>
                         </div>
-                      </v-card-title>
-                    </v-flex>
-                  </v-layout>
-                </v-card>
+                      </v-row>
+
+                      <v-flex xs9>
+                        <v-card-title>
+                          <div class="pr-4 pl-2">
+                            <div class="pl-4 pb-2 pt-2">
+                              <h3 class="headline mb-0">"Kangaroo Valley Safari"</h3>
+                              <v-rating background-color="yellow lighten-3" color="yellow" large></v-rating>
+                            </div>
+                            <div class="font-weight-light">{{ card_text }}</div>
+                          </div>
+                        </v-card-title>
+                      </v-flex>
+                    </v-layout>
+                  </v-card>
+                </v-list>
               </v-tab-item>
+              <!-- End Review -->
 
               <!-- Write Review -->
               <v-tab-item>
@@ -153,70 +158,113 @@
 
         <v-flex xs1 class="squeeze"></v-flex>
 
-        <v-flex xs4>
+        <v-flex xs12 sm12 md4>
           <v-card class="pr-2 pl-2">
             <div class="pl-4 pt-2 text-center">
               <h1>Best Seller</h1>
             </div>
 
-            <div class="pt-4 pb-4">
-              <div class="pt-2 pb-2">
-                <v-card>
-                  <v-layout>
-                    <v-flex xs5>
-                      <v-img src="https://cdn.vuetifyjs.com/images/cards/desert.jpg" aspect-ratio="2.75" style="height: 100%; border-radius: 5px"></v-img>
-                    </v-flex>
-                    <v-flex xs7>
-                      <v-card-text>
-                        <div>
-                          <span>Kangaroo Valley Safari</span>
-                          <v-rating background-color="yellow lighten-3" color="yellow" small class="text-center"></v-rating>
-                          <div>$100</div>
-                        </div>
-                      </v-card-text>
-                    </v-flex>
-                  </v-layout>
-                </v-card>
-              </div>
+            <v-list class="overflow-y-auto" style="max-height: 400px">
+              <div class="pt-4 pb-4">
+                <!-- Related-->
 
-              <div class="pt-2 pb-2">
-                <v-card>
-                  <v-layout>
-                    <v-flex xs5>
-                      <v-img src="https://cdn.vuetifyjs.com/images/cards/desert.jpg" aspect-ratio="2.75" style="height: 100%; border-radius: 5px"></v-img>
-                    </v-flex>
-                    <v-flex xs7>
-                      <v-card-text>
-                        <div>
-                          <span>Kangaroo Valley Safari</span>
-                          <v-rating background-color="yellow lighten-3" color="yellow" small class="text-center"></v-rating>
-                          <div>$100</div>
-                        </div>
-                      </v-card-text>
-                    </v-flex>
-                  </v-layout>
-                </v-card>
-              </div>
+                <div class="pt-2 pb-2">
+                  <v-card>
+                    <v-layout>
+                      <v-flex xs5>
+                        <v-img src="https://cdn.vuetifyjs.com/images/cards/desert.jpg" aspect-ratio="2.75" style="height: 100%; border-radius: 5px"></v-img>
+                      </v-flex>
+                      <v-flex xs7>
+                        <v-card-text>
+                          <div>
+                            <span>Kangaroo Valley Safari</span>
+                            <v-rating background-color="yellow lighten-3" color="yellow" small class="text-center"></v-rating>
+                            <div>$100</div>
+                          </div>
+                        </v-card-text>
+                      </v-flex>
+                    </v-layout>
+                  </v-card>
+                </div>
 
-              <div class="pt-2 pb-2">
-                <v-card>
-                  <v-layout>
-                    <v-flex xs5>
-                      <v-img src="https://cdn.vuetifyjs.com/images/cards/desert.jpg" aspect-ratio="2.75" style="height: 100%; border-radius: 5px"></v-img>
-                    </v-flex>
-                    <v-flex xs7>
-                      <v-card-text>
-                        <div>
-                          <span>Kangaroo Valley Safari</span>
-                          <v-rating background-color="yellow lighten-3" color="yellow" small class="text-center"></v-rating>
-                          <div>$100</div>
-                        </div>
-                      </v-card-text>
-                    </v-flex>
-                  </v-layout>
-                </v-card>
+                <div class="pt-2 pb-2">
+                  <v-card>
+                    <v-layout>
+                      <v-flex xs5>
+                        <v-img src="https://cdn.vuetifyjs.com/images/cards/desert.jpg" aspect-ratio="2.75" style="height: 100%; border-radius: 5px"></v-img>
+                      </v-flex>
+                      <v-flex xs7>
+                        <v-card-text>
+                          <div>
+                            <span>Kangaroo Valley Safari</span>
+                            <v-rating background-color="yellow lighten-3" color="yellow" small class="text-center"></v-rating>
+                            <div>$100</div>
+                          </div>
+                        </v-card-text>
+                      </v-flex>
+                    </v-layout>
+                  </v-card>
+                </div>
+
+                <div class="pt-2 pb-2">
+                  <v-card>
+                    <v-layout>
+                      <v-flex xs5>
+                        <v-img src="https://cdn.vuetifyjs.com/images/cards/desert.jpg" aspect-ratio="2.75" style="height: 100%; border-radius: 5px"></v-img>
+                      </v-flex>
+                      <v-flex xs7>
+                        <v-card-text>
+                          <div>
+                            <span>Kangaroo Valley Safari</span>
+                            <v-rating background-color="yellow lighten-3" color="yellow" small class="text-center"></v-rating>
+                            <div>$100</div>
+                          </div>
+                        </v-card-text>
+                      </v-flex>
+                    </v-layout>
+                  </v-card>
+                </div>
+
+                <div class="pt-2 pb-2">
+                  <v-card>
+                    <v-layout>
+                      <v-flex xs5>
+                        <v-img src="https://cdn.vuetifyjs.com/images/cards/desert.jpg" aspect-ratio="2.75" style="height: 100%; border-radius: 5px"></v-img>
+                      </v-flex>
+                      <v-flex xs7>
+                        <v-card-text>
+                          <div>
+                            <span>Kangaroo Valley Safari</span>
+                            <v-rating background-color="yellow lighten-3" color="yellow" small class="text-center"></v-rating>
+                            <div>$100</div>
+                          </div>
+                        </v-card-text>
+                      </v-flex>
+                    </v-layout>
+                  </v-card>
+                </div>
+
+                <div class="pt-2 pb-2">
+                  <v-card>
+                    <v-layout>
+                      <v-flex xs5>
+                        <v-img src="https://cdn.vuetifyjs.com/images/cards/desert.jpg" aspect-ratio="2.75" style="height: 100%; border-radius: 5px"></v-img>
+                      </v-flex>
+                      <v-flex xs7>
+                        <v-card-text>
+                          <div>
+                            <span>Kangaroo Valley Safari</span>
+                            <v-rating background-color="yellow lighten-3" color="yellow" small class="text-center"></v-rating>
+                            <div>$100</div>
+                          </div>
+                        </v-card-text>
+                      </v-flex>
+                    </v-layout>
+                  </v-card>
+                </div>
               </div>
-            </div>
+              <!-- End Related -->
+            </v-list>
           </v-card>
         </v-flex>
       </v-layout>
