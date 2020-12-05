@@ -4,13 +4,7 @@
       <v-layout row>
         <v-flex xs7>
           <v-carousel>
-            <v-carousel-item
-              v-for="(item, i) in items"
-              :key="i"
-              :src="item.src"
-              reverse-transition="fade-transition"
-              transition="fade-transition"
-            ></v-carousel-item>
+            <v-carousel-item v-for="(item, i) in items" :key="i" :src="item.src" reverse-transition="fade-transition" transition="fade-transition"></v-carousel-item>
           </v-carousel>
         </v-flex>
         <v-flex xs1 class="squeeze"></v-flex>
@@ -23,11 +17,7 @@
             </div>
 
             <div class="pl-4 pb-2 pt-2 text-center">
-              <v-rating
-                background-color="yellow lighten-3"
-                color="yellow"
-                large
-              ></v-rating>
+              <v-rating background-color="yellow lighten-3" color="yellow" large></v-rating>
             </div>
 
             <div class="pl-4 pb-2 pt-4">
@@ -80,15 +70,8 @@
               <v-tab-item>
                 <v-card flat>
                   <v-card-text
-                    >Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                    Repellendus fugiat nobis enim quia repellat. Officia natus
-                    iste fuga facilis distinctio magni aperiam doloribus atque
-                    sed facere, culpa, soluta aspernatur temporibus. Lorem
-                    ipsum, dolor sit amet consectetur adipisicing elit.
-                    Praesentium quidem odit minima sunt dolores recusandae
-                    nobis? Cumque blanditiis nemo quos accusantium laudantium,
-                    necessitatibus numquam, odio dolorum est ratione ex
-                    dignissimos.m
+                    >Lorem ipsum dolor sit amet consectetur adipisicing elit. Repellendus fugiat nobis enim quia repellat. Officia natus iste fuga facilis distinctio magni aperiam doloribus atque sed facere, culpa, soluta aspernatur temporibus. Lorem ipsum, dolor sit amet consectetur adipisicing elit. Praesentium
+                    quidem odit minima sunt dolores recusandae nobis? Cumque blanditiis nemo quos accusantium laudantium, necessitatibus numquam, odio dolorum est ratione ex dignissimos.m
                   </v-card-text>
                 </v-card>
               </v-tab-item>
@@ -97,17 +80,10 @@
               <v-tab-item>
                 <v-card flat>
                   <v-layout row>
-                    <v-row
-                      justify="space-around"
-                      xs3
-                      style="margin-top: 55px !important"
-                    >
+                    <v-row justify="space-around" xs3 style="margin-top: 55px !important">
                       <div>
                         <v-avatar size="110">
-                          <img
-                            src="https://cdn.vuetifyjs.com/images/john.jpg"
-                            alt="John"
-                          />
+                          <img src="https://cdn.vuetifyjs.com/images/john.jpg" alt="John" />
                         </v-avatar>
                         <div class="text-center pt-5">
                           <span class="font-weight-bold">John Doe</span>
@@ -119,14 +95,8 @@
                       <v-card-title>
                         <div class="pr-4 pl-2">
                           <div class="pl-4 pb-2 pt-2">
-                            <h3 class="headline mb-0">
-                              "Kangaroo Valley Safari"
-                            </h3>
-                            <v-rating
-                              background-color="yellow lighten-3"
-                              color="yellow"
-                              large
-                            ></v-rating>
+                            <h3 class="headline mb-0">"Kangaroo Valley Safari"</h3>
+                            <v-rating background-color="yellow lighten-3" color="yellow" large></v-rating>
                           </div>
                           <div class="font-weight-light">{{ card_text }}</div>
                         </div>
@@ -135,17 +105,10 @@
                   </v-layout>
 
                   <v-layout row>
-                    <v-row
-                      justify="space-around"
-                      xs3
-                      style="margin-top: 55px !important"
-                    >
+                    <v-row justify="space-around" xs3 style="margin-top: 55px !important">
                       <div>
                         <v-avatar size="110">
-                          <img
-                            src="https://cdn.vuetifyjs.com/images/john.jpg"
-                            alt="John"
-                          />
+                          <img src="https://cdn.vuetifyjs.com/images/john.jpg" alt="John" />
                         </v-avatar>
                         <div class="text-center pt-5">
                           <span class="font-weight-bold">John Doe</span>
@@ -157,14 +120,8 @@
                       <v-card-title>
                         <div class="pr-4 pl-2">
                           <div class="pl-4 pb-2 pt-2">
-                            <h3 class="headline mb-0">
-                              "Kangaroo Valley Safari"
-                            </h3>
-                            <v-rating
-                              background-color="yellow lighten-3"
-                              color="yellow"
-                              large
-                            ></v-rating>
+                            <h3 class="headline mb-0">"Kangaroo Valley Safari"</h3>
+                            <v-rating background-color="yellow lighten-3" color="yellow" large></v-rating>
                           </div>
                           <div class="font-weight-light">{{ card_text }}</div>
                         </div>
@@ -178,11 +135,7 @@
               <v-tab-item>
                 <v-card flat>
                   <div class="pt-4 pl-2">
-                    <v-rating
-                      background-color="yellow lighten-3"
-                      color="yellow"
-                      large
-                    ></v-rating>
+                    <v-rating background-color="yellow lighten-3" color="yellow" large></v-rating>
                   </div>
                   <v-card-text>
                     <v-form ref="form">
@@ -211,22 +164,13 @@
                 <v-card>
                   <v-layout>
                     <v-flex xs5>
-                      <v-img
-                        src="https://cdn.vuetifyjs.com/images/cards/desert.jpg"
-                        aspect-ratio="2.75"
-                        style="height: 100%; border-radius: 5px"
-                      ></v-img>
+                      <v-img src="https://cdn.vuetifyjs.com/images/cards/desert.jpg" aspect-ratio="2.75" style="height: 100%; border-radius: 5px"></v-img>
                     </v-flex>
                     <v-flex xs7>
                       <v-card-text>
                         <div>
                           <span>Kangaroo Valley Safari</span>
-                          <v-rating
-                            background-color="yellow lighten-3"
-                            color="yellow"
-                            small
-                            class="text-center"
-                          ></v-rating>
+                          <v-rating background-color="yellow lighten-3" color="yellow" small class="text-center"></v-rating>
                           <div>$100</div>
                         </div>
                       </v-card-text>
@@ -239,22 +183,13 @@
                 <v-card>
                   <v-layout>
                     <v-flex xs5>
-                      <v-img
-                        src="https://cdn.vuetifyjs.com/images/cards/desert.jpg"
-                        aspect-ratio="2.75"
-                        style="height: 100%; border-radius: 5px"
-                      ></v-img>
+                      <v-img src="https://cdn.vuetifyjs.com/images/cards/desert.jpg" aspect-ratio="2.75" style="height: 100%; border-radius: 5px"></v-img>
                     </v-flex>
                     <v-flex xs7>
                       <v-card-text>
                         <div>
                           <span>Kangaroo Valley Safari</span>
-                          <v-rating
-                            background-color="yellow lighten-3"
-                            color="yellow"
-                            small
-                            class="text-center"
-                          ></v-rating>
+                          <v-rating background-color="yellow lighten-3" color="yellow" small class="text-center"></v-rating>
                           <div>$100</div>
                         </div>
                       </v-card-text>
@@ -267,22 +202,13 @@
                 <v-card>
                   <v-layout>
                     <v-flex xs5>
-                      <v-img
-                        src="https://cdn.vuetifyjs.com/images/cards/desert.jpg"
-                        aspect-ratio="2.75"
-                        style="height: 100%; border-radius: 5px"
-                      ></v-img>
+                      <v-img src="https://cdn.vuetifyjs.com/images/cards/desert.jpg" aspect-ratio="2.75" style="height: 100%; border-radius: 5px"></v-img>
                     </v-flex>
                     <v-flex xs7>
                       <v-card-text>
                         <div>
                           <span>Kangaroo Valley Safari</span>
-                          <v-rating
-                            background-color="yellow lighten-3"
-                            color="yellow"
-                            small
-                            class="text-center"
-                          ></v-rating>
+                          <v-rating background-color="yellow lighten-3" color="yellow" small class="text-center"></v-rating>
                           <div>$100</div>
                         </div>
                       </v-card-text>
