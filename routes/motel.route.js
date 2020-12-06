@@ -8,7 +8,7 @@ var randomstring = require('randomstring');
 
 router.get('/', async (req, res) => {
   if(!helper.ObjectIsEmpty(req.query)){
-    res.json(await model.GetCustom(req.query));
+    res.json(await model.GetQuery(req.query));
   }
   else res.json(await model.GetAll());
 });

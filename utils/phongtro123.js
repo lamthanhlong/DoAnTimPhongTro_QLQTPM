@@ -31,6 +31,9 @@ for (item of data) {
         }
         if(ListAddess.indexOf(item.Address) < 0){
             ListAddess.push(item.Address);
+            var priceString = item.Price.split(' ')[0];
+            if(item.Price.indexOf('đồng/tháng') >= 0) priceString = parseFloat(priceString.replace('.', ''))/1000000;
+            else priceString = parseFloat(priceString);
             motels.push({
                 title: item.Title,
                 description: item.Description,
@@ -38,7 +41,7 @@ for (item of data) {
                 images: item.Imgs,
                 area: parseInt(item.Area.replace("m²", "")),
                 has_furniture: item.Description.toLowerCase().indexOf("nội thất") >= 0,
-                price: parseFloat(item.Price.replace(" triệu/tháng", "")),
+                price: priceString,
                 is_verified: item.Imgs != "",
                 rating: 0.0,
                 owner_id: ListPhone.indexOf(item.Phone),
