@@ -15,8 +15,7 @@ namespace Crawler
             //args = new string[] { @"E:\Projects\TimPhongTro_QLQTPM\DoAnTimPhongTro_QLQTPM\Crawler_PhongTro123\PhongTro123.xml" };
             if (args.Length <= 0) return;
             Console.Title = $"CRAWLER [{Path.GetFileName(args[0])}]";
-            Console.WriteLine("Crawler Tool [Version 1.0]\n");
-
+            WriteLog("Crawler Tool [Version 1.0]\n");
             try
             {
                 List<JSON> lst = new List<JSON>();
@@ -30,7 +29,7 @@ namespace Crawler
                     Console.ReadLine();
                     return;
                 }
-                Console.WriteLine();
+                WriteLog("");
 
                 for (int i = Config.StartPage; i < Config.StartPage + Config.TotalPage; i++)
                 {
@@ -43,7 +42,7 @@ namespace Crawler
                         ThreadPool.QueueUserWorkItem((obj) =>
                         {
                             var item = HttpService.GetDetailPage(link);
-                            Console.WriteLine(link.Substring(link.LastIndexOf("/") + 1));
+                            WriteLog(link.Substring(link.LastIndexOf("/") + 1));
                             lock (lst)
                             {
                                 lst.Add(item);
@@ -63,23 +62,46 @@ namespace Crawler
                         lst.Clear();
                         Config.lstError.Clear();
                     }
-                    Console.WriteLine();
+                    WriteLog("");
                 }
                 WriteColor($"=============================\n# Completed!, {Config.TotalFile - 1} FILE, {errorCount} ERROR", ConsoleColor.Green, false);
             }
             catch (Exception ex)
             {
                 WriteColor("================== ERROR ==================", ConsoleColor.Blue);
-                Console.Write(ex);
+                WriteLog(ex.ToString(), false);
             }
+            File.WriteAllText($"{Config.ResultDirectory}/Process.log", Config.Logging);
             Console.ReadLine();
+        }
+
+        static void WriteLog(string text, bool isNewLine = true)
+        {
+            if (isNewLine)
+            {
+                Config.Logging += text + "\n";
+                Console.WriteLine(text);
+            }
+            else
+            {
+                Config.Logging += text;
+                Console.Write(text);
+            }
         }
 
         static void WriteColor(string text, ConsoleColor color, bool isNewLine = true)
         {
             Console.ForegroundColor = color;
-            if (isNewLine) Console.WriteLine(text);
-            else Console.Write(text);
+            if (isNewLine)
+            {
+                Config.Logging += text + "\n";
+                Console.WriteLine(text);
+            }
+            else
+            {
+                Config.Logging += text;
+                Console.Write(text);
+            }
             Console.ResetColor();
         }
     }

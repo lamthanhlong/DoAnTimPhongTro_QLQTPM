@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<PhongTro123 URL="https://phongtro123.com/tinh-thanh/ho-chi-minh?page=" START_PAGE="1" TOTAL_PAGE="1944" RECORD_PER_FILE="20">
+<PhongTro123 URL="https://phongtro123.com/tinh-thanh/ho-chi-minh?page=" START_PAGE="1" TOTAL_PAGE="1" RECORD_PER_FILE="20">
   <indentify name="ListPageContent" start="ul class=&quot;list-post&quot;&gt;" end="&lt;/ul&gt;" />
   <indentify name="PageDetailLink" start="class=&quot;post-link&quot; href=&quot;" end="&quot; alt=&quot;" />
   <indentify name="DetailPageContent" start="id=&quot;main&quot;" end="&quot;whyus&quot;" />

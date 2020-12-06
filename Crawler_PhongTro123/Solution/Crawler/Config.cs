@@ -13,11 +13,12 @@ namespace Crawler
         public static List<CrawlProperty> lstProperty = new List<CrawlProperty>();
         public static List<CrawlerError> lstError = new List<CrawlerError>();
         public static string MainURL;
-        public static string ResultDirectory = "./Results";
+        public static string ResultDirectory = "./Results_" + DateTime.Now.Ticks;
         public static int RecordPerFile;
         public static int TotalFile = 1;
         public static int TotalPage;
         public static int StartPage;
+        public static string Logging = "";
 
         public static bool ReadConfig(string path)
         {

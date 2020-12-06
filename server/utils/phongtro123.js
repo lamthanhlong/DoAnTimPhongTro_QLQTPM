@@ -2,7 +2,7 @@ var db = require("./db");
 
 console.log("- Reading Json Files...");
 var data = [];
-for (i = 1; i <= 20; i++) {
+for (i = 1; i <= 23; i++) {
     data = data.concat(require(`../../Crawler_PhongTro123/phongtro123_data/data_${i}.json`));
 };
 
