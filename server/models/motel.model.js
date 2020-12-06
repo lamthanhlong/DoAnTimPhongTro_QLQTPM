@@ -24,9 +24,13 @@ module.exports = {
     } ];
     return db.aggregate(TableName, aggregate);
   },
-  GetCustom: (params) => {
+  GetQuery: async (params) => {
     var sort_object = {};
-    if (params.sortcol && params.sortdir) sort_object = JSON.parse(`{"${params.sortcol}": ${params.sortdir=='asc' ? 1 : 0}}`);
+    if (params.sort){
+      var sort = params.sort.split('_');
+      if(sort.length==1) sort.push('asc');
+      sort_object = JSON.parse(`{"${sort[0]}": ${sort[1]=='asc' ? 1 : -1}}`);
+    }
 
     var query_object = {};
     var query_address = '';
@@ -35,17 +39,27 @@ module.exports = {
     if (query_address) query_object.address = new RegExp(query_address, 'i');
     if (params.area) {
       var range = params.area.split('-');
-      query_object.area = {
-        $gte: +range[0],
-        $lte: +range[1]
-      };
+      if(range.length == 1){
+        query_object.area = {$gte: +range[0]};
+      }
+      else{
+        query_object.area = {
+          $gte: +range[0],
+          $lte: +range[1]
+        };
+      }
     }
     if (params.price) {
       var range = params.price.split('-');
-      query_object.price = {
-        $gte: +range[0],
-        $lte: +range[1]
-      };
+      if(range.length == 1){
+        query_object.price = {$gte: +range[0]};
+      }
+      else{
+        query_object.price = {
+          $gte: +range[0],
+          $lte: +range[1]
+        };
+      }
     }
     if (params.has_furniture) query_object.has_furniture = params.has_furniture == 'true';
     if (params.is_verified) query_object.is_verified = params.is_verified == 'true';
@@ -68,7 +82,11 @@ module.exports = {
       $skip: +params.offset
     });
 
-    return db.aggregate(TableName, aggregate);
+    var returnObj = { data: await db.aggregate(TableName, aggregate) };
+    if(params.limit && params.offset) returnObj.count = await db.count(TableName, query_object);
+    else returnObj.count = returnObj.data.length;
+
+    return returnObj;
   },
   Add: (obj) => {
     obj.created_date = obj.modified_date = new Date();
