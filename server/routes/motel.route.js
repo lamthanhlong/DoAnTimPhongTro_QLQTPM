@@ -3,18 +3,18 @@ const router = express.Router();
 const model = require('../models/motel.model');
 const validate = require('../utils/validate');
 const schema = require('../schemas/motel.json');
+const helper = require('../utils/helper');
 var randomstring = require('randomstring');
+
 router.get('/', async (req, res) => {
-  var data = await model.GetAll();
-  res.json(data);
+  if(!helper.ObjectIsEmpty(req.query)){
+    res.json(await model.GetCustom(req.query));
+  }
+  else res.json(await model.GetAll());
 });
 router.get('/:id', async (req, res) => {
   const id = req.params.id;
   var data = await model.Single(id);
-  res.json(data);
-});
-router.get('/paginate', async (req, res) => {
-  var data = model.GetPaginate(0, 2);
   res.json(data);
 });
 router.post('/', validate(schema), async function (req, res) {

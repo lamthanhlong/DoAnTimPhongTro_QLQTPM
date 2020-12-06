@@ -74,16 +74,11 @@ module.exports = {
       return (await db.collection(table).deleteMany(objs)).deletedCount;
     });
   },
-  paginate: (table, obj_query, obj_sort, start, limit) => {
+  aggregate: (table, aggregate_arrary) => {
     return connect(async (db) => {
       return await db
         .collection(table)
-        .aggregate([
-          { $match: obj_query },
-          { $sort: obj_sort },
-          { $limit: limit },
-          { $skip: start },
-        ])
+        .aggregate(aggregate_arrary)
         .toArray();
     });
   },
@@ -102,7 +97,7 @@ module.exports = {
               from: table_2,
               localField: key_1,
               foreignField: key_2,
-              as: table_1,
+              as: table_2
             },
           },
         ])
