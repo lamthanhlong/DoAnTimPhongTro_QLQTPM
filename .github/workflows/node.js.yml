@@ -5,21 +5,22 @@ name: Node.js CI
 
 on:
   push:
-    path:
-      - 'server/**'
-      - 'client/**'
     branches:
       - master
       - dev
       - test_ci
+    path:
+      - 'server/**'
+      - 'client/**'
+    
   pull_request:
-    path:
-      - 'server/**'
-      - 'client/**'
     branches:
       - master
       - dev
       - test_ci
+    path:
+      - 'server/**'
+      - 'client/**'
 jobs:
   build:
 
