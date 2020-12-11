@@ -9,18 +9,16 @@ on:
       - master
       - dev
       - test_ci
-    path:
-      - 'server/**'
-      - 'client/**'
+    paths-ignore:
+      - 'Crawler_PhongTro123/**'
     
   pull_request:
     branches:
       - master
       - dev
       - test_ci
-    path:
-      - 'server/**'
-      - 'client/**'
+    paths-ignore:
+      - 'Crawler_PhongTro123/**'
 jobs:
   build:
 
