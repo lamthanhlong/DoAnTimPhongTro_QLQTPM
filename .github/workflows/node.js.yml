@@ -5,11 +5,11 @@ name: Node.js CI
 
 on:
   push:
-    paths: server
-    branches: [ test_ci ]
+    branches:
+      - test_ci
   pull_request:
-    paths:  server
-    branches: [ test_ci ]
+    branches:
+      - test_ci
 
 jobs:
   build:
@@ -29,3 +29,5 @@ jobs:
     - run: cd server
     - run: npm ci
     - run: npm build .
+    - run: cd ../client
+    - run: npm run-script build
