@@ -14,21 +14,27 @@ module.exports = {
   GetAllRatingByMotelId: async (id, params) => {
     const limit = parseInt(params.limit, 10) || pagin.default_pagination_items;
     params.limit = limit;
-    if (params.offset) {
-      params.skip = (params.offset - 1) * params.limit;
+    var query_object = {};
+
+    if (id) {
+      query_object.motel_id = `${id}`;
     }
+    if (params.rating) {
+      query_object.rating = +params.rating;
+    }
+    // if (params.offset) {
+    //   params.skip = (params.offset - 1) * params.limit;
+    // }
     var aggregate = [];
-    if (params.id) {
+    if (id) {
       aggregate.push({
-        $match: {
-          motel_id: `${id}`,
-        },
+        $match: query_object,
       });
     }
-    if (params.offset)
-      aggregate.push({
-        $skip: +params.skip,
-      });
+    // if (params.offset)
+    //   aggregate.push({
+    //     $skip: +params.skip,
+    //   });
     if (params.limit)
       aggregate.push({
         $limit: +params.limit,
