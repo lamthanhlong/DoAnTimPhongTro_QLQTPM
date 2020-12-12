@@ -74,12 +74,9 @@ module.exports = {
       return (await db.collection(table).deleteMany(objs)).deletedCount;
     });
   },
-  aggregate: (table, aggregate_arrary) => {
+  aggregate: (table, aggregate_array) => {
     return connect(async (db) => {
-      return await db
-        .collection(table)
-        .aggregate(aggregate_arrary)
-        .toArray();
+      return await db.collection(table).aggregate(aggregate_array).toArray();
     });
   },
   count: (table, obj_query) => {
@@ -97,7 +94,7 @@ module.exports = {
               from: table_2,
               localField: key_1,
               foreignField: key_2,
-              as: table_2
+              as: table_2,
             },
           },
         ])

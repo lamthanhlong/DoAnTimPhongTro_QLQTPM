@@ -3,7 +3,7 @@ const router = express.Router();
 const model = require('../models/user.model');
 const validate = require('../utils/validate');
 const schema = require('../schemas/user.json');
-
+const bcrypt = require('bcryptjs');
 router.get('/', async (req, res) => {
   var data = await model.GetAll();
   res.json(data);
@@ -18,10 +18,12 @@ router.get('/paginate', async (req, res) => {
   res.json(data);
 });
 router.post('/', validate(schema), async function (req, res) {
-  const object = req.body;
+  let object = req.body;
   const valid = await model.FindByPhone(object.phone);
   if (valid.length > 0)
     return res.status(400).json({ err_msg: 'user has already signed up' });
+  const hash = bcrypt.hashSync(object.password, 10);
+  object.password = hash;
   const id = await model.Add(object);
   object._id = id;
   res.status(201).json(object);

@@ -3,7 +3,6 @@ const router = express.Router();
 const model = require('../models/rating.model');
 const validate = require('../utils/validate');
 const schema = require('../schemas/rating.json');
-
 router.get('/', async (req, res) => {
   var data = await model.GetAll();
   res.json(data);
@@ -18,7 +17,7 @@ router.get('/paginate', async (req, res) => {
   res.json(data);
 });
 router.get('/motel/:id', async function (req, res) {
-  const object = await model.GetAllRatingByMotelId(req.params.id);
+  const object = await model.GetAllRatingByMotelId(req.params.id, req.query);
   res.json(object);
 });
 router.post('/', validate(schema), async function (req, res) {
