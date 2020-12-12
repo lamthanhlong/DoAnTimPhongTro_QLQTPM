@@ -5,12 +5,20 @@ name: Node.js CI
 
 on:
   push:
-    paths: server
-    branches: [ test_ci ]
+    branches:
+      - master
+      - dev
+      - test_ci
+    paths-ignore:
+      - 'Crawler_PhongTro123/**'
+    
   pull_request:
-    paths:  server
-    branches: [ test_ci ]
-
+    branches:
+      - master
+      - dev
+      - test_ci
+    paths-ignore:
+      - 'Crawler_PhongTro123/**'
 jobs:
   build:
 
@@ -18,7 +26,7 @@ jobs:
 
     strategy:
       matrix:
-        node-version: [10.x, 12.x, 14.x]
+        node-version: [ 14.x ]
 
     steps:
     - uses: actions/checkout@v2
@@ -26,6 +34,11 @@ jobs:
       uses: actions/setup-node@v1
       with:
         node-version: ${{ matrix.node-version }}
-    - run: cd server
     - run: npm ci
+      working-directory: /home/runner/work/DoAnTimPhongTro_QLQTPM/DoAnTimPhongTro_QLQTPM/server
     - run: npm build .
+      working-directory: /home/runner/work/DoAnTimPhongTro_QLQTPM/DoAnTimPhongTro_QLQTPM/server
+    - run: npm ci
+      working-directory: /home/runner/work/DoAnTimPhongTro_QLQTPM/DoAnTimPhongTro_QLQTPM/client
+    - run: npm run-script build
+      working-directory: /home/runner/work/DoAnTimPhongTro_QLQTPM/DoAnTimPhongTro_QLQTPM/client

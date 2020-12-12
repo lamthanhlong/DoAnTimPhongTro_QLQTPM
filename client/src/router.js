@@ -9,11 +9,16 @@ import Logout from "./views/pages/auth/Logout";
 import AuthLayout from "./views/layouts/AuthLayout";
 import MainLayout from "./views/layouts/MainLayout";
 
+import ChatLayout from './views/layouts/ChatLayout';
+
+import Message from "./views/pages/chat/Message";
+
 import NotFoundPage from "./views/pages/errors/404.vue";
 import ForbiddenPage from "./views/pages/errors/403.vue";
 
 // pages
 import Home from "./views/pages/home/Index.vue";
+import Detail from './views/pages/home/Detail';
 
 import store from "./store/index";
 
@@ -42,6 +47,18 @@ const routes = [
       }
     ]
   },
+  {
+    path: "/chat",
+    component: ChatLayout,
+    name: "chat",
+    children: [
+      {
+        path: "message",
+        component: Message,
+        name: "message"
+      }
+    ]
+  },
 
   {
     path: "/",
@@ -50,6 +67,10 @@ const routes = [
       {
         path: "",
         component: Home,
+      },
+      {
+        path: "/detail",
+        component: Detail
       }
     ]
   },
