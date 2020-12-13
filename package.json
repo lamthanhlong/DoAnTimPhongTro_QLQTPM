@@ -3,8 +3,8 @@
   "version": "1.0.0",
   "description": "- Some information.",
   "scripts": {
-    "build": "cd client;npm ci",
-    "start": "npm start"
+    "build": "cd client;npm ci;npm start",
+    "start": ""
   },
   "repository": {
     "type": "git",
