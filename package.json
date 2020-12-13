@@ -14,5 +14,8 @@
   "bugs": {
     "url": "https://github.com/lamthanhlong/DoAnTimPhongTro_QLQTPM/issues"
   },
-  "homepage": "https://github.com/lamthanhlong/DoAnTimPhongTro_QLQTPM#readme"
+  "homepage": "https://github.com/lamthanhlong/DoAnTimPhongTro_QLQTPM#readme",
+  "engines": {
+    "node": "14.x"
+  }
 }
