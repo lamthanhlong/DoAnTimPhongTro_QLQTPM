@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "description": "- Some information.",
   "scripts": {
-    "build": "gnome-terminal -- /bin/bash -c \"cd server;npm ci;npm start\";cd client;npm ci;npm start"
+    "build": "gnome-terminal -- /bin/bash -c \"cd server;npm ci;npm start\";cd client;npm ci"
   },
   "repository": {
     "type": "git",
