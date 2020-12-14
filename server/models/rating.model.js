@@ -1,46 +1,3 @@
-<<<<<<< HEAD
-const { ObjectId } = require('mongodb');
-const db = require('../utils/db');
-const TableName = 'Ratings';
-
-module.exports = {
-  GetAll: () => {
-    return db.find(TableName);
-  },
-  Single: (id) => {
-    return db.find(TableName, {
-      _id: ObjectId(`${id}`),
-    });
-  },
-  GetAllRatingByMotelId: (id) => db.find(TableName, { motel_id: id }),
-  FindRating: (obj) => {
-    return db.find(TableName, {
-      user_id: obj.user_id,
-      motel_id: obj.motel_id,
-    });
-  },
-  GetPaginate: (start, limit) => {
-    return db.paginate(TableName, {}, { name: 1 }, start, limit);
-  },
-  Add: (obj) => {
-    obj.created_date = obj.modified_date = new Date();
-    return db.insertOne(TableName, obj);
-  },
-  Update: (id, obj) => {
-    obj.modified_date = new Date();
-    return db.updateOne(
-      TableName,
-      {
-        _id: ObjectId(`${id}`),
-      },
-      obj
-    );
-  },
-  Delete: (id) => {
-    return db.deleteOne(TableName, { _id: ObjectId(`${id}`) });
-  },
-};
-=======
 const { ObjectId } = require('mongodb');
 const db = require('../utils/db');
 const TableName = 'Ratings';
@@ -113,4 +70,3 @@ module.exports = {
     return db.deleteOne(TableName, { _id: ObjectId(`${id}`) });
   },
 };
->>>>>>> eb7b5fa437b1bd702d180ddb21fe1488c4006dbd
