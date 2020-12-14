@@ -7,16 +7,14 @@ on:
   push:
     branches:
       - master
-      - dev
-      - test_ci
+      - client_master
     paths-ignore:
       - 'Crawler_PhongTro123/**'
     
   pull_request:
     branches:
       - master
-      - dev
-      - test_ci
+      - client_master
     paths-ignore:
       - 'Crawler_PhongTro123/**'
 jobs:
