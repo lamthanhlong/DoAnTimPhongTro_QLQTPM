@@ -6,5 +6,8 @@ var app = express();
 //add this middleware
 app.use(history());
 app.use(serveStatic(__dirname + "/dist"));
-var port = process.env.PORT || 5000;
-app.listen(port);
+var PORT = process.env.PORT || 5000;
+
+app.listen(PORT, function () {
+    console.log(`The Best Solution frontend is running at http://localhost:${PORT}`);
+ });
