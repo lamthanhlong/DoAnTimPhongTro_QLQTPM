@@ -20,6 +20,10 @@ import ForbiddenPage from "./views/pages/errors/403.vue";
 import Home from "./views/pages/home/Index.vue";
 import Detail from './views/pages/home/Detail';
 
+import Motel from "./views/pages/motel/Motel.vue";
+import MotelIndex from "./views/pages/motel/Index.vue";
+import MotelDetail from "./views/pages/motel/Detail.vue";
+
 import store from "./store/index";
 
 Vue.use(VueRouter);
@@ -60,17 +64,37 @@ const routes = [
     ]
   },
 
+  // {
+  //   path: "/",
+  //   component: Home,
+  // },
+
   {
     path: "/",
     component: MainLayout,
     children: [
       {
+
         path: "",
         component: Home,
+        name: "home",
       },
       {
-        path: "/detail",
-        component: Detail
+        path: "motels",
+        component: Motel, 
+
+        children: [
+          {
+            path: "/",
+            component: MotelIndex,
+            name: "motelIndex",
+          },
+          {
+            path: ":id",
+            component: MotelDetail,
+            name: "motelDetail"
+          }
+        ]
       }
     ]
   },
@@ -81,7 +105,7 @@ const routes = [
     name: "forbidden"
   },
 
-  { path: "*", component: NotFoundPage }
+  // { path: "*", component: NotFoundPage }
 ];
 
 const router = new VueRouter({
@@ -93,20 +117,18 @@ const router = new VueRouter({
   }
 });
 
-// router.beforeEach((to, from, next) => {
-//   const tokenUser = $cookies.get("accessToken");
+router.beforeEach((to, from, next) => {
 
-//   if (to.matched.some(m => m.meta.requireAuth)) {
-//     if (to.name !== "login" && !tokenUser) {
-//       $cookies.remove("accessToken");
-//       $cookies.remove("dataUser");
-//       next({ name: "login" });
-//     } else {
-//       next();
-//     }
-//     return next();
-//   }
-//   return next();
-// });
+  if (to.matched.some(m => m.meta.requireAuth)) {
+    if (to.name !== "login" && !tokenUser) {
+
+      next({ name: "login" });
+    } else {
+      next();
+    }
+    return next();
+  }
+  return next();
+});
 
 export default router;

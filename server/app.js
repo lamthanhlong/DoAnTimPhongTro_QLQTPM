@@ -14,10 +14,10 @@ app.get('/', function (req, res) {
 });
 
 // Routes
-app.use('/api/user', require('./routes/user.route'));
-app.use('/api/motel', require('./routes/motel.route'));
-app.use('/api/rating', require('./routes/rating.route'));
-app.use('/api/conversation', require('./routes/conversation.route'));
+app.use('/api/users', require('./routes/user.route'));
+app.use('/api/motels', require('./routes/motel.route'));
+app.use('/api/ratings', require('./routes/rating.route'));
+app.use('/api/conversations', require('./routes/conversation.route'));
 // Error Handlers
 app.use(function (req, res, next) {
   res.status(404).send({

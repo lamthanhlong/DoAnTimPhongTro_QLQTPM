@@ -1,7 +1,8 @@
 const { ObjectId } = require('mongodb');
 const db = require('../utils/db');
 const TableName = 'Ratings';
-const pagin = require('../configs/pagination.json');
+const helper = require('../utils/helper');
+
 module.exports = {
   GetAll: () => {
     return db.find(TableName);
@@ -19,22 +20,19 @@ module.exports = {
     if (id) {
       query_object.motel_id = `${id}`;
     }
-    if (params.rating) {
-      query_object.rating = +params.rating;
-    }
-    // if (params.offset) {
-    //   params.skip = (params.offset - 1) * params.limit;
-    // }
+
+    // pagination
+    var {take, skip} = helper.calcPagination(currentPage, itemPerPage);
+
+    console.log(take);
+
     var aggregate = [];
     if (id) {
       aggregate.push({
         $match: query_object,
       });
     }
-    // if (params.offset)
-    //   aggregate.push({
-    //     $skip: +params.skip,
-    //   });
+
     if (params.limit)
       aggregate.push({
         $limit: +params.limit,
