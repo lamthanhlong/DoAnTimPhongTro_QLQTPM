@@ -2,6 +2,7 @@ const { ObjectId } = require('mongodb');
 const db = require('../utils/db');
 const TableName = 'Ratings';
 const helper = require('../utils/helper');
+const constant = require('../configs/constant');
 
 module.exports = {
   GetAll: () => {
@@ -13,35 +14,30 @@ module.exports = {
     });
   },
   GetAllRatingByMotelId: async (id, params) => {
-    const limit = parseInt(params.limit, 10) || pagin.default_pagination_items;
-    params.limit = limit;
+    var aggregate = []
     var query_object = {};
-
     if (id) {
       query_object.motel_id = `${id}`;
     }
 
     // pagination
-    var {take, skip} = helper.calcPagination(currentPage, itemPerPage);
+    var currentPage = params.page || 1;
+    var itemPerPage = params.itemPerPage || constant.DEFAULT_PAGINATION_ITEMS;
 
-    console.log(take);
+    // pagination
+    var {limit, skip} = helper.calcPagination(currentPage, itemPerPage);
+    aggregate.push(
+      {
+        $limit: limit,
+      },
+      {
+         $skip: skip,
+      }
+    );
 
-    var aggregate = [];
-    if (id) {
-      aggregate.push({
-        $match: query_object,
-      });
-    }
+    var data =  await db.aggregate(TableName, aggregate)
 
-    if (params.limit)
-      aggregate.push({
-        $limit: +params.limit,
-      });
-    var returnObj = { data: await db.aggregate(TableName, aggregate) };
-    if (params.limit && params.offset)
-      returnObj.count = await db.count(TableName);
-    else returnObj.count = returnObj.data.length;
-    return returnObj;
+    return data;
   },
   FindRating: (obj) => {
     return db.find(TableName, {
