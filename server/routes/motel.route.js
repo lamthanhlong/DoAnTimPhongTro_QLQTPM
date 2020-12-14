@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 const express = require('express');
 const router = express.Router();
 const model = require('../models/motel.model');
@@ -45,3 +46,31 @@ router.put('/:id', async function (req, res) {
   });
 
 module.exports = router;
+=======
+const express = require('express');
+const router = express.Router();
+const schema = require('../schemas/motel.json');
+const validate = require('../utils/validate');
+const motelcontroller = require('../controller/motel.controller');
+
+
+router.get('/', motelcontroller.fetchPaging);
+
+router.get('/:id', motelcontroller.fetch);
+
+router.post('/store', validate(schema), motelcontroller.store);
+
+router.put('/update/:id', motelcontroller.update);
+
+
+// router.delete('/:id', async function (req, res) {
+//   const id = req.params.id;
+//   const check = await model.Delete(id);
+//   if (!check) {
+//     return res.status(400).end();
+//   }
+//   res.json({ success: true });
+// });
+
+module.exports = router;
+>>>>>>> eb7b5fa437b1bd702d180ddb21fe1488c4006dbd
