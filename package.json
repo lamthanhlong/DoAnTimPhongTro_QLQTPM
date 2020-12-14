@@ -4,7 +4,7 @@
   "description": "- Some information.",
   "scripts": {
     "build": "cd server;npm ci",
-    "start": "npm start"
+    "start": "cd server;npm start"
   },
   "repository": {
     "type": "git",
