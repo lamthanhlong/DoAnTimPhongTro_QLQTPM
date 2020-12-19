@@ -14,6 +14,7 @@ app.get('/', function (req, res) {
 });
 
 // Routes
+app.use('/api/auth', require('./routes/auth.route'));
 app.use('/api/user', require('./routes/user.route'));
 app.use('/api/motel', require('./routes/motel.route'));
 app.use('/api/rating', require('./routes/rating.route'));
@@ -35,5 +36,7 @@ app.use(function (err, req, res, next) {
 // Listening
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, function () {
-  console.log(`The Best Solution backend api is running at http://localhost:${PORT}`);
+  console.log(
+    `The Best Solution backend api is running at http://localhost:${PORT}`
+  );
 });
