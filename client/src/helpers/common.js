@@ -159,7 +159,6 @@ export default {
   },
 
 
-
   /*
     @input: String
     @output: Split String 
@@ -171,5 +170,18 @@ export default {
     return val;
   },
 
+  getMainImageMotel(imageString){
+    if(!imageString)
+      return null;
 
+    return imageString.split(";")[0];
+  },
+
+  convertStringToArrayImage(imageString){
+
+    if(!imageString)
+      return null;
+
+    return imageString.split(";")
+  }
 };

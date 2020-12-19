@@ -1,0 +1,22 @@
+{
+  "name": "thebestsolution",
+  "version": "1.0.0",
+  "description": "- Some information.",
+  "scripts": {
+    "build": "cd client;npm ci;npm run-script build",
+    "start": "cd client;npm start"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/lamthanhlong/DoAnTimPhongTro_QLQTPM.git"
+  },
+  "author": "LamThanhLong",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/lamthanhlong/DoAnTimPhongTro_QLQTPM/issues"
+  },
+  "homepage": "https://github.com/lamthanhlong/DoAnTimPhongTro_QLQTPM#readme",
+  "engines": {
+    "node": "14.x"
+  }
+}
