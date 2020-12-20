@@ -13,19 +13,13 @@ app.get('/', function (req, res) {
   res.end('Hello from The Best Solution backend!');
 });
 
-// Routes
-<<<<<<< HEAD
-app.use('/api/auth', require('./routes/auth.route'));
-app.use('/api/user', require('./routes/user.route'));
-app.use('/api/motel', require('./routes/motel.route'));
-app.use('/api/rating', require('./routes/rating.route'));
-app.use('/api/conversation', require('./routes/conversation.route'));
-=======
+
 app.use('/api/users', require('./routes/user.route'));
 app.use('/api/motels', require('./routes/motel.route'));
 app.use('/api/ratings', require('./routes/rating.route'));
 app.use('/api/conversations', require('./routes/conversation.route'));
->>>>>>> 0194e3c642d0ad5a49b7d23368fd446c7d38f018
+
+
 // Error Handlers
 app.use(function (req, res, next) {
   res.status(404).send({
