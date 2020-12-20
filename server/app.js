@@ -13,22 +13,12 @@ app.get('/', function (req, res) {
   res.end('Hello from The Best Solution backend!');
 });
 
-<<<<<<< HEAD
 // Routes
 app.use('/api/auth', require('./routes/auth.route'));
 app.use('/api/user', require('./routes/user.route'));
 app.use('/api/motel', require('./routes/motel.route'));
 app.use('/api/rating', require('./routes/rating.route'));
 app.use('/api/conversation', require('./routes/conversation.route'));
-=======
-
-app.use('/api/users', require('./routes/user.route'));
-app.use('/api/motels', require('./routes/motel.route'));
-app.use('/api/ratings', require('./routes/rating.route'));
-app.use('/api/conversations', require('./routes/conversation.route'));
-
-
->>>>>>> a6f29c66a3eb2a6ab06227c8cd1d2555482a5429
 // Error Handlers
 app.use(function (req, res, next) {
   res.status(404).send({
