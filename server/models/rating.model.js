@@ -14,11 +14,18 @@ module.exports = {
     });
   },
   GetAllRatingByMotelId: async (id, params) => {
-    var aggregate = []
-    var query_object = {};
-    if (id) {
-      query_object.motel_id = `${id}`;
-    }
+     var aggregate = [{
+      $match: {
+        _id: ObjectId(`${id}`),
+      },
+    }, {
+      $lookup: {
+        from: 'Users',
+        localField: 'owner_id',
+        foreignField: '_id',
+        as: 'Users',
+      },
+    } ];
 
     // pagination
     var currentPage = params.page || 1;
