@@ -2,8 +2,8 @@ const express = require('express');
 const morgan = require('morgan'); // log request
 require('express-async-errors'); // handle async errors
 const cors = require('cors'); // allow access from another web server
-
 const app = express();
+
 app.use(morgan('dev'));
 app.use(cors());
 app.use(express.json());

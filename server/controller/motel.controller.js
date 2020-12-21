@@ -41,6 +41,9 @@ module.exports = {
   getLocals: (req, res) => {
     if (req.query.city_id && !req.query.district_id) {
       let districts = local.GetDistrict(req.query.city_id);
+      for (k = 0; k < districts.length; k++) {
+        districts[k].districts = local.GetWard(req.query.city_id, k + 1);
+      }
       return res.json({ count: districts.length, data: districts });
     } else if (req.query.city_id && req.query.district_id) {
       let wards = local.GetWard(req.query.city_id, req.query.district_id);
@@ -50,9 +53,10 @@ module.exports = {
       for (k = 0; k < cities.length; k++) {
         cities[k].districts = local.GetDistrict(k + 1);
         for (t = 0; t < cities[k].districts.length; t++) {
-          cities[k].districts[t] = local.GetWard(k + 1, t + 1);
+          cities[k].districts[t].wards = local.GetWard(k + 1, t + 1);
         }
       }
+      //console.log(cities[0].districts);
       return res.json({ count: cities.length, data: cities });
     }
   },
