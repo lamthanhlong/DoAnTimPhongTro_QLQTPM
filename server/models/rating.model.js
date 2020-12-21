@@ -14,35 +14,38 @@ module.exports = {
     });
   },
   GetAllRatingByMotelId: async (id, params) => {
-     var aggregate = [{
-      $match: {
-        _id: ObjectId(`${id}`),
+    var aggregate = [
+      {
+        $match: {
+          _id: ObjectId(`${id}`),
+        },
       },
-    }, {
-      $lookup: {
-        from: 'Users',
-        localField: 'owner_id',
-        foreignField: '_id',
-        as: 'Users',
+      {
+        $lookup: {
+          from: 'Users',
+          localField: 'owner_id',
+          foreignField: '_id',
+          as: 'Users',
+        },
       },
-    } ];
+    ];
 
     // pagination
     var currentPage = params.page || 1;
     var itemPerPage = params.itemPerPage || constant.DEFAULT_PAGINATION_ITEMS;
 
     // pagination
-    var {limit, skip} = helper.calcPagination(currentPage, itemPerPage);
+    var { limit, skip } = helper.calcPagination(currentPage, itemPerPage);
     aggregate.push(
       {
         $limit: limit,
       },
       {
-         $skip: skip,
+        $skip: skip,
       }
     );
 
-    var data =  await db.aggregate(TableName, aggregate)
+    var data = await db.aggregate(TableName, aggregate);
 
     return data;
   },
