@@ -8,7 +8,6 @@ module.exports = {
   fetchPaging: async (req, res) => {
     return res.json(await motel.GetQuery(req.query));
   },
-  Error syntax
   fetch: async (req, res) => {
     const id = req.params.id;
     var getRatings = await rating.GetAllRatingByMotelId(id, req.query);
