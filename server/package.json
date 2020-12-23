@@ -4,8 +4,8 @@
   "main": "app.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "nodemon app",
-    "crawl": "node utils/phongtro123"
+    "start": "node app",
+    "build": "node build"
   },
   "keywords": [],
   "author": "",
