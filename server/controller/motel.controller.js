@@ -59,16 +59,4 @@ module.exports = {
       return res.json({ count: cities.length, data: cities });
     }
   },
-
-  getDistrict: (req, res) => {
-    const c_id = req.params.city_id;
-    let districts = local.GetDistrict(c_id);
-    if (req.query.wards) {
-      for (k = 0; k < districts.length; k++) {
-        var j = k + 1;
-        districts[k].wards = local.GetWard(c_id, j);
-      }
-    }
-    return res.json({ count: districts.length, data: districts });
-  },
 };
