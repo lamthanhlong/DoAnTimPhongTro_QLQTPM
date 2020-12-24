@@ -7,8 +7,6 @@
     "area",
     "has_furniture",
     "price",
-    "rating",
-    "is_verified",
     "owner_id"
   ],
   "additionalProperties": true,
@@ -28,7 +26,7 @@
     "area": {
       "type": "integer"
     },
-    "has_funiture": {
+    "has_furniture": {
       "type": "boolean"
     },
     "is_verified": {

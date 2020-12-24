@@ -1,3 +1,8 @@
+if(process.env.IS_TEST){
+  module.exports = require('./db.mock');
+  return;
+}
+
 const config = require('../configs/db.json').mongodb;
 const MongoClient = require('mongodb').MongoClient;
 
@@ -83,22 +88,5 @@ module.exports = {
     return connect(async (db) => {
       return await db.collection(table).find(obj_query).count();
     });
-  },
-  join: (table_1, table_2, key_1, key_2) => {
-    return connect(async (db) => {
-      return await db
-        .collection(table_1)
-        .aggregate([
-          {
-            $lookup: {
-              from: table_2,
-              localField: key_1,
-              foreignField: key_2,
-              as: table_2,
-            },
-          },
-        ])
-        .toArray();
-    });
-  },
+  }
 };

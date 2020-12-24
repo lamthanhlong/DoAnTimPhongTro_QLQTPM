@@ -2,10 +2,13 @@ const express = require('express');
 const morgan = require('morgan'); // log request
 require('express-async-errors'); // handle async errors
 const cors = require('cors'); // allow access from another web server
-const socket = require('./socket.server');
 const app = express();
 
-app.use(morgan('dev'));
+// hide log when testing
+if(!process.env.IS_TEST){
+  app.use(morgan('dev'));
+}
+
 app.use(cors());
 app.use(express.json());
 
@@ -35,19 +38,12 @@ app.use(function (err, req, res, next) {
 });
 
 // Listening
-<<<<<<< HEAD
-const PORT = process.env.PORT || 3000;
-app.listen(PORT, function () {
-  console.log(
-    `The Best Solution backend api is running at http://localhost:${PORT}`
-  );
-});
-socket;
-=======
 if(!process.env.IS_BUILD){
   const PORT = process.env.PORT || 3000;
   app.listen(PORT, function () {
     console.log(`The Best Solution backend api is running at http://localhost:${PORT}`);
   });
 }
->>>>>>> 08cea93c53c23b951e2c31066a1837de01c0e1be
+
+// Export for testing
+module.exports = app; 
