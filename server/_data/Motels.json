@@ -1,0 +1,49 @@
+[{
+        "_id": 1,
+        "title": "Phòng Trọ Cao Cấp 01",
+        "description": "Phòng trọ cao cấp nhất TP HCM",
+        "address": "01 Đường Nguyễn Văn Cừ, Phường 4, Quận 5, TP HCM",
+        "area": 100,
+        "price": 7
+    },
+    {
+        "_id": 2,
+        "title": "Phòng Trọ Cao Cấp 02",
+        "description": "Phòng trọ cao cấp nhất TP HCM",
+        "address": "02 Đường Nguyễn Văn Cừ, Phường 4, Quận 5, TP HCM",
+        "area": 101,
+        "price": 7.1
+    },
+    {
+        "_id": 3,
+        "title": "Phòng Trọ Cao Cấp 03",
+        "description": "Phòng trọ cao cấp nhất TP HCM",
+        "address": "03 Đường Nguyễn Văn Cừ, Phường 4, Quận 6, TP HCM",
+        "area": 103,
+        "price": 7.3
+    },
+    {
+        "_id": 4,
+        "title": "Phòng Trọ Cao Cấp 04",
+        "description": "Phòng trọ cao cấp nhất TP HCM",
+        "address": "04 Đường Nguyễn Văn Cừ, Phường 4, Quận 6, TP HCM",
+        "area": 104,
+        "price": 7.4
+    },
+    {
+        "_id": 5,
+        "title": "Phòng Trọ Cao Cấp 05",
+        "description": "Phòng trọ cao cấp nhất TP HCM",
+        "address": "05 Đường Nguyễn Văn Cừ, Phường 4, Quận 6, TP HCM",
+        "area": 105,
+        "price": 7.5
+    },
+    {
+        "_id": 6,
+        "title": "Phòng Trọ Cao Cấp 06",
+        "description": "Phòng trọ cao cấp nhất TP Hà Nội",
+        "address": "06 Đường Nguyễn Văn Cừ, Phường 4, Quận 6, TP Hà Nội",
+        "area": 106,
+        "price": 7.6
+    }
+]

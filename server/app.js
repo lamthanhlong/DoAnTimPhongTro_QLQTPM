@@ -4,7 +4,11 @@ require('express-async-errors'); // handle async errors
 const cors = require('cors'); // allow access from another web server
 const app = express();
 
-app.use(morgan('dev'));
+// hide log when testing
+if(!process.env.IS_TEST){
+  app.use(morgan('dev'));
+}
+
 app.use(cors());
 app.use(express.json());
 
@@ -40,3 +44,6 @@ if(!process.env.IS_BUILD){
     console.log(`The Best Solution backend api is running at http://localhost:${PORT}`);
   });
 }
+
+// Export for testing
+module.exports = app; 

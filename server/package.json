@@ -3,8 +3,8 @@
   "version": "1.0.0",
   "main": "app.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node app",
+    "test": "nyc mocha",
+    "start": "node app.js",
     "build": "node build"
   },
   "keywords": [],
@@ -20,7 +20,13 @@
     "jsonwebtoken": "^8.5.1",
     "mongodb": "^3.6.3",
     "morgan": "^1.10.0",
-    "nodemon": "^2.0.6",
     "randomstring": "^1.1.5"
+  },
+  "devDependencies": {
+    "nyc": "^15.1.0",
+    "chai": "^4.2.0",
+    "chai-http": "^4.3.0",
+    "nodemon": "^2.0.6",
+    "mocha": "^8.2.1"
   }
 }
