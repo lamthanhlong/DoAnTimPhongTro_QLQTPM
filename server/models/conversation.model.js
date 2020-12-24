@@ -1,6 +1,21 @@
+const { Console } = require('console');
+const { promises } = require('fs');
 const { ObjectId } = require('mongodb');
 const db = require('../utils/db');
 const TableName = 'Conversations';
+let FindConversation = async (obj) => {
+  const first = await db.find(TableName, {
+    user_1: obj.user_1,
+    user_2: obj.user_2,
+  });
+  const last = await db.find(TableName, {
+    user_1: obj.user_2,
+    user_2: obj.user_1,
+  });
+  if (first.length > 0) return first[0];
+  if (last.length > 0) return last[0];
+  return null;
+};
 
 module.exports = {
   GetAll: () => {
@@ -11,18 +26,38 @@ module.exports = {
       _id: ObjectId(`${id}`),
     });
   },
-  FindConversation: (obj) => {
-    const first = db.find(TableName, {
-      user_1: obj.user_1,
-      user_2: obj.user_2,
+  Append: async (sender, msg, receiver) => {
+    const obj = {
+      user_1: sender.userId,
+      user_2: receiver.userId,
+    };
+    message = `${sender.userInfo}:${msg}`;
+    let find = await FindConversation(obj);
+    console.log(find);
+    let con_id = '';
+    if (find) {
+      con_id = find._id;
+      delete find_id;
+      let new_msg = `${find.content};${message}`;
+      find.content = new_msg;
+      console.log(find);
+      find.modified_date = new Date();
+      await db.updateOne(
+        TableName,
+        {
+          _id: con_id,
+        },
+        find
+      );
+    } else {
+      obj.content = message;
+      obj.created_date = obj.modified_date = new Date();
+      con_id = await db.insertOne(TableName, obj);
+    }
+    console.log(`${sender.userInfo} sent message to ${receiver.userInfo}`);
+    return db.find(TableName, {
+      _id: ObjectId(`${con_id}`),
     });
-    const last = db.find(TableName, {
-      user_1: obj.user_2,
-      user_2: obj.user_1,
-    });
-    if (first != null) return first;
-    if (last != null) return last;
-    return null;
   },
   GetPaginate: (start, limit) => {
     return db.paginate(TableName, {}, { name: 1 }, start, limit);

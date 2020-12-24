@@ -17,14 +17,16 @@ router.get('/paginate', async (req, res) => {
   var data = model.GetPaginate(0, 2);
   res.json(data);
 });
-router.post('/', validate(schema), async function (req, res) {
-  const object = req.body;
-  const checkDup = await model.FindConversation(object);
-  console.log(checkDup);
-  if (checkDup.length > 0) return res.status(400).end();
-  const id = await model.Add(object);
-  object._id = id;
-  res.status(201).json(object);
+router.post('/', async function (req, res) {
+  // const object = req.body;
+  // const checkDup = await model.FindConversation(object);
+  // if (checkDup) return res.status(400).end();
+  // const id = await model.Add(object);
+  // object._id = id;
+  // res.status(201).json(object);
+  const obj = req.body;
+  const data = await model.Append(obj.sender, obj.msg, obj.receiver);
+  res.status(200).json(data);
 });
 router.put('/:id', async function (req, res) {
   const object = req.body;
