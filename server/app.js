@@ -33,7 +33,7 @@ app.use(function (err, req, res, next) {
     error_message: 'Something broke!',
   });
 });
-socket;
+//socket;
 // Listening
 if (!process.env.IS_BUILD) {
   const PORT = process.env.PORT || 3000;
