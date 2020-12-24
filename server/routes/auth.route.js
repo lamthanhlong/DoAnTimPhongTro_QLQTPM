@@ -3,7 +3,6 @@ const model = require('../models/user.model');
 const router = express.Router();
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcryptjs');
-const userModel = require('../models/user.model');
 
 router.post('/login', async function (req, res) {
   const { phone, password } = req.body;
@@ -20,7 +19,7 @@ router.post('/login', async function (req, res) {
   }
   const accessToken = jwt.sign(
     {
-      _id: user._id,
+      id: user._id,
       role: user.role,
     },
     'BEST_SOLUTION',

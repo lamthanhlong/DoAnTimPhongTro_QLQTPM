@@ -3,7 +3,6 @@ const rating = require('../models/rating.model');
 const local = require('../utils/local');
 const helper = require('../utils/helper');
 var randomstring = require('randomstring');
-
 module.exports = {
   fetchPaging: async (req, res) => {
     return res.json(await motel.GetQuery(req.query));
@@ -16,7 +15,11 @@ module.exports = {
 
     return res.json(data);
   },
-
+  ownerFetchMotels: async (req, res) => {
+    const id = req.params.id;
+    const motels = await motel.OwnerGet(id);
+    return res.json(motels);
+  },
   store: async (req, res) => {
     const object = req.body;
     const id = await motel.Add(object);
@@ -26,6 +29,15 @@ module.exports = {
   },
 
   update: async (req, res) => {
+    if (req.accessTokenPayload.role === 'MOTEL_OWNER') {
+      const single = await motel.Single(req.params.id);
+      console.log(single[0].owner_id);
+      console.log(req.accessTokenPayload.id);
+      if (single[0].owner_id != req.accessTokenPayload.id)
+        return res
+          .status(403)
+          .json({ err_msg: 'User not have permission to edit' });
+    }
     const object = req.body;
     object._id = null;
     object.owner_id = null;

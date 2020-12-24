@@ -28,7 +28,7 @@ exports.protect = function (req, res, next) {
 exports.authorize = (...roles) => (req, res, next) => {
   if (!roles.includes(req.accessTokenPayload.role)) {
     return res.status(403).json({
-      err_msg: `User role ${req.user.role} is not permitted to this route`,
+      err_msg: `User role ${req.accessTokenPayload.role} is not permitted to this route`,
     });
   }
   next();

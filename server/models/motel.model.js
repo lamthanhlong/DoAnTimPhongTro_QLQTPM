@@ -26,6 +26,16 @@ module.exports = {
     ];
     return db.aggregate(TableName, aggregate);
   },
+  OwnerGet: (owner_id) => {
+    var aggregate = [
+      {
+        $match: {
+          owner_id: ObjectId(`${owner_id}`),
+        },
+      },
+    ];
+    return db.aggregate(TableName, aggregate);
+  },
   GetQuery: async (params) => {
     var sort_object = {};
     if (params.sort) {
