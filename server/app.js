@@ -2,9 +2,21 @@ const express = require('express');
 const morgan = require('morgan'); // log request
 require('express-async-errors'); // handle async errors
 const cors = require('cors'); // allow access from another web server
-//const socket = require('./socket.server');
-const app = express();
 
+const app = express();
+//Socket Declare
+const server = require('http').createServer(app);
+const io = require('socket.io')(server);
+const client = require('./utils/socket');
+//Socket Handle
+io.on('connection', (socket) => {
+  client.addUser(socket);
+  client.userSendMessenger(socket);
+  socket.on('disconnect', () => {
+    console.log('A user disconnected');
+  });
+  console.log('Socket.io is Running');
+});
 app.use(morgan('dev'));
 app.use(cors());
 app.use(express.json());
@@ -33,7 +45,6 @@ app.use(function (err, req, res, next) {
     error_message: 'Something broke!',
   });
 });
-//socket;
 // Listening
 if (!process.env.IS_BUILD) {
   const PORT = process.env.PORT || 3000;
