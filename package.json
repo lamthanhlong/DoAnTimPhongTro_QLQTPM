@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "description": "- Some information.",
   "scripts": {
-    "build": "cd server;npm ci",
+    "build": "cd server;npm ci;npm run-script build",
     "start": "cd server;npm start"
   },
   "repository": {

@@ -35,6 +35,7 @@ app.use(function (err, req, res, next) {
 });
 
 // Listening
+<<<<<<< HEAD
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, function () {
   console.log(
@@ -42,3 +43,11 @@ app.listen(PORT, function () {
   );
 });
 socket;
+=======
+if(!process.env.IS_BUILD){
+  const PORT = process.env.PORT || 3000;
+  app.listen(PORT, function () {
+    console.log(`The Best Solution backend api is running at http://localhost:${PORT}`);
+  });
+}
+>>>>>>> 08cea93c53c23b951e2c31066a1837de01c0e1be
