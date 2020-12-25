@@ -27,6 +27,7 @@ import MotelDetail from "./views/pages/motel/Detail.vue";
 import Profile from "./views/pages/profile/Profile.vue";
 import ProfileInfo from "./views/pages/profile/Info.vue";
 import CreatePost from "./views/pages/profile/CreatePost.vue";
+import ListMotel from './views/pages/profile/ListMotel.vue';
 
 import store from "./store/index";
 
@@ -91,7 +92,7 @@ const routes = [
       },
       {
         path: "motels",
-        component: Motel, 
+        component: Motel,
 
         children: [
           {
@@ -121,6 +122,11 @@ const routes = [
             path: "create_post",
             component: CreatePost,
             name: "createPost"
+          },
+          {
+            path: "list_motel",
+            component: ListMotel,
+            name: "listMotel"
           }
         ]
       }
