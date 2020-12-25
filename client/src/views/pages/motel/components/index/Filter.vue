@@ -35,6 +35,7 @@ export default{
   	methods: {
 	    emitChange(){
 	      this.$emit("update:data", this.getData);
+	      this.$emit('action')
 	    }
 	 },
 

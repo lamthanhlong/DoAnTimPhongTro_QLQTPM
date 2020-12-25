@@ -28,10 +28,10 @@ export  const actions = {
       const searchkey = payload.searchkey || null;
       const city = payload.city || null;
       const district = payload.district || null;
-       const area = payload.area || null;
+      const area = payload.area || null;
+      const filterPrice = payload.sort || null;
 
-
-      const res = await MotelService.fetchPaging(currentPage, searchkey, price, city, district, area);
+      const res = await MotelService.fetchPaging(currentPage, searchkey, price, city, district, area, filterPrice);
       if(res.data){
         var data = res.data;
         commit("FETCH_PAGING", data);

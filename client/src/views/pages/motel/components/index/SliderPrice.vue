@@ -27,6 +27,7 @@
                   v-model="getValue"
                   hide-details
                   :step="step"
+                  thumb-label="always"
                 ></v-slider>
              </v-card-text>
 
@@ -94,6 +95,9 @@ export default {
     },
 
     async save(){
+
+      
+
       var filterPrice = this.getValue + '-' + this.max;
       var query = Object.assign({}, this.$route.query);
       query.price = filterPrice;

@@ -35,7 +35,7 @@
                   </v-col>
                 </v-row>
               </v-img>
-              <v-card-actions class="justify-center border-bottom pa-4">
+   <!--            <v-card-actions class="justify-center border-bottom pa-4">
                   <input
                     type="file"
                     ref="inputAvatar"
@@ -59,7 +59,7 @@
 
                 </v-btn>
               </v-card-actions>
-
+ -->
               <v-list flat class="pa-0">
                 <v-list-item-group color="primary">
                   <template v-for="(item, index) in items">
@@ -196,27 +196,16 @@
           </v-col>
         </v-row>
       </v-container>
-      <upload-avatar
-      :isVisible.sync="showAvatarDialog"
-      :image="image"
-      :oldImageUrl="userInfo.avatar"
-      v-if="showAvatarDialog"
-      ></upload-avatar>
     </v-layout>
   </div>
 </template>
 
 <script>
-// store
-import User from '@/store/models/user'
-import UploadAvatar from "./UploadAvatar.vue";
+
 
 
 export default {
 
-  components: {
-    'upload-avatar': UploadAvatar,
-  },
 
   data() {
     return {
@@ -265,15 +254,7 @@ export default {
   },
 
   computed: {
-    employeeInfo(){
-      return {... User.getters('getCurrentEmployee') }
-    },
-    userInfo(){
-      return User.getters('getCurrentUser')
-    },
-    avatar(){
-      return User.getters('getAvatarCurrentUser')
-    }
+
   }
   
 };
