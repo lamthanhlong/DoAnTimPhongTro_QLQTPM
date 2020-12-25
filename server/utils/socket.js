@@ -1,5 +1,4 @@
 var users = {};
-const model = require('../models/conversation.model');
 
 let addUser = (socket) => {
   socket.on('ADD_USER', async (data) => {
