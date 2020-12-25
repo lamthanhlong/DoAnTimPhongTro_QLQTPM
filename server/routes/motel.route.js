@@ -26,14 +26,4 @@ router.put(
   motelcontroller.update
 );
 
-//router.get('/local/:city_id/:dist_id', motelcontroller.get);
-// router.delete('/:id', async function (req, res) {
-//   const id = req.params.id;
-//   const check = await model.Delete(id);
-//   if (!check) {
-//     return res.status(400).end();
-//   }
-//   res.json({ success: true });
-// });
-
 module.exports = router;

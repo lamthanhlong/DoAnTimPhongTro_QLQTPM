@@ -35,14 +35,14 @@ router.put('/:id', async function (req, res) {
   if (update == 0) return res.status(400).end();
   const newObj = await model.Single(id);
   res.json(newObj);
-}),
-  router.delete('/:id', async function (req, res) {
-    const id = req.params.id;
-    const check = await model.Delete(id);
-    if (!check) {
-      return res.status(400).end();
-    }
-    res.json({ success: true });
-  });
+});
+router.delete('/:id', async function (req, res) {
+  const id = req.params.id;
+  const check = await model.Delete(id);
+  if (!check) {
+    return res.status(400).end();
+  }
+  res.json({ success: true });
+});
 
 module.exports = router;

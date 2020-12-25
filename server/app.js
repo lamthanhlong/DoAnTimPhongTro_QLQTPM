@@ -31,7 +31,7 @@ app.use('/api/auth', require('./routes/auth.route'));
 app.use('/api/user', require('./routes/user.route'));
 app.use('/api/motel', require('./routes/motel.route'));
 app.use('/api/rating', require('./routes/rating.route'));
-app.use('/api/conversation', require('./routes/conversation.route'));
+//app.use('/api/conversation', require('./routes/conversation.route'));
 // Error Handlers
 app.use(function (req, res, next) {
   res.status(404).send({
