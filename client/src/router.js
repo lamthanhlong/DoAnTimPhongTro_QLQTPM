@@ -24,7 +24,16 @@ import Motel from "./views/pages/motel/Motel.vue";
 import MotelIndex from "./views/pages/motel/Index.vue";
 import MotelDetail from "./views/pages/motel/Detail.vue";
 
+import Profile from "./views/pages/profile/Profile.vue";
+import ProfileInfo from "./views/pages/profile/Info.vue";
+import CreatePost from "./views/pages/profile/CreatePost.vue";
+
 import store from "./store/index";
+
+const originalPush = VueRouter.prototype.push;
+VueRouter.prototype.push = function push(location) {
+  return originalPush.call(this, location).catch(err => err)
+};
 
 
 Vue.use(VueRouter);
@@ -75,10 +84,10 @@ const routes = [
     component: MainLayout,
     children: [
       {
-
         path: "",
         component: Home,
         name: "home",
+        redirect: '/motels'
       },
       {
         path: "motels",
@@ -94,6 +103,24 @@ const routes = [
             path: ":id",
             component: MotelDetail,
             name: "motelDetail"
+          }
+        ]
+      },
+
+      {
+        path: "profile",
+        component: Profile,
+        name: "profile",
+        children: [
+          {
+            path: "info",
+            component: ProfileInfo,
+            name: "profileInfo"
+          },
+          {
+            path: "create_post",
+            component: CreatePost,
+            name: "createPost"
           }
         ]
       }

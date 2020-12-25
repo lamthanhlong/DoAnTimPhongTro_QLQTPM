@@ -4,12 +4,12 @@
       <v-flex :class="{ 'pa-4': !isMobile }">
         <v-card flat>
           <v-row no-gutter >
-
               <v-col cols="12" sm="3" md="2" lg="2">
                 <filter-form
                 label="Tỉnh, TP"
                 :items="cities"
                 :data.sync="filterAddress.city"
+                v-on:action="changeCityEnvent()"
                 ></filter-form>
               </v-col>
 
@@ -18,6 +18,7 @@
                 label="Quận, huyện"
                 :items="districts"
                 :data.sync="filterAddress.district"
+                v-on:action="changeDistrictEnvent()"
                 ></filter-form>
               </v-col>
 
@@ -75,6 +76,17 @@
               </v-col>
           </v-row>
 
+          <v-row>
+            <v-col cols="12" sm="3" md="2" lg="2">
+                <filter-form
+                label="Giá"
+                :items="sort"
+                :data.sync="filterPrice"
+                ></filter-form>
+              </v-col>
+
+          </v-row>
+
           <v-layout
             v-resize="onResize"
             column
@@ -83,7 +95,7 @@
             v-if="motels.length"
           >
             <v-row>
-              <v-col v-for="(item, index) in motels" cols="12" :key="item.id">
+              <v-col v-for="(item, index) in motels" cols="12" lg="8" :key="item.id">
                 <m-item 
                 :item="item" 
                 v-on:action="viewDetail(item)"
@@ -224,12 +236,30 @@ export default {
 				ward: "",
         city:  this.$route.query.city || "",
 			},
+
+
+      sortPrice: {},
+
+      sort: [
+        {
+          key: "price_asc",
+          name: "Giá thấp nhất"
+        },
+         {
+          key: "price_desc",
+          name: "Giá cao nhất"
+        }
+      ]
 		}
 	},
 
+
   created(){
-    this.retrieveData();
-      
+
+    var city = this.cities.find(item => item.name === this.filterAddress.city);
+
+    this.handleCityEvent(city)
+    this.retrieveData(this.$route.query);
   },
 
   computed: {
@@ -261,6 +291,37 @@ export default {
       get(){
         return  this.$route.query.area;
       }
+    },
+
+    filterPrice: {
+      get(){
+        if(this.$route.query.sort && this.$route.query.sort === "price_asc")
+        {
+          return {
+            key: "price_asc",
+            name: "Giá thấp nhất"
+          }
+        }else{
+          return  {
+            key: "price_desc",
+            name: "Giá cao nhất"
+          }
+        }
+      },
+      set(data){
+        var url = this.$route;
+        var filterPrice = data.key;
+        var query = Object.assign({}, this.$route.query);
+        query.sort = filterPrice;
+
+        this.$router.push({
+            name: 'motelIndex', 
+            query: query
+        });
+
+
+        this.retrieveData(query);
+      }
     }
   },
 
@@ -270,41 +331,36 @@ export default {
       if(data.length)
          this.$store.dispatch("components/actionProgressHeader", { option: "hide" })
     },
+  },
 
-    'filterAddress.city': async function (newVal, oldVal){
+  methods: {
 
-          if(newVal !== oldVal)
-        {
-          var query = Object.assign({}, this.$route.query);
-          delete query.district 
+    changeCityEnvent(){
+        var query = Object.assign({}, this.$route.query);
+        delete query.district;
 
-          this.$router.push({
-              name: 'motelIndex', 
-              query: query
-          });
-        }  
+        query.city = this.filterAddress.city.name;
+        this.$router.push({
+            name: 'motelIndex', 
+            query: query
+        });
 
-        this.handleCityEvent(newVal); 
-        this.retrieveData();
+        this.handleCityEvent(this.filterAddress.city); 
+        this.retrieveData(query);
     },
 
-    'filterAddress.district': async function (newVal, oldVal){
-
-
+    changeDistrictEnvent(){
 
         var query = Object.assign({}, this.$route.query);
-        query.district = newVal.name;
+        query.district = this.filterAddress.district.name;
 
         this.$router.push({
             name: 'motelIndex', 
             query: query
         });
 
-        this.retrieveData();
+        this.retrieveData(query);
     },
-  },
-
-  methods: {
 
     showListFilter(){
       this.isVisibleListFilter = true;
@@ -315,17 +371,14 @@ export default {
       this.filterAddress.city = city;
         var cityId = city.id;
        const districtResponse = await MotelService.getDistricts(cityId);
+
+
        if(districtResponse.data){
         this.districts = districtResponse.data.data
        }
 
         var query = Object.assign({}, this.$route.query);
-        query.city = city.name;
 
-        this.$router.push({
-            name: 'motelIndex', 
-            query: query
-        });
     },
 
     showSlider(type){
@@ -349,12 +402,10 @@ export default {
       this.retrieveData();
     },
 
-    async retrieveData(){
+    async retrieveData(query){
 
-      var payLoad = Object.assign({}, this.$route.query);
-
+      var payLoad = query;
       payLoad.currentPage = this.currentPage;
-
       this.$store.dispatch("components/actionProgressHeader", { option: "show" })
       setTimeout(async () => {
         this.$store.dispatch("motels/fetchPaging", payLoad);

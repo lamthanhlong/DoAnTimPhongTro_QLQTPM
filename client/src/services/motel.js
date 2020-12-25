@@ -5,7 +5,7 @@ export default {
 
   rootURL: '/motel/',
 
-  async fetchPaging(currentPage, searchkey, price, city, district, area) {
+  async fetchPaging(currentPage, searchkey, price, city, district, area, filterPrice) {
 
     try {
       return  await axios.get(this.rootURL, {
@@ -15,7 +15,8 @@ export default {
           price: price,
           city: city,
           district: district,
-          area: area 
+          area: area,
+          sort: filterPrice,
         }
       });
       return result;
