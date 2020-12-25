@@ -26,6 +26,7 @@ import MotelDetail from "./views/pages/motel/Detail.vue";
 
 import store from "./store/index";
 
+
 Vue.use(VueRouter);
 
 const routes = [

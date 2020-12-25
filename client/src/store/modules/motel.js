@@ -24,7 +24,14 @@ export  const actions = {
 
     async fetchPaging({ commit }, payload) {
       const currentPage = state.currentPage;
-      const res = await MotelService.fetchPaging(currentPage);
+      const price = payload.price || null;
+      const searchkey = payload.searchkey || null;
+      const city = payload.city || null;
+      const district = payload.district || null;
+       const area = payload.area || null;
+
+
+      const res = await MotelService.fetchPaging(currentPage, searchkey, price, city, district, area);
       if(res.data){
         var data = res.data;
         commit("FETCH_PAGING", data);

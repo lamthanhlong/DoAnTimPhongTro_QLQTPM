@@ -29,15 +29,17 @@
         </v-btn>
       </div> -->
 
-      <div>
-        <v-btn outlined small color="primary">
+    <!--   <div>
+        <v-btn outlined small color="primary" @click="login()">
           Đăng nhập
         </v-btn>
-      </div>
+      </div> -->
 
       <v-menu transition="slide-y-transition">
         <template v-slot:activator="{ on: activeMenu }">
-         
+          <v-avatar v-on="activeMenu">
+            <img src="https://gamek.mediacdn.vn/133514250583805952/2020/3/7/anh-1-1583592253266481895600.jpg" alt="Avatar" />
+          </v-avatar>
         </template>
         <v-list>
           <v-list-item
@@ -105,6 +107,11 @@ export default {
   },
 
   methods: {
+
+    login(){
+      this.$router.push('/auth/login');
+    },
+
     isMobile() {
       if (screen.width <= 768) {
         return true;

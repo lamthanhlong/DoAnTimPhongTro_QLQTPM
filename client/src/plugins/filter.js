@@ -4,13 +4,8 @@ Vue.filter("toCurrency", function(value) {
   value = parseInt(value)
 
   if(isNaN(value)){
-  	value = 0
+  	return 0
   }
  
-  var formatter = new Intl.NumberFormat("en-US", {
-    style: "currency",
-    currency: "USD",
-    minimumFractionDigits: 0
-  });
-  return formatter.format(value);
+  return new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(value)
 });
