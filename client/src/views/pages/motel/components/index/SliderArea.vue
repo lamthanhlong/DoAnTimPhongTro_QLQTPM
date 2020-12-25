@@ -27,6 +27,7 @@
                   v-model="getValue"
                   hide-details
                   :step="step"
+                  thumb-label="always"
                 ></v-slider>
              </v-card-text>
 
@@ -82,7 +83,7 @@ export default {
   },
 
   mounted(){
-     if(this.$route.query.area)
+    if(this.$route.query.area)
     {
       this.getValue = this.$route.query.area.split("-")[0];
     }
@@ -95,6 +96,7 @@ export default {
 
     async save(){
       var url = this.$route;
+
       var filterArea = this.getValue + '-' + this.max;
       var query = Object.assign({}, this.$route.query);
 
@@ -108,8 +110,6 @@ export default {
       var payLoad = Object.assign({}, query);
       payLoad.area = filterArea;
 
-
-    
 
       this.$store.dispatch("components/actionProgressHeader", { option: "show" })
       setTimeout(async () => {

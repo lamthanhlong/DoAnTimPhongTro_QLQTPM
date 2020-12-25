@@ -6,7 +6,7 @@
       <v-list-item class="logo" :to="'/'">
           <v-img
             width="50"
-            src="@/assets/img/logo.png"
+            src="@/assets/img/Small_Logo.png"
           ></v-img>
         <v-list-item-title>MFIND</v-list-item-title>
       </v-list-item>
@@ -87,7 +87,8 @@ export default {
       mini: false,
       drawer: false,
       menuInfo: [
-        { title: "Profile", icon: "mdi-account-circle", link: "/user/profile" },
+        { title: "Thông tin", icon: "mdi-account-circle", link: "/user/profile" },
+        { title: "Đăng bài", icon: "mdi-account-circle", link: "/user/create_post" },
         { title: "Logout", icon: "mdi-login-variant", link: "/auth/logout" }
       ],
       theme: this.getTheme(),
