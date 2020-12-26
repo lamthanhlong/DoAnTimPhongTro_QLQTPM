@@ -88,8 +88,8 @@ export default {
       drawer: false,
       menuInfo: [
         { title: "Thông tin", icon: "mdi-account-circle", link: "/user/profile" },
-        { title: "Đăng bài", icon: "mdi-account-circle", link: "/user/create_post" },
-        { title: "Logout", icon: "mdi-login-variant", link: "/auth/logout" }
+        { title: "Đăng bài", icon: "mdi-account-circle", link: "/profile/create_post" },
+        { title: "Logout", icon: "mdi-login-variant", link: "/auth/login" }
       ],
       theme: this.getTheme(),
 
