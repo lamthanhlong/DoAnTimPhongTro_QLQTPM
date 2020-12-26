@@ -6,9 +6,6 @@ let chaiHttp = require('chai-http');
 let server = require('../app');
 let should = chai.should();
 
-chai.use(chaiHttp);
-
-//Our parent block
 describe('Motels', () => {
   beforeEach((done) => {
     //Before each test we empty the database in your case
@@ -26,7 +23,7 @@ describe('Motels', () => {
           res.should.have.status(200);
           var ret = JSON.parse(res.text);
           ret.data.should.be.a('array');
-
+          ret.count.should.be.eql(3);
           done();
         });
     });

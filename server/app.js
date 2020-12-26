@@ -4,6 +4,7 @@ require('express-async-errors'); // handle async errors
 const cors = require('cors'); // allow access from another web server
 
 const app = express();
+
 //Socket Declare
 const server = require('http').createServer(app);
 const io = require('socket.io')(server);
