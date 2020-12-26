@@ -3,12 +3,12 @@ const morgan = require('morgan'); // log request
 require('express-async-errors'); // handle async errors
 const cors = require('cors'); // allow access from another web server
 
+const app = express();
 // hide log when testing
 if (!process.env.IS_TEST) {
   app.use(morgan('dev'));
 }
 
-const app = express();
 //Socket Declare
 const server = require('http').createServer(app);
 const io = require('socket.io')(server);

@@ -12,10 +12,6 @@ router.get('/:id', async (req, res) => {
   var data = await model.Single(id);
   res.json(data);
 });
-router.get('/paginate', async (req, res) => {
-  var data = model.GetPaginate(0, 2);
-  res.json(data);
-});
 router.get('/motel/:id', async function (req, res) {
   const object = await model.GetAllRatingByMotelId(req.params.id, req.query);
   res.json(object);

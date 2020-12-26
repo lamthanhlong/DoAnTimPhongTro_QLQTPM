@@ -31,8 +31,6 @@ module.exports = {
   update: async (req, res) => {
     if (req.accessTokenPayload.role === 'MOTEL_OWNER') {
       const single = await motel.Single(req.params.id);
-      console.log(single[0].owner_id);
-      console.log(req.accessTokenPayload.id);
       if (single[0].owner_id != req.accessTokenPayload.id)
         return res
           .status(403)
