@@ -1,0 +1,272 @@
+[
+  {
+    "_id": 1,
+    "user_id": "5fddba4b5ee3560660340a61",
+    "motel_id": "5fccb2b71e10b0191c1a0f5b",
+    "rating": 4,
+    "comment": "phòng trọ tạm được, hàng xóm thân thiện.",
+    "modified_date": "2020-12-19T08:34:59.964Z",
+    "created_date": "2020-12-19T08:34:59.964Z"
+  },
+  {
+    "_id": 2,
+    "user_id": "5fddba4b5ee3560660340a61",
+    "motel_id": "5fccb2b71e10b0191c1a0f5b",
+    "rating": 4,
+    "comment": "chỗ trọ gần công viên, chủ nhà thân thiện, nhiệt tình.",
+    "modified_date": "2020-12-19T08:34:59.964Z",
+    "created_date": "2020-12-19T08:34:59.964Z"
+  },
+  {
+    "_id": 3,
+    "user_id": "5fddba4b5ee3560660340a61",
+    "motel_id": "5fccb2b71e10b0191c1a0f5b",
+    "rating": 4,
+    "comment": "phòng trọ tạm được.",
+    "modified_date": "2020-12-19T08:34:59.964Z",
+    "created_date": "2020-12-19T08:34:59.964Z"
+  },
+  {
+    "_id": 4,
+    "user_id": "5fddba4b5ee3560660340a61",
+    "motel_id": "5fccb2b71e10b0191c1a0f49",
+    "rating": 5,
+    "comment": "phòng trọ sạch sẽ, giá tốt, hàng xóm thân thiện.",
+    "modified_date": "2020-12-19T08:34:59.964Z",
+    "created_date": "2020-12-19T08:34:59.964Z"
+  },
+  {
+    "_id": 5,
+    "user_id": "5fddba4b5ee3560660340a61",
+    "motel_id": "5fccb2b71e10b0191c1a0f49",
+    "rating": 5,
+    "comment": "chủ nhà thân thiện, nhiệt tình.",
+    "modified_date": "2020-12-19T08:34:59.964Z",
+    "created_date": "2020-12-19T08:34:59.964Z"
+  },
+  {
+    "_id": 6,
+    "user_id": "5fddba4b5ee3560660340a61",
+    "motel_id": "5fccb2b71e10b0191c1a0f49",
+    "rating": 4,
+    "comment": "hàng xóm thân thiện.",
+    "modified_date": "2020-12-19T08:34:59.964Z",
+    "created_date": "2020-12-19T08:34:59.964Z"
+  },
+  {
+    "_id": 7,
+    "user_id": "5fddba4b5ee3560660340a61",
+    "motel_id": "5fccb2b71e10b0191c1a0f6e",
+    "rating": 5,
+    "comment": "hàng xóm toàn trai đẹp, gái xinh.",
+    "modified_date": "2020-12-19T08:34:59.964Z",
+    "created_date": "2020-12-19T08:34:59.964Z"
+  },
+  {
+    "_id": 8,
+    "user_id": "5fddba4b5ee3560660340a61",
+    "motel_id": "5fccb2b71e10b0191c1a0f6e",
+    "rating": 5,
+    "comment": "chỗ trọ gần công viên, chỗ trọ gần công viên.",
+    "modified_date": "2020-12-19T08:34:59.964Z",
+    "created_date": "2020-12-19T08:34:59.964Z"
+  },
+  {
+    "_id": 9,
+    "user_id": "5fddba4b5ee3560660340a61",
+    "motel_id": "5fccb2b71e10b0191c1a0f6e",
+    "rating": 4,
+    "comment": "phòng trọ tạm được, chỗ trọ gần công viên.",
+    "modified_date": "2020-12-19T08:34:59.964Z",
+    "created_date": "2020-12-19T08:34:59.964Z"
+  },
+  {
+    "_id": 10,
+    "user_id": "5fddba4b5ee3560660340a61",
+    "motel_id": "5fccb2b71e10b0191c1a0f6f",
+    "rating": 5,
+    "comment": "chỗ trọ thoáng mát.",
+    "modified_date": "2020-12-19T08:34:59.964Z",
+    "created_date": "2020-12-19T08:34:59.964Z"
+  },
+  {
+    "_id": 11,
+    "user_id": "5fddba4b5ee3560660340a61",
+    "motel_id": "5fccb2b71e10b0191c1a0f6f",
+    "rating": 4,
+    "comment": "phòng trọ sạch sẽ, giá tốt, hàng xóm thân thiện.",
+    "modified_date": "2020-12-19T08:34:59.964Z",
+    "created_date": "2020-12-19T08:34:59.964Z"
+  },
+  {
+    "_id": 12,
+    "user_id": "5fddba4b5ee3560660340a61",
+    "motel_id": "5fccb2b71e10b0191c1a0f6f",
+    "rating": 5,
+    "comment": "hàng xóm thân thiện.",
+    "modified_date": "2020-12-19T08:34:59.964Z",
+    "created_date": "2020-12-19T08:34:59.964Z"
+  },
+  {
+    "_id": 13,
+    "user_id": "5fddba4b5ee3560660340a61",
+    "motel_id": "5fccb2b71e10b0191c1a0f78",
+    "rating": 3,
+    "comment": "phòng trọ tạm được.",
+    "modified_date": "2020-12-19T08:34:59.964Z",
+    "created_date": "2020-12-19T08:34:59.964Z"
+  },
+  {
+    "_id": 14,
+    "user_id": "5fddba4b5ee3560660340a61",
+    "motel_id": "5fccb2b71e10b0191c1a0f78",
+    "rating": 3,
+    "comment": "phòng trọ sạch sẽ, giá tốt.",
+    "modified_date": "2020-12-19T08:34:59.964Z",
+    "created_date": "2020-12-19T08:34:59.964Z"
+  },
+  {
+    "_id": 5,
+    "user_id": "5fddba4b5ee3560660340a61",
+    "motel_id": "5fccb2b71e10b0191c1a0f78",
+    "rating": 5,
+    "comment": "chỗ trọ thoáng mát, hàng xóm thân thiện.",
+    "modified_date": "2020-12-19T08:34:59.964Z",
+    "created_date": "2020-12-19T08:34:59.964Z"
+  },
+  {
+    "_id": 6,
+    "user_id": "5fddba4b5ee3560660340a61",
+    "motel_id": "5fccb2b71e10b0191c1a0f8b",
+    "rating": 4,
+    "comment": "chủ nhà thân thiện, nhiệt tình.",
+    "modified_date": "2020-12-19T08:34:59.964Z",
+    "created_date": "2020-12-19T08:34:59.964Z"
+  },
+  {
+    "_id": 7,
+    "user_id": "5fddba4b5ee3560660340a61",
+    "motel_id": "5fccb2b71e10b0191c1a0f8b",
+    "rating": 5,
+    "comment": "phòng trọ đẹp như hình, chỗ trọ gần công viên.",
+    "modified_date": "2020-12-19T08:34:59.964Z",
+    "created_date": "2020-12-19T08:34:59.964Z"
+  },
+  {
+    "_id": 8,
+    "user_id": "5fddba4b5ee3560660340a61",
+    "motel_id": "5fccb2b71e10b0191c1a0f8b",
+    "rating": 3,
+    "comment": "chủ nhà thân thiện, nhiệt tình, phòng trọ sạch sẽ, giá tốt.",
+    "modified_date": "2020-12-19T08:34:59.964Z",
+    "created_date": "2020-12-19T08:34:59.964Z"
+  },
+  {
+    "_id": 9,
+    "user_id": "5fddba4b5ee3560660340a61",
+    "motel_id": "5fccb2b71e10b0191c1a0f8e",
+    "rating": 5,
+    "comment": "phòng trọ sạch sẽ, giá tốt, chỗ trọ thoáng mát.",
+    "modified_date": "2020-12-19T08:34:59.964Z",
+    "created_date": "2020-12-19T08:34:59.964Z"
+  },
+  {
+    "_id": 10,
+    "user_id": "5fddba4b5ee3560660340a61",
+    "motel_id": "5fccb2b71e10b0191c1a0f8e",
+    "rating": 4,
+    "comment": "chỗ trọ gần công viên.",
+    "modified_date": "2020-12-19T08:34:59.964Z",
+    "created_date": "2020-12-19T08:34:59.964Z"
+  },
+  {
+    "_id": 11,
+    "user_id": "5fddba4b5ee3560660340a61",
+    "motel_id": "5fccb2b71e10b0191c1a0f8e",
+    "rating": 3,
+    "comment": "hàng xóm thân thiện.",
+    "modified_date": "2020-12-19T08:34:59.964Z",
+    "created_date": "2020-12-19T08:34:59.964Z"
+  },
+  {
+    "_id": 12,
+    "user_id": "5fddba4b5ee3560660340a61",
+    "motel_id": "5fccb2b71e10b0191c1a0f93",
+    "rating": 5,
+    "comment": "chỗ trọ thoáng mát.",
+    "modified_date": "2020-12-19T08:34:59.964Z",
+    "created_date": "2020-12-19T08:34:59.964Z"
+  },
+  {
+    "_id": 13,
+    "user_id": "5fddba4b5ee3560660340a61",
+    "motel_id": "5fccb2b71e10b0191c1a0f93",
+    "rating": 3,
+    "comment": "phòng trọ tiện nghi đầy đủ, chỗ trọ gần công viên.",
+    "modified_date": "2020-12-19T08:34:59.964Z",
+    "created_date": "2020-12-19T08:34:59.964Z"
+  },
+  {
+    "_id": 14,
+    "user_id": "5fddba4b5ee3560660340a61",
+    "motel_id": "5fccb2b71e10b0191c1a0f93",
+    "rating": 5,
+    "comment": "hàng xóm toàn trai đẹp, gái xinh, hàng xóm toàn trai đẹp, gái xinh.",
+    "modified_date": "2020-12-19T08:34:59.964Z",
+    "created_date": "2020-12-19T08:34:59.964Z"
+  },
+  {
+    "_id": 15,
+    "user_id": "5fddba4b5ee3560660340a61",
+    "motel_id": "5fccb2b71e10b0191c1a0fc1",
+    "rating": 5,
+    "comment": "phòng trọ đẹp như hình, chủ nhà thân thiện, nhiệt tình.",
+    "modified_date": "2020-12-19T08:34:59.964Z",
+    "created_date": "2020-12-19T08:34:59.964Z"
+  },
+  {
+    "_id": 16,
+    "user_id": "5fddba4b5ee3560660340a61",
+    "motel_id": "5fccb2b71e10b0191c1a0fc1",
+    "rating": 5,
+    "comment": "chủ nhà thân thiện, nhiệt tình.",
+    "modified_date": "2020-12-19T08:34:59.964Z",
+    "created_date": "2020-12-19T08:34:59.964Z"
+  },
+  {
+    "_id": 17,
+    "user_id": "5fddba4b5ee3560660340a61",
+    "motel_id": "5fccb2b71e10b0191c1a0fc1",
+    "rating": 5,
+    "comment": "hàng xóm toàn trai đẹp, gái xinh, hàng xóm toàn trai đẹp, gái xinh.",
+    "modified_date": "2020-12-19T08:34:59.964Z",
+    "created_date": "2020-12-19T08:34:59.964Z"
+  },
+  {
+    "_id": 18,
+    "user_id": "5fddba4b5ee3560660340a61",
+    "motel_id": "5fccb2b71e10b0191c1a0fc6",
+    "rating": 5,
+    "comment": "phòng trọ đẹp như hình.",
+    "modified_date": "2020-12-19T08:34:59.964Z",
+    "created_date": "2020-12-19T08:34:59.964Z"
+  },
+  {
+    "_id": 19,
+    "user_id": "5fddba4b5ee3560660340a61",
+    "motel_id": "5fccb2b71e10b0191c1a0fc6",
+    "rating": 3,
+    "comment": "phòng trọ tốt trong tầm giá, phòng trọ đẹp như hình.",
+    "modified_date": "2020-12-19T08:34:59.964Z",
+    "created_date": "2020-12-19T08:34:59.964Z"
+  },
+  {
+    "_id": 20,
+    "user_id": "5fddba4b5ee3560660340a61",
+    "motel_id": "5fccb2b71e10b0191c1a0fc6",
+    "rating": 4,
+    "comment": "phòng trọ tạm được.",
+    "modified_date": "2020-12-19T08:34:59.964Z",
+    "created_date": "2020-12-19T08:34:59.964Z"
+  }
+]
