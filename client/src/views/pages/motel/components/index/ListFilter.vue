@@ -136,11 +136,11 @@ export default {
       },
       sort: [
         {
-          key: "asc",
+          key: "price_asc",
           name: "Giá thấp nhất"
         },
          {
-          key: "desc",
+          key: "price_desc",
           name: "Giá cao nhất"
         }
       ],
@@ -148,9 +148,6 @@ export default {
     };
   },
 
-  mounted(){
-    console.log(this.filterPrice);
-  },
 
   computed: {
     filterPrice: {
@@ -169,15 +166,8 @@ export default {
           }
         },
         set(data){
-          var url = this.$route;
-          var filterPrice = data.key;
-          var query = Object.assign({}, this.$route.query);
-          query.sort = filterPrice;
 
-          this.$router.push({
-              name: 'motelIndex', 
-              query: query
-          });
+          this.$route.query.sort = data.key;
         }
       }
   },
@@ -190,13 +180,10 @@ export default {
     async save(){
 
       var query = Object.assign({}, this.$route.query);
-
-      var filterPrice = this.filterPrice.name;
+      var filterPrice =  query.sort;
       var pricerSlider =  this.price.value + '-' + this.price.max;
       var areaSlider = this.area.value + '-' + this.area.max;
-
-
-      var payLoad = Object.assign({}, query);
+      var payLoad = query;
 
       if(this.filters.includes("area")){
         payLoad.area = areaSlider;
@@ -220,13 +207,12 @@ export default {
          query.sort = filterPrice;
       }else{
         delete payLoad.sort;
-          delete query.price;
+        delete query.sort;
       }
 
       this.$router.push({
-          name: 'motelIndex', 
           query: query
-      });
+       });
 
 
       this.$store.dispatch("components/actionProgressHeader", { option: "show" })
