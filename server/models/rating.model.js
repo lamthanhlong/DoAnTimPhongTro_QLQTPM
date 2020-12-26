@@ -17,7 +17,7 @@ module.exports = {
     var aggregate = [
       {
         $match: {
-          _id: ObjectId(`${id}`),
+          motel_id: ObjectId(`${id}`),
         },
       },
       {
