@@ -26,7 +26,7 @@ describe('Motels', () => {
           res.should.have.status(200);
           var ret = JSON.parse(res.text);
           ret.data.should.be.a('array');
-
+          console.log(ret);
           done();
         });
     });
@@ -51,7 +51,7 @@ describe('Motels', () => {
         .end((err, res) => {
           res.should.have.status(201);
           var ret = JSON.parse(res.text);
-          ret._id.should.be.eql(7);
+          ret.price.should.be.eql(1);
           done();
         });
     });
