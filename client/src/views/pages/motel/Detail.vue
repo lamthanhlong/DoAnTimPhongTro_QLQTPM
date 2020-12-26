@@ -2,9 +2,11 @@
 	<v-container>
 		<v-row v-show="show">
 			<v-col cols="12" sm="8" md="8" lg="8">
-				<m-carousel v-show="motel.images"  :items.native="getImages"></m-carousel>
 
-				<v-card flat>
+				<v-card >
+
+					<m-carousel v-show="motel.images"  :items.native="getImages"></m-carousel>
+	
 					<v-tabs
 				      v-model="tab"
 				      background-color="transparent"
@@ -75,7 +77,14 @@
 				                readonly
 				                size="20"
 				              ></v-rating>
-				        	</v-card-text>
+				            </v-card-text>
+
+				            <v-card-text>
+				              <h3>Lượt đánh giá: </h3>
+				              <m-rating :ratings="motel.ratings">
+				              </m-rating>
+							</v-card-text>
+				      
 				        </v-card>
 				      </v-tab-item>
 				    </v-tabs-items>
@@ -105,7 +114,11 @@
 </template>
 
 <script type="text/javascript">
+
+// components	
 import Carousel from "./components/detail/Carousel"
+import Rating from "./components/detail/Rating"
+
 //mixin
 import IsMobile from "@/mixins/is_mobile";
 export default {
@@ -113,14 +126,15 @@ export default {
 	mixins: [IsMobile],
 
     components: {
-    	'm-carousel': Carousel
+    	'm-carousel': Carousel,
+    	'm-rating': Rating
 	},
 
 	data(){
 		return {
 
 			show: false,
-	        tab: null,
+	        tab: 0,
 	        tabs: [
 	          'Thông tin chi tiết', 'Lượt đánh giá', 
 	        ],
@@ -147,7 +161,8 @@ export default {
 			get(){
 				return this.$helper.convertStringToArrayImage(this.motel.images)
 			}
-		}
+		},
+
 	},
 
 	watch: {

@@ -4,6 +4,10 @@ import colors from "vuetify/lib/util/colors";
 import helperCommon from '@/helpers/common';
 import helperValidation from '@/helpers/validation'
 
+import VueSocketIO from "vue-socket.io";
+import SocketIO from "socket.io-client";
+import VueChatScroll from "vue-chat-scroll";
+
 //plugin
 require("@/plugins/directive");
 require("@/plugins/filter");
@@ -70,4 +74,14 @@ Vue.component('pagination-custom', Pagination);
 Vue.component('progress-header', ProgressHeader);
 Vue.component('progress-loading', ProgressLoading);
 
+
+Vue.use(VueChatScroll);
 Vue.use(VueCookies);
+Vue.use(
+  new VueSocketIO({
+    debug: true,
+    connection: process.env.VUE_APP_ROOT_SOCKET || "http://localhost:3000",
+   
+    // options: { path: "/my-app/" } //Optional options
+  })
+);
