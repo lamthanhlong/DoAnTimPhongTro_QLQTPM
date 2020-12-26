@@ -6,6 +6,8 @@ export  const getters = {
 
     currentPage: state => state.currentPage,
     pageCounts: state => state.pageCounts,
+
+
 };
 
 
@@ -23,7 +25,8 @@ const state = getDefaultState()
 export  const actions = {
 
     async fetchPaging({ commit }, payload) {
-      const currentPage = state.currentPage;
+
+      const currentPage = payload.page;
       const price = payload.price || null;
       const searchkey = payload.searchkey || null;
       const city = payload.city || null;
@@ -47,6 +50,14 @@ export  const actions = {
       }
     },
 
+    async store ({commit}, payload)
+    {
+      const id = payload.id;
+      const res = await MotelService.store(payload);
+      
+      console.log(res);
+    },
+
     reset({commit}){
       commit('RESET')
     }
@@ -63,8 +74,14 @@ export  const mutations = {
       state.motel = motel;
       if(motel.Users) {
         state.motel.user = motel.Users[0]
-        delete motel.Users[0];
+        delete motel.Users;
       }
+      if(motel.Ratings) {
+        state.motel.ratings = motel.Ratings
+        delete motel.Ratings;
+      }
+
+
     },
 
     UPDATE_CURRENT_PAGE(state, page){

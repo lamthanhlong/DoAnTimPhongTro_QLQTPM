@@ -17,13 +17,13 @@ module.exports = {
     var aggregate = [
       {
         $match: {
-          _id: ObjectId(`${id}`),
+          motel_id: ObjectId(`${id}`),
         },
       },
       {
         $lookup: {
           from: 'Users',
-          localField: 'owner_id',
+          localField: 'user_id',
           foreignField: '_id',
           as: 'Users',
         },
