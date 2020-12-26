@@ -5,11 +5,11 @@
 	    placeholder=" "
 	    item-text="name"
 	    v-model="getData"
-      item-value="id"
+      	return-object
 	    @change="emitChange()"
 	    :label="label"
-      outlined
-      dense
+	    outlined
+	    dense
 	  > 
 	  </v-select>
 	</v-layout>
@@ -23,21 +23,21 @@ export default{
 			type: [Array, String, Object, Number]
 		},
     items: Array,
-    label: String,
+	    label: String,
+		},
+
+		data(){
+			return {
+	      getData: this.data,
+	    }
 	},
 
-	data(){
-		return {
-      getData: this.data,
-    }
-	},
-
-
-  methods: {
-    emitChange(){
-      this.$emit("update:data", this.getData);
-    }
-  },
+  	methods: {
+	    emitChange(){
+	      this.$emit("update:data", this.getData);
+	      this.$emit('action')
+	    }
+	 },
 
 
 }
