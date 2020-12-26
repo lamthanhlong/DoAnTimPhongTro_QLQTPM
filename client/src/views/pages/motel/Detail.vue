@@ -2,9 +2,11 @@
 	<v-container>
 		<v-row v-show="show">
 			<v-col cols="12" sm="8" md="8" lg="8">
-				<m-carousel v-show="motel.images"  :items.native="getImages"></m-carousel>
 
-				<v-card flat>
+				<v-card >
+
+					<m-carousel v-show="motel.images"  :items.native="getImages"></m-carousel>
+	
 					<v-tabs
 				      v-model="tab"
 				      background-color="transparent"
@@ -132,7 +134,7 @@ export default {
 		return {
 
 			show: false,
-	        tab: null,
+	        tab: 0,
 	        tabs: [
 	          'Thông tin chi tiết', 'Lượt đánh giá', 
 	        ],
