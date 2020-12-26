@@ -5,16 +5,13 @@ const cors = require('cors'); // allow access from another web server
 const PORT = process.env.PORT || 3000;
 const app = express();
 
-
 // hide log when testing
-if(!process.env.IS_TEST){
+if (!process.env.IS_TEST) {
   app.use(morgan('dev'));
 }
 
 app.use(cors());
 app.use(express.json());
-
-
 
 // Hello
 app.get('/', function (req, res) {
@@ -41,13 +38,20 @@ app.use(function (err, req, res, next) {
   });
 });
 
-
 //Socket Declare
 const server = require('http').createServer(app);
 const io = require('socket.io')(server);
 const client = require('./utils/socket');
 
-server.listen(PORT);
+//server.listen(PORT);
+// Listening
+if (!process.env.IS_BUILD) {
+  server.listen(PORT, function () {
+    console.log(
+      `The Best Solution backend api is running at http://localhost:${PORT}`
+    );
+  });
+}
 
 //Socket Handle
 io.on('connection', (socket) => {
@@ -58,19 +62,3 @@ io.on('connection', (socket) => {
   });
   console.log('Socket.io is Running');
 });
-
-
-
-
-// Listening
-if (!process.env.IS_BUILD) {
-
-  // app.listen(PORT, function () {
-  //   console.log(
-  //     `The Best Solution backend api is running at http://localhost:${PORT}`
-  //   );
-  // });
-}
-
-// Export for testing
-module.exports = app; 
