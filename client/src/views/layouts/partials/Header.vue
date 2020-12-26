@@ -18,7 +18,6 @@
       <v-col cols="6" lg="4" md="4">
         <search-header
         :data.sync="inputSearch"
-
         >
         </search-header>
       </v-col>

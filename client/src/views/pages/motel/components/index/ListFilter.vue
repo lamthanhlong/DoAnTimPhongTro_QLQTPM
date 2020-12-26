@@ -144,7 +144,10 @@ export default {
           name: "Giá cao nhất"
         }
       ],
-      
+      sortPrice: {
+        key: "",
+        name: ""
+      },
     };
   },
 
@@ -166,8 +169,8 @@ export default {
           }
         },
         set(data){
-
-          this.$route.query.sort = data.key;
+          this.sortPrice.key = data.key;
+          this.sortPrice.name = data.name;
         }
       }
   },
@@ -180,7 +183,6 @@ export default {
     async save(){
 
       var query = Object.assign({}, this.$route.query);
-      var filterPrice =  query.sort;
       var pricerSlider =  this.price.value + '-' + this.price.max;
       var areaSlider = this.area.value + '-' + this.area.max;
       var payLoad = query;
@@ -203,12 +205,13 @@ export default {
       }
 
       if(this.filters.includes("sort")){
-         payLoad.sort = filterPrice;
-         query.sort = filterPrice;
+         payLoad.sort = this.sortPrice.key || this.filterPrice.key;
+         query.sort = this.sortPrice.key || this.filterPrice.key;
       }else{
         delete payLoad.sort;
         delete query.sort;
       }
+
 
       this.$router.push({
           query: query
