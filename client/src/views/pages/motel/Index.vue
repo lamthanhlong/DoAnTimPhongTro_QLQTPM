@@ -76,16 +76,6 @@
               </v-col>
           </v-row>
 
-          <v-row>
-            <v-col cols="12" sm="3" md="2" lg="2">
-                <filter-form
-                label="Giá"
-                :items="sort"
-                :data.sync="filterPrice"
-                ></filter-form>
-              </v-col>
-
-          </v-row>
 
           <v-layout
             v-resize="onResize"
@@ -150,6 +140,7 @@
     :isVisible.sync="isVisibleListFilter"
     v-if="isVisibleListFilter"
     title="Danh sách lọc"
+
     >
       
     </m-list-filter>
@@ -293,36 +284,6 @@ export default {
       }
     },
 
-    filterPrice: {
-      get(){
-        if(this.$route.query.sort && this.$route.query.sort === "price_asc")
-        {
-          return {
-            key: "price_asc",
-            name: "Giá thấp nhất"
-          }
-        }else{
-          return  {
-            key: "price_desc",
-            name: "Giá cao nhất"
-          }
-        }
-      },
-      set(data){
-        var url = this.$route;
-        var filterPrice = data.key;
-        var query = Object.assign({}, this.$route.query);
-        query.sort = filterPrice;
-
-        this.$router.push({
-            name: 'motelIndex', 
-            query: query
-        });
-
-
-        this.retrieveData(query);
-      }
-    }
   },
 
 
@@ -340,6 +301,7 @@ export default {
         delete query.district;
 
         query.city = this.filterAddress.city.name;
+
         this.$router.push({
             name: 'motelIndex', 
             query: query
@@ -367,17 +329,19 @@ export default {
     },
 
     async handleCityEvent(city){
-
-      this.filterAddress.city = city;
+ 
+      if(city){
+          this.filterAddress.city = city;
         var cityId = city.id;
-       const districtResponse = await MotelService.getDistricts(cityId);
+         const districtResponse = await MotelService.getDistricts(cityId);
 
 
-       if(districtResponse.data){
-        this.districts = districtResponse.data.data
-       }
+        if(districtResponse.data){
+          this.districts = districtResponse.data.data
+        }
 
         var query = Object.assign({}, this.$route.query);
+      }
 
     },
 
@@ -395,17 +359,30 @@ export default {
 
     viewDetail(item){
       var id = item._id;
-      this.$router.push(this.$route.path + '/' + id);
+       this.$router.push({
+            name: "motelDetail",
+            params: {
+                id: item._id
+            }
+      })
     },
 
     nextPage(){
-      this.retrieveData();
+
+      var query = this.$route.query;
+
+      this.$router.push({
+            name: 'motelIndex', 
+            query: query
+      });
+
+      this.retrieveData(query);
     },
 
     async retrieveData(query){
 
       var payLoad = query;
-      payLoad.currentPage = this.currentPage;
+      payLoad.page = this.currentPage;
       this.$store.dispatch("components/actionProgressHeader", { option: "show" })
       setTimeout(async () => {
         this.$store.dispatch("motels/fetchPaging", payLoad);

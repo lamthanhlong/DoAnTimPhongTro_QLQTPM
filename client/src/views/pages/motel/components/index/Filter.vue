@@ -7,6 +7,7 @@
 	    v-model="getData"
       	return-object
 	    @change="emitChange()"
+	    @input="emitChange()"
 	    :label="label"
 	    outlined
 	    dense

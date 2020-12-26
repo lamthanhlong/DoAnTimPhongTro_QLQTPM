@@ -1,35 +1,35 @@
 import Vue from "vue";
 import VueRouter from "vue-router";
-import AuthService from "./services/auth";
+import AuthService from "@/services/auth";
 
-import Login from "./views/pages/auth/Login";
-import Register from "./views/pages/auth/Register";
-import Logout from "./views/pages/auth/Logout";
+import Login from "@/views/pages/auth/Login";
+import Register from "@/views/pages/auth/Register";
+import Logout from "@/views/pages/auth/Logout";
 
-import AuthLayout from "./views/layouts/AuthLayout";
-import MainLayout from "./views/layouts/MainLayout";
+import AuthLayout from "@/views/layouts/AuthLayout";
+import MainLayout from "@/views/layouts/MainLayout";
 
-import ChatLayout from './views/layouts/ChatLayout';
+import ChatLayout from '@/views/layouts/ChatLayout';
 
-import Message from "./views/pages/chat/Message";
+import Message from "@/views/pages/chat/Message";
 
-import NotFoundPage from "./views/pages/errors/404.vue";
-import ForbiddenPage from "./views/pages/errors/403.vue";
+import NotFoundPage from "@/views/pages/errors/404.vue";
+import ForbiddenPage from "@/views/pages/errors/403.vue";
 
 // pages
-import Home from "./views/pages/home/Index.vue";
-import Detail from './views/pages/home/Detail';
+import Home from "@/views/pages/home/Index.vue";
+import Detail from '@/views/pages/home/Detail';
 
-import Motel from "./views/pages/motel/Motel.vue";
-import MotelIndex from "./views/pages/motel/Index.vue";
-import MotelDetail from "./views/pages/motel/Detail.vue";
+import Motel from "@/views/pages/motel/Motel.vue";
+import MotelIndex from "@/views/pages/motel/Index.vue";
+import MotelDetail from "@/views/pages/motel/Detail.vue";
 
-import Profile from "./views/pages/profile/Profile.vue";
-import ProfileInfo from "./views/pages/profile/Info.vue";
-import CreatePost from "./views/pages/profile/CreatePost.vue";
-import ListMotel from './views/pages/profile/ListMotel.vue';
+import Profile from "@/views/pages/profile/Profile.vue";
+import ProfileInfo from "@/views/pages/profile/Info.vue";
+import CreatePost from "@/views/pages/profile/CreatePost.vue";
+import ListMotel from '@/views/pages/profile/ListMotel.vue';
 
-import store from "./store/index";
+import store from "@/store/index";
 
 const originalPush = VueRouter.prototype.push;
 VueRouter.prototype.push = function push(location) {
@@ -101,7 +101,7 @@ const routes = [
             name: "motelIndex",
           },
           {
-            path: ":id",
+            path: "detail/:id",
             component: MotelDetail,
             name: "motelDetail"
           }
