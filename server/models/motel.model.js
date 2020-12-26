@@ -48,8 +48,7 @@ module.exports = {
     var query_address = '';
     if (params.city) query_address = params.city;
     if (params.district)
-      query_address =
-        'Quận ' + params.district + (query_address ? ', ' + query_address : '');
+      query_address = params.district + (query_address ? ', ' + query_address : '');
     if (query_address) query_object.address = new RegExp(query_address, 'i');
     if (params.area) {
       var range = params.area.split('-');
@@ -76,7 +75,6 @@ module.exports = {
     }
     // Not getting null prices
     query_object.price = Object.assign(query_object.price, { $ne: NaN });
-    console.log(query_object.price);
     if (params.searchkey) {
       query_object.title = new RegExp(params.searchkey, 'i');
       query_object.description = new RegExp(params.searchkey, 'i');
@@ -87,7 +85,6 @@ module.exports = {
         $match: query_object,
       });
 
-    console.log(aggregate);
     if (!helper.ObjectIsEmpty(sort_object))
       aggregate.push({
         $sort: sort_object,
