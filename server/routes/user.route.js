@@ -4,6 +4,7 @@ const model = require('../models/user.model');
 const validate = require('../utils/validate');
 const schema = require('../schemas/user.json');
 const bcrypt = require('bcryptjs');
+const { protect, authorize } = require('../utils/auth');
 router.get('/', async (req, res) => {
   var data = await model.GetAll();
   res.json(data);
@@ -30,12 +31,16 @@ router.post('/', validate(schema), async function (req, res) {
 });
 router.put('/:id', async function (req, res) {
   const object = req.body;
-  object._id = null;
-  object.modified_date = null;
+  delete object._id;
+  delete object.modified_date;
   const id = req.params.id;
+  if (object.password) {
+    object.password = bcrypt.hashSync(object.password, 10);
+  }
   const update = await model.Update(id, object);
   if (update == 0) return res.status(400).end();
   object._id = id;
+  delete object.password;
   res.json(object);
 }),
   router.delete('/:id', async function (req, res) {

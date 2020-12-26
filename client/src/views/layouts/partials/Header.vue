@@ -6,7 +6,7 @@
       <v-list-item class="logo" :to="'/'">
           <v-img
             width="50"
-            src="@/assets/img/logo.png"
+            src="@/assets/img/Small_Logo.png"
           ></v-img>
         <v-list-item-title>MFIND</v-list-item-title>
       </v-list-item>
@@ -29,15 +29,17 @@
         </v-btn>
       </div> -->
 
-      <div>
-        <v-btn outlined small color="primary">
+    <!--   <div>
+        <v-btn outlined small color="primary" @click="login()">
           Đăng nhập
         </v-btn>
-      </div>
+      </div> -->
 
       <v-menu transition="slide-y-transition">
         <template v-slot:activator="{ on: activeMenu }">
-         
+          <v-avatar v-on="activeMenu">
+            <img src="https://gamek.mediacdn.vn/133514250583805952/2020/3/7/anh-1-1583592253266481895600.jpg" alt="Avatar" />
+          </v-avatar>
         </template>
         <v-list>
           <v-list-item
@@ -85,8 +87,9 @@ export default {
       mini: false,
       drawer: false,
       menuInfo: [
-        { title: "Profile", icon: "mdi-account-circle", link: "/user/profile" },
-        { title: "Logout", icon: "mdi-login-variant", link: "/auth/logout" }
+        { title: "Thông tin", icon: "mdi-account-circle", link: "/user/profile" },
+        { title: "Đăng bài", icon: "mdi-account-circle", link: "/profile/create_post" },
+        { title: "Logout", icon: "mdi-login-variant", link: "/auth/login" }
       ],
       theme: this.getTheme(),
 
@@ -105,6 +108,11 @@ export default {
   },
 
   methods: {
+
+    login(){
+      this.$router.push('/auth/login');
+    },
+
     isMobile() {
       if (screen.width <= 768) {
         return true;
