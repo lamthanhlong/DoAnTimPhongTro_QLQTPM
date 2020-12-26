@@ -76,7 +76,6 @@
               </v-col>
           </v-row>
 
-
           <v-layout
             v-resize="onResize"
             column
@@ -85,7 +84,7 @@
             v-if="motels.length"
           >
             <v-row>
-              <v-col v-for="(item, index) in motels" cols="12" lg="8" :key="item.id">
+              <v-col v-for="(item, index) in motels" cols="12" lg="9" :key="item.id">
                 <m-item 
                 :item="item" 
                 v-on:action="viewDetail(item)"
