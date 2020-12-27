@@ -11,8 +11,9 @@ module.exports = {
     const id = req.params.id;
     var getRatings = await rating.GetAllRatingByMotelId(id, req.query);
     var data = await motel.Single(id);
-    data[0].Ratings = getRatings;
-
+    if (getRatings.length > 0) {
+      data[0].Ratings = getRatings;
+    }
     return res.json(data);
   },
   ownerFetchMotels: async (req, res) => {
@@ -65,7 +66,6 @@ module.exports = {
           cities[k].districts[t].wards = local.GetWard(k + 1, t + 1);
         }
       }
-      //console.log(cities[0].districts);
       return res.json({ count: cities.length, data: cities });
     }
   },

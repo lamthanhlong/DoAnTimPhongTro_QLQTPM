@@ -6,7 +6,6 @@ let chaiHttp = require('chai-http');
 let server = require('../app');
 let should = chai.should();
 
-
 describe('Users', () => {
   beforeEach((done) => {
     //Before each test we empty the database in your case
@@ -44,7 +43,9 @@ describe('Users', () => {
           ret[0].phone.should.be.eql('0779151579');
           ret[0].password.should.be.a('string');
           ret[0].name.should.be.eql('Phạm Ngọc Hùng');
-          ret[0].address.should.be.eql('43 Đường Thân Nhân Trung, Phường 13, Quận Tân Bình, Hồ Chí Minh');
+          ret[0].address.should.be.eql(
+            '43 Đường Thân Nhân Trung, Phường 13, Quận Tân Bình, Hồ Chí Minh'
+          );
           ret[0].role.should.be.eql('MOTEL_OWNER');
           ret[0].images.should.be.eql('');
           done();
@@ -75,12 +76,12 @@ describe('Users', () => {
   describe('POST /register', () => {
     it('it should Post Register User', (done) => {
       const User = {
-        phone: '0857518474',
+        phone: '0963212454955',
         password: '1',
         name: 'Huỳnh Trần Bảo An',
         address: '622/10 Đường Cộng Hòa, Phường 13, Quận Tân Bình, Hồ Chí Minh',
-        role:'CUSTOMER',
-        images:'',
+        role: 'CUSTOMER',
+        images: '',
       };
       chai
         .request(server)
@@ -93,21 +94,21 @@ describe('Users', () => {
           ret.user.phone.should.be.a('string');
           ret.user.password.should.be.a('string');
           ret.user.name.should.be.eql('Huỳnh Trần Bảo An');
-          ret.user.address.should.be.eql('622/10 Đường Cộng Hòa, Phường 13, Quận Tân Bình, Hồ Chí Minh');
+          ret.user.address.should.be.eql(
+            '622/10 Đường Cộng Hòa, Phường 13, Quận Tân Bình, Hồ Chí Minh'
+          );
           ret.user.role.should.be.eql('CUSTOMER');
           ret.user.images.should.be.eql('');
           ret.token.should.be.a('string');
           let new_id = ret.user._id;
           chai
             .request(server)
-            .delete('/api/User/' + new_id)
+            .delete('/api/user/' + new_id)
             .end();
           done();
         });
     }).timeout(15000);
   });
-
-  
 
   describe('POST /', () => {
     it('it should Post User', (done) => {
@@ -116,8 +117,8 @@ describe('Users', () => {
         password: '1',
         name: 'Huỳnh Trần Bảo An',
         address: '622/10 Đường Cộng Hòa, Phường 13, Quận Tân Bình, Hồ Chí Minh',
-        role:'CUSTOMER',
-        images:'',
+        role: 'CUSTOMER',
+        images: '',
       };
       chai
         .request(server)
@@ -132,14 +133,16 @@ describe('Users', () => {
           ret.user.phone.should.be.a('string');
           ret.user.password.should.be.a('string');
           ret.user.name.should.be.eql('Huỳnh Trần Bảo An');
-          ret.user.address.should.be.eql('622/10 Đường Cộng Hòa, Phường 13, Quận Tân Bình, Hồ Chí Minh');
+          ret.user.address.should.be.eql(
+            '622/10 Đường Cộng Hòa, Phường 13, Quận Tân Bình, Hồ Chí Minh'
+          );
           ret.user.role.should.be.eql('CUSTOMER');
           ret.user.images.should.be.eql('');
           ret.token.should.be.a('string');
           let new_id = ret.user._id;
           chai
             .request(server)
-            .delete('/api/User/' + new_id)
+            .delete('/api/user/' + new_id)
             .end();
           done();
         });
@@ -149,12 +152,12 @@ describe('Users', () => {
   describe('POST /', () => {
     it('it should Post User have status 400', (done) => {
       const User = {
-        phone: '0829994240',
+        phone: '0779151579',
         password: '1',
         name: 'Huỳnh Trần Bảo An',
         address: '622/10 Đường Cộng Hòa, Phường 13, Quận Tân Bình, Hồ Chí Minh',
-        role:'CUSTOMER',
-        images:'',
+        role: 'CUSTOMER',
+        images: '',
       };
       chai
         .request(server)
@@ -188,9 +191,10 @@ describe('Users', () => {
         phone: '0779151579',
         password: '2',
         name: 'Phạm Ngọc Hùng',
-        address: '43 Đường Thân Nhân Trung, Phường 13, Quận Tân Bình, Hồ Chí Minh',
-        role:'MOTEL_OWNER',
-        images:'',
+        address:
+          '43 Đường Thân Nhân Trung, Phường 13, Quận Tân Bình, Hồ Chí Minh',
+        role: 'MOTEL_OWNER',
+        images: '',
       };
       chai
         .request(server)
@@ -199,8 +203,8 @@ describe('Users', () => {
           res.should.have.status(200);
           done();
         });
-    }).timeout(15000);;
-  })
+    }).timeout(15000);
+  });
 
   describe('PUT /', () => {
     it('it should Update User by Id', (done) => {
@@ -208,9 +212,10 @@ describe('Users', () => {
       const update = {
         phone: '0779151579',
         name: 'Phạm Ngọc Hùng',
-        address: '43 Đường Thân Nhân Trung, Phường 13, Quận Tân Bình, Hồ Chí Minh',
-        role:'MOTEL_OWNER',
-        images:'',
+        address:
+          '43 Đường Thân Nhân Trung, Phường 13, Quận Tân Bình, Hồ Chí Minh',
+        role: 'MOTEL_OWNER',
+        images: '',
       };
       chai
         .request(server)
@@ -219,8 +224,9 @@ describe('Users', () => {
           res.should.have.status(200);
           done();
         });
-    }).timeout(15000);;
-  })
-
- 
+    }).timeout(15000);
+    afterEach(function (done) {
+      done();
+    });
+  });
 });
