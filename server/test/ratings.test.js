@@ -24,7 +24,7 @@ describe('Ratings', () => {
           var ret = JSON.parse(res.text);
           done();
         });
-    });
+    }).timeout(3000);
   });
 
   describe('GET /:id', () => {
