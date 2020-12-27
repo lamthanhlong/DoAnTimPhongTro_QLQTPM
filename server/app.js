@@ -1,17 +1,20 @@
 const express = require('express');
+const bodyParser = require('body-parser');
 const morgan = require('morgan'); // log request
 require('express-async-errors'); // handle async errors
 const cors = require('cors'); // allow access from another web server
 const PORT = process.env.PORT || 3000;
 const app = express();
 
+app.use(bodyParser.json());
+
+app.use(bodyParser.urlencoded({ extended: true }));
 // hide log when testing
 if (!process.env.IS_TEST) {
   app.use(morgan('dev'));
 }
 
 app.use(cors());
-app.use(express.json());
 
 // Hello
 app.get('/', function (req, res) {

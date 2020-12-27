@@ -3,6 +3,7 @@ const model = require('../models/user.model');
 const router = express.Router();
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcryptjs');
+const { getSignedJwtToken } = require('../models/user.model');
 
 router.post('/login', async function (req, res) {
   const { phone, password } = req.body;
@@ -24,7 +25,7 @@ router.post('/login', async function (req, res) {
     },
     'BEST_SOLUTION',
     {
-      expiresIn: 10 * 6000,
+      expiresIn: 20 * 24 * 60 * 60000,
     }
   );
   res.status(200).json({ token: accessToken });

@@ -1,4 +1,5 @@
 const jwt = require('jsonwebtoken');
+const model = require('../models/user.model');
 exports.protect = function (req, res, next) {
   let accessToken;
   if (
@@ -32,4 +33,17 @@ exports.authorize = (...roles) => (req, res, next) => {
     });
   }
   next();
+};
+exports.sendTokenResponse = async (user, statusCode, res) => {
+  const token = await model.getSignedJwtToken(user._id);
+  const options = {
+    expires: new Date(Date.now() + 20 * 24 * 60 * 60000),
+    httpOnly: true,
+  };
+
+  if (process.env.IS_BUILD) {
+    options.secure = true;
+  }
+  user.token = token;
+  res.status(statusCode).cookie('token', token, options).json(user);
 };
