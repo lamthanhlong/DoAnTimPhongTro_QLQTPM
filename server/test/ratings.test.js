@@ -93,6 +93,25 @@ describe('Ratings', () => {
     });
   });
 
+  describe('POST /', () => {
+    it('it should not Post Rating to Motel Id', (done) => {
+      const rating = {
+        user_id: '5fddba4b5ee3560660340a61',
+        motel_id: '5fccb2b71e10b0191c1a0fc6',
+        rating: 4,
+        comment: 'phòng trọ tạm được.',
+      };
+      chai
+        .request(server)
+        .post('/api/rating/')
+        .send(rating)
+        .end((err, res) => {
+          res.should.have.status(400);
+          done();
+        });
+    });
+  });
+
   describe('DELETE /', () => {
     it('it should Delete Rating by Id', (done) => {
       const id = '5fe755641a84bf4a3c8ba597';
@@ -121,6 +140,25 @@ describe('Ratings', () => {
         .put('/api/rating/' + id)
         .end((err, res) => {
           res.should.have.status(200);
+          done();
+        });
+    });
+  });
+
+  describe('PUT /', () => {
+    it('it should not Update Rating by Id (Wrong Id)', (done) => {
+      const id = '5fddbb35d86dd127c0abcdef';
+      const update = {
+        user_id: '5fddba4b5ee3560660340a61',
+        motel_id: '5fccb2b71e10b0191c1a0fc6',
+        rating: 4,
+        comment: 'phòng trọ ổn.',
+      };
+      chai
+        .request(server)
+        .put('/api/rating/' + id)
+        .end((err, res) => {
+          res.should.have.status(400);
           done();
         });
     });
