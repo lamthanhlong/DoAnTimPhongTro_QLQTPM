@@ -1,6 +1,6 @@
 if(process.env.IS_TEST){
   module.exports = require('./db.mock');
-  return;
+  return 1;
 }
 
 const config = require('../configs/db.json').mongodb;

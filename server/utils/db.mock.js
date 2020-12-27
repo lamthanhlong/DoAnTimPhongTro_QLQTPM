@@ -16,6 +16,7 @@ const Find = (arr, item) => {
   for(prop of Object.keys(item)){
     for(i of arr){
       if(i[prop] == item[prop] || (item[prop].test && item[prop].test(i[prop]))) newArr.push(i);
+      var x;
     }
   }
   return newArr;
