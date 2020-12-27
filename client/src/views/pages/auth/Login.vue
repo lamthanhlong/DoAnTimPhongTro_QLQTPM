@@ -107,7 +107,6 @@ export default {
 
     login() {
 
-      var vm = this;
       if (this.$refs.form.validate()) {
         this.$store.dispatch("components/progressLoading", { option: "show" })
 
