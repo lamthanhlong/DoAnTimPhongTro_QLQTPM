@@ -55,9 +55,6 @@ module.exports = {
       motel_id: obj.motel_id,
     });
   },
-  GetPaginate: (start, limit) => {
-    return db.paginate(TableName, {}, { name: 1 }, start, limit);
-  },
   Add: (obj) => {
     obj.created_date = obj.modified_date = new Date();
     return db.insertOne(TableName, obj);
