@@ -112,7 +112,7 @@ describe('Users', () => {
   describe('POST /', () => {
     it('it should Post User', (done) => {
       const User = {
-        phone: '0857518485',
+        phone: '0857518488',
         password: '1',
         name: 'Huỳnh Trần Bảo An',
         address: '622/10 Đường Cộng Hòa, Phường 13, Quận Tân Bình, Hồ Chí Minh',
@@ -146,6 +146,27 @@ describe('Users', () => {
     }).timeout(15000);
   });
 
+  describe('POST /', () => {
+    it('it should Post User have status 400', (done) => {
+      const User = {
+        phone: '0829994240',
+        password: '1',
+        name: 'Huỳnh Trần Bảo An',
+        address: '622/10 Đường Cộng Hòa, Phường 13, Quận Tân Bình, Hồ Chí Minh',
+        role:'CUSTOMER',
+        images:'',
+      };
+      chai
+        .request(server)
+        .post('/api/user/')
+        .send(User)
+        .end((err, res) => {
+          res.should.have.status(400);
+          done();
+        });
+    }).timeout(15000);
+  });
+
   describe('DELETE /', () => {
     it('it should Delete User by Id', (done) => {
       const id = '5fe83864ecec5c38d0ba70ee';
@@ -157,15 +178,15 @@ describe('Users', () => {
           res.body.should.be.a('object');
           done();
         });
-    });
+    }).timeout(15000);
   });
 
   describe('PUT /', () => {
-    it('it should Update User by Id', (done) => {
+    it('it should Update User by Id change password', (done) => {
       const id = '5fccb2931e10b0191c19ac4c';
       const update = {
         phone: '0779151579',
-        password: '1',
+        password: '2',
         name: 'Phạm Ngọc Hùng',
         address: '43 Đường Thân Nhân Trung, Phường 13, Quận Tân Bình, Hồ Chí Minh',
         role:'MOTEL_OWNER',
@@ -178,6 +199,28 @@ describe('Users', () => {
           res.should.have.status(200);
           done();
         });
-    });
-  });
+    }).timeout(15000);;
+  })
+
+  describe('PUT /', () => {
+    it('it should Update User by Id', (done) => {
+      const id = '5fccb2931e10b0191c19ac4c';
+      const update = {
+        phone: '0779151579',
+        name: 'Phạm Ngọc Hùng',
+        address: '43 Đường Thân Nhân Trung, Phường 13, Quận Tân Bình, Hồ Chí Minh',
+        role:'MOTEL_OWNER',
+        images:'',
+      };
+      chai
+        .request(server)
+        .put('/api/user/' + id)
+        .end((err, res) => {
+          res.should.have.status(200);
+          done();
+        });
+    }).timeout(15000);;
+  })
+
+ 
 });
