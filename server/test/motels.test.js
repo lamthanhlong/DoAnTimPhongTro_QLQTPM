@@ -129,7 +129,7 @@ describe('Motels', () => {
         .set({ Authorization: `Bearer ${token}` })
         .send(motel)
         .end((err, res) => {
-          res.should.have.status(200);
+          res.should.have.status(403);
           var ret = JSON.parse(res.text);
           ret[0].title.should.be.eql(motel.title);
           done();
