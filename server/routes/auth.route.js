@@ -28,7 +28,7 @@ router.post('/login', async function (req, res) {
       expiresIn: 20 * 24 * 60 * 60000,
     }
   );
-  res.status(200).json({ token: accessToken });
+  res.status(200).json({ user, token: accessToken });
 });
 
 module.exports = router;

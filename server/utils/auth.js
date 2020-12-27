@@ -44,6 +44,8 @@ exports.sendTokenResponse = async (user, statusCode, res) => {
   if (process.env.IS_BUILD) {
     options.secure = true;
   }
-  user.token = token;
-  res.status(statusCode).cookie('token', token, options).json(user);
+  res
+    .status(statusCode)
+    .cookie('token', token, options)
+    .json({ user, token: token });
 };
