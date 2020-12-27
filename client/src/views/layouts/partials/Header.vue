@@ -18,7 +18,6 @@
       <v-col cols="6" lg="4" md="4">
         <search-header
         :data.sync="inputSearch"
-
         >
         </search-header>
       </v-col>
@@ -87,7 +86,7 @@ export default {
       mini: false,
       drawer: false,
       menuInfo: [
-        { title: "Thông tin", icon: "mdi-account-circle", link: "/user/profile" },
+        { title: "Thông tin", icon: "mdi-account-circle", link: "/profile/info" },
         { title: "Đăng bài", icon: "mdi-account-circle", link: "/profile/create_post" },
         { title: "Logout", icon: "mdi-login-variant", link: "/auth/login" }
       ],

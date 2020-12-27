@@ -31,17 +31,15 @@ module.exports = {
   update: async (req, res) => {
     if (req.accessTokenPayload.role === 'MOTEL_OWNER') {
       const single = await motel.Single(req.params.id);
-      console.log(single[0].owner_id);
-      console.log(req.accessTokenPayload.id);
       if (single[0].owner_id != req.accessTokenPayload.id)
         return res
           .status(403)
           .json({ err_msg: 'User not have permission to edit' });
     }
     const object = req.body;
-    object._id = null;
-    object.owner_id = null;
-    object.modified_date = null;
+    delete object._id;
+    delete object.owner_id;
+    delete object.modified_date;
     const id = req.params.id;
     const update = await motel.Update(id, object);
     if (update == 0) return res.status(400).end();
@@ -70,5 +68,16 @@ module.exports = {
       //console.log(cities[0].districts);
       return res.json({ count: cities.length, data: cities });
     }
+  },
+  delete: async (req, res) => {
+    const motel = await motel.Single(req.params.id);
+    const ratings = await rating.GetAllRatingByMotelId(req.params.id);
+    if (ratings.length > 0) {
+      for (const rate of ratings) {
+        await rating.Delete(rate._id);
+      }
+    }
+    const del = await motel.Delete(req.params.id);
+    res.status(200).json({ success: 'true' });
   },
 };

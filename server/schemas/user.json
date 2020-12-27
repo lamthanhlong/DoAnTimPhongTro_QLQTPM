@@ -1,5 +1,5 @@
 {
-  "required": ["phone", "password", "name", "address", "role", "images"],
+  "required": ["phone", "password", "name", "address", "images"],
   "additionalProperties": true,
   "properties": {
     "phone": {

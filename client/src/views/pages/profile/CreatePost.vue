@@ -20,8 +20,9 @@
                 ></v-text-field>
 
                 <v-text-field
-                  v-model="form.area"
-                 :rules="[
+                  type="number"
+                  v-model.number="form.area"
+                  :rules="[
                     $validation.required(form.area, 'Diện tích')
                   ]"
                   label="Diện tích"
@@ -64,13 +65,14 @@
                 </m-dropzone>
 
                 <v-checkbox
-                  v-model="form.is_furniture"
+                  v-model="form.has_furniture"
                   label="Có nội thất"
                 ></v-checkbox>
 
                 <v-textarea 
                 name="descriptions" label="Mô tả"
                 class="no-resize"
+                 v-model="form.description"
                 >
                   
                 </v-textarea>
@@ -113,8 +115,8 @@
 import DropZone from "./components/DropZone";
 
 // services
-
-
+import MotelService from "@/services/motel";
+import CookieService from "@/services/cookie";
 export default {
 
   components: {
@@ -130,9 +132,10 @@ export default {
         address: "",
         price: "",
         images: "",
-        area: "",
+        area: 0,
         description: "",
-        is_furniture: null,
+        has_furniture: null,
+        owner_id: CookieService.get('userInfo').id
       }
     }
   },
@@ -144,8 +147,29 @@ export default {
   methods: {
     async save(){
 
+      if (this.$refs.form.validate()) {
+        const res = await MotelService.store(this.form);
+
+        if(res.status === 201)
+        {
+           toastr.success(
+              "<p> Đăng bài thành công <p>",
+              "Success",
+              { timeOut: false }
+            );
+
+        }else{
+           toastr.error("Internal Server Error", "Error", {
+              timeOut: 1000
+            });
+        }
+          
+                   this.$refs.form.reset();
+      }
     }
   }
+
+
 };
 
 

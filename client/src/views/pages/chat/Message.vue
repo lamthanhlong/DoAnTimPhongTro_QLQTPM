@@ -1,140 +1,186 @@
 <template>
-  <v-app id="message">
-    <v-container fluid fluid-height>
-      <v-layout align-center justify-center>
-        <v-flex xs12 sm12 md12>
-          <v-card class="elevation-10">
-            <v-toolbar color="primary" dark flat>
-              <v-toolbar-title class="text-center">Chat</v-toolbar-title>
-            </v-toolbar>
+<v-layout>
+   <div class="d-flex window-chat" v-if="windowMessengers.length">
+      <div v-for="item, index in windowMessengers">
+        <v-card v-show="item.isVisible" >
+          <v-toolbar dark color="primary darken-1">
+            <v-toolbar-title>{{ item.employee.fullName }}</v-toolbar-title>
 
-            <v-list class="overflow-y-auto" style="max-height: 680px">
-              <v-card-text>
-                <div class="text-left pb-4 left">
-                  <v-card-text style="background-color: #f1f1f1; color: #000000; border-radius: 5px">
-                    <div><b>Nguyễn Trí</b></div>
-                    Lorem ipsum dolor, sit amet consectetur adipisicing elit.
-                  </v-card-text>
-                  <span style="font-size: 10px">10:10</span>
-                </div>
+            <v-spacer></v-spacer>
+                <v-btn 
+                  icon  
+                  dark
+                  @click="closeWindowMessenger(item)" 
+                >
+                  <v-icon>mdi-close</v-icon>
+                </v-btn>
+          </v-toolbar>
 
-                <div class="text-right pb-4 right">
-                  <v-card-text style="background-color: #c8e7ff; color: #000000; border-radius: 5px">
-                    <div><b>Hoàng Quân</b></div>
-                    Lorem ipsum dolor, sit amet consectetur adipisicing elit.
-                  </v-card-text>
-                  <span style="font-size: 10px">10:11</span>
-                </div>
+          <v-card-text
+            @v-chat-scroll-top-reached="loadMoreMessenger"
+            v-chat-scroll="{ always: false, smooth: true, scrollonremoved: true }"
+            class="message pa-0"
+          >
+            <v-list
+              v-for="(messenger, index) in item.listMessengers"
+              :key="index"
+              class="receive pa-0"
+            >
+              <div class="block" v-if="messenger.userId !== userInfo.id">
+                <v-list-item>
+                  <v-list-item-avatar class="logo-img">
+                    <v-img :src="$helper.getAvatar(item.avatar)"></v-img>
+                  </v-list-item-avatar>
+                  <v-list-item-title>
+                    <v-chip :ripple="false">{{ messenger.message }}</v-chip>
+                  </v-list-item-title>
+                </v-list-item>
+              </div>
 
-                <div class="text-left pb-4 left">
-                  <v-card-text style="background-color: #f1f1f1; color: #000000; border-radius: 5px">
-                    <div><b>Nguyễn Trí</b></div>
-                    Lorem ipsum dolor, sit amet consectetur adipisicing elit.
-                  </v-card-text>
-                  <span style="font-size: 10px">10:10</span>
-                </div>
-
-                <div class="text-left pb-4 left">
-                  <v-card-text style="background-color: #f1f1f1; color: #000000; border-radius: 5px">
-                    <div><b>Nguyễn Trí</b></div>
-                    Lorem ipsum dolor, sit amet consectetur adipisicing elit.
-                  </v-card-text>
-                  <span style="font-size: 10px">10:10</span>
-                </div>
-
-                <div class="text-right pb-4 right">
-                  <v-card-text style="background-color: #c8e7ff; color: #000000; border-radius: 5px">
-                    <div><b>Hoàng Quân</b></div>
-                    Lorem ipsum dolor, sit amet consectetur adipisicing elit.
-                  </v-card-text>
-                  <span style="font-size: 10px">10:11</span>
-                </div>
-
-                <div class="text-right pb-4 right">
-                  <v-card-text style="background-color: #c8e7ff; color: #000000; border-radius: 5px">
-                    <div><b>Hoàng Quân</b></div>
-                    Lorem ipsum dolor, sit amet consectetur adipisicing elit.
-                  </v-card-text>
-                  <span style="font-size: 10px">10:11</span>
-                </div>
-
-                <div class="text-left pb-4 left">
-                  <v-card-text style="background-color: #f1f1f1; color: #000000; border-radius: 5px">
-                    <div><b>Nguyễn Trí</b></div>
-                    Lorem ipsum dolor, sit amet consectetur adipisicing elit.
-                  </v-card-text>
-                  <span style="font-size: 10px">10:10</span>
-                </div>
-
-                <div class="text-right pb-4 right">
-                  <v-card-text style="background-color: #c8e7ff; color: #000000; border-radius: 5px">
-                    <div><b>Hoàng Quân</b></div>
-                    Lorem ipsum dolor, sit amet consectetur adipisicing elit.
-                  </v-card-text>
-                  <span style="font-size: 10px">10:11</span>
-                </div>
-
-                <div class="text-right pb-4 right">
-                  <v-card-text style="background-color: #c8e7ff; color: #000000; border-radius: 5px">
-                    <div><b>Hoàng Quân</b></div>
-                    Lorem ipsum dolor, sit amet consectetur adipisicing elit.
-                  </v-card-text>
-                  <span style="font-size: 10px">10:11</span>
-                </div>
-
-                <div class="text-left pb-4 left">
-                  <v-card-text style="background-color: #f1f1f1; color: #000000; border-radius: 5px">
-                    <div><b>Nguyễn Trí</b></div>
-                    Lorem ipsum dolor, sit amet consectetur adipisicing elit.
-                  </v-card-text>
-                  <span style="font-size: 10px">10:10</span>
-                </div>
-
-                <div class="text-right pb-4 right">
-                  <v-card-text style="background-color: #c8e7ff; color: #000000; border-radius: 5px">
-                    <div><b>Hoàng Quân</b></div>
-                    Lorem ipsum dolor, sit amet consectetur adipisicing elit.
-                  </v-card-text>
-                  <span style="font-size: 10px">10:11</span>
-                </div>
-
-                <div class="text-right pb-4 right">
-                  <v-card-text style="background-color: #c8e7ff; color: #000000; border-radius: 5px">
-                    <div><b>Hoàng Quân</b></div>
-                    Lorem ipsum dolor, sit amet consectetur adipisicing elit.
-                  </v-card-text>
-                  <span style="font-size: 10px">10:11</span>
-                </div>
-              </v-card-text>
+              <div class="block" v-else>
+                <v-list-item class="justify-end">
+                  <v-chip color="pink" :ripple="false">{{ messenger.message }}</v-chip>
+                </v-list-item>
+              </div>
             </v-list>
+          </v-card-text>
 
-            <v-card-text style="position: static; bottom: 0; left: 0; right: 0">
-              <v-form>
-                <v-text-field label="Message" name="message" type="text"></v-text-field>
-                <v-btn block color="primary">Submit</v-btn>
-              </v-form>
-            </v-card-text>
-          </v-card>
-        </v-flex>
-      </v-layout>
-    </v-container>
-  </v-app>
+           <v-card-actions>
+              <v-spacer></v-spacer>
+                <div class="d-flex float-right align-center" style="width: 100%;">
+                  <v-text-field
+                    v-model="message"
+                    solo
+                    clearable
+                    label="Message"
+                    hide-details="auto"
+                    @click:clear="clearMessage"
+                    class="textfield__message"
+                  ></v-text-field>
+                  <v-btn
+                    fab
+                    dark
+                    small
+                    color="primary"
+                    class="ml-2"
+                    @click="sendMessenger(item)"
+                  >
+                    <v-icon dark>send</v-icon>
+                  </v-btn>
+                </div>
+          </v-card-actions>
+        </v-card>
+       </div>
+   </div>
+ </v-layout>
 </template>
 
-<style>
-.left,
-.right {
-  display: block;
-  position: relative;
-  clear: both;
+<style lang="scss">
+
+.theme--dark.textfield__message .v-input__slot {
+  background: #383838 !important;
 }
 
-.left {
-  float: left;
-  margin-left: 20px;
+
+.v-chip.pink {
+  color: #fff;
 }
-.right {
-  float: right;
-  margin-right: 20px;
-}
+
 </style>
+
+<script>
+
+// service
+
+export default {
+
+  data(){
+    return {
+
+      showMenu: false,
+      classActive: "active",
+      menuRight: "menu-right",
+      btnMenuRight: "btn-menu-right",
+
+      smooth: false,
+      statusUserLeave: false,
+
+      windowMessengers: [
+
+      ],
+
+      message: "",
+    }
+  },
+
+  mounted(){
+    this.subscribeSendMessenger();
+  },
+
+  methods: {
+    loadMoreMessenger() {},
+
+    subscribeSendMessenger(){
+
+
+      this.sockets.subscribe(this.$socketEvent.USER_SEND_MESSENGER, res => {
+        if (res) {
+          var windowMessenger = {
+            ...res.sender,
+            isVisible: true,
+            listMessengers: [
+              {
+                userId: res.sender.id,
+                message: res.message,
+              }
+            ] 
+          }
+
+          this.windowMessengers.map(item => {
+            item.id !== res.sender.id ? item : {...item, listMessengers: item.listMessengers.push({
+              userId: item.id,
+              message: res.message
+              })
+            }
+          })
+          
+        }
+
+        this.$forceUpdate()
+      });
+    },
+
+
+    clearMessage() {
+      this.message = "";
+    },
+
+    sendMessenger(receiver){
+
+      var data = {
+        message: this.message,
+      }
+
+      this.windowMessengers.map(item => {
+        item.id !== receiver.id ? item : {...item, listMessengers: item.listMessengers.push({
+          userId: this.userInfo.id,
+          message: this.message
+        })}
+      })
+
+
+      this.$socket.emit(this.$socketEvent.USER_SEND_MESSENGER, data, receiver);
+      this.clearMessage();
+    },
+
+
+    closeWindowMessenger(data){
+      var index = this.windowMessengers.indexOf(data);
+      this.windowMessengers.splice(index, 1)
+    },
+
+  },
+
+
+}
+</script>

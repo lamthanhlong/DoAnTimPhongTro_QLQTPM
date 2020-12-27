@@ -2,6 +2,8 @@ import Vue from "vue";
 import Vuex from "vuex";
 import componentModules from '@/store/modules/component';
 import motelModules from '@/store/modules/motel';
+import chatModules from '@/store/modules/chat';
+
 import CookieService from '@/services/cookie';
 Vue.use(Vuex);
 
@@ -10,6 +12,7 @@ const store = new Vuex.Store({
 	modules: {
 		components: componentModules,
     motels: motelModules,
+    chats: chatModules,
 	}
 
 });

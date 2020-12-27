@@ -3,7 +3,6 @@ if(process.env.IS_TEST){
   return 1;
 }
 
-const config = require('../configs/db.json').mongodb;
 const MongoClient = require('mongodb').MongoClient;
 
 const connect = async (exec) => {
@@ -88,5 +87,5 @@ module.exports = {
     return connect(async (db) => {
       return await db.collection(table).find(obj_query).count();
     });
-  }
+  },
 };

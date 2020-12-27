@@ -97,22 +97,7 @@
                       <v-text-field
                         :disabled="!edit"
                         class="font-weight-bold"
-                        v-model="employeeInfo.fullName"
-                      ></v-text-field>
-                    </v-col>
-                  </v-row>
-
-                  <v-row>
-                    <v-col cols="4">
-                      <v-subheader class="font-weight-bold"
-                        >Email personal</v-subheader
-                      >
-                    </v-col>
-                    <v-col cols="8">
-                      <v-text-field
-                        :disabled="!edit"
-                        class="font-weight-bold"
-                        v-model="userInfo.email"
+                        v-model="userInfo.name"
                       ></v-text-field>
                     </v-col>
                   </v-row>
@@ -127,7 +112,7 @@
                       <v-text-field
                         :disabled="!edit"
                         class="font-weight-bold"
-                        v-model="employeeInfo.phoneNumber"
+                        v-model="userInfo.phone"
                       ></v-text-field>
                     </v-col>
                   </v-row>
@@ -140,7 +125,7 @@
                     </v-col>
                     <v-col cols="8">
                       <v-text-field
-                        v-model="employeeInfo.address"
+                        v-model="userInfo.address"
                         :disabled="!edit"
                         class="font-weight-bold"
                       >
@@ -148,21 +133,6 @@
                     </v-col>
                   </v-row>
 
-                  <v-row>
-                    <v-col cols="4">
-                      <v-subheader class="font-weight-bold"
-                        >Position</v-subheader
-                      >
-                    </v-col>
-                    <v-col cols="8">
-                      <v-text-field
-                        readonly
-                        :disabled="!edit"
-                        class="font-weight-bold"
-                        v-model="employeeInfo.position.name"
-                      ></v-text-field>
-                    </v-col>
-                  </v-row>
 
                   <v-row>
                     <v-spacer></v-spacer>
@@ -254,7 +224,9 @@ export default {
   },
 
   computed: {
-
+    userInfo(){
+      return this.$cookie.get('userInfo');
+    }
   }
   
 };

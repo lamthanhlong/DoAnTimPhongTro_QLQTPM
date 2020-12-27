@@ -26,4 +26,5 @@ router.put(
   motelcontroller.update
 );
 
+router.delete('/:id', motelcontroller.delete);
 module.exports = router;

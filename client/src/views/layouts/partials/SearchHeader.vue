@@ -29,19 +29,34 @@ export default{
 	data(){
 		return {
 			getInputSearch: this.data,
-			oldVal: null,
+			oldVal: "",
 		}
 	},
 
 	methods: {
 		emitEvent: _.debounce( function(val) {
-			if(this.oldVal !== this.getInputSearch){
-				this.oldVal = this.getInputSearch;
-				this.$emit("update:data", this.getInputSearch);
-			}else{
+				
+				var query = Object.assign({}, this.$route.query);
+				if(this.getInputSearch !== ""){
+				
+					query.searchKey = this.getInputSearch;
+				}else{
+					delete query.searchKey;
+				}
+				
 
-			}
-		}, 1200)
+				this.$router.push({
+					name: "motelIndex",
+					query: query
+				});
+
+				var payLoad  = query;
+
+			    this.$store.dispatch("components/actionProgressHeader", { option: "show" })
+			      setTimeout(async () => {
+			        this.$store.dispatch("motels/fetchPaging", payLoad);
+			    }, 200);
+		}, 500)
 	},
 
 

@@ -2,9 +2,11 @@
 	<v-container>
 		<v-row v-show="show">
 			<v-col cols="12" sm="8" md="8" lg="8">
-				<m-carousel v-show="motel.images"  :items.native="getImages"></m-carousel>
 
-				<v-card flat>
+				<v-card >
+
+					<m-carousel v-show="motel.images"  :items.native="getImages"></m-carousel>
+	
 					<v-tabs
 				      v-model="tab"
 				      background-color="transparent"
@@ -96,7 +98,7 @@
 					<v-card-text><b>Địa chỉ:</b> {{ motel.user.address }}</v-card-text>
 					
 					<v-card-text>
-						<v-btn small outlined>
+						<v-btn small outlined @click="openWindowChat(motel.user)">
 							Chat với người bán
 							<v-icon>mdi-account</v-icon>
 						</v-btn>
@@ -132,7 +134,7 @@ export default {
 		return {
 
 			show: false,
-	        tab: null,
+	        tab: 0,
 	        tabs: [
 	          'Thông tin chi tiết', 'Lượt đánh giá', 
 	        ],
@@ -179,6 +181,13 @@ export default {
 	      setTimeout(async () => {
 	        this.$store.dispatch("motels/fetch", payload);
 	      }, 200);
+	    },
+
+	    openWindowChat(user){
+	    	var payload = user;
+	    	console.log(payload);
+	    	return false;
+	    	this.$store.dispatch("chats/openWindowMessenger", payload)
 	    }
 	},
 
