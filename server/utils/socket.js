@@ -2,6 +2,9 @@ var users = {};
 
 let addUser = (socket) => {
   socket.on('ADD_USER', async (data) => {
+
+    console.log(data);
+
     socket.userId = data.id;
     socket.userInfo = data;
     users[socket.userId] = socket;

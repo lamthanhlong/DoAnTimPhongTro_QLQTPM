@@ -113,7 +113,7 @@
 import DropZone from "./components/DropZone";
 
 // services
-
+import MotelService from "@/services/motel";
 
 export default {
 
@@ -144,6 +144,9 @@ export default {
   methods: {
     async save(){
 
+      const res = await MotelService.store(form);
+
+      console.log(res);
     }
   }
 };

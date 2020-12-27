@@ -44,8 +44,9 @@ export default{
 					delete query.searchKey;
 				}
 				
-	
+
 				this.$router.push({
+					name: "motelIndex",
 					query: query
 				});
 

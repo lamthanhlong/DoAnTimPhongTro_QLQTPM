@@ -1,26 +1,31 @@
-import helperCommon from '@/helpers/common';
-
-
 export default {
 
-  async login(email, password) {
+  rootURL: '/auth/',
+
+  async login(data){
     try {
-      const result = await axios.post();
-      return result;
+      return await axios.post(this.rootURL + 'login', data);
     } catch (error) {
-       return helperCommon.getError(error) || false; 
+      return error.response;
     }
   },
 
-
-
-  async logout(){
+  async register(data)  {
     try {
-      
-
-    } catch(error) {
-       return helperCommon.getError(error) || false;
+      return await axios.post(this.rootURL + 'register', data);
+    } catch (error) {
+      return error.response;
     }
-  }
+  },
+
+  async logout(data) {
+    try {
+      const res = await axios.post(this.rootURL + 'logout', data);
+      return res;
+    } catch (error) {
+      return error.response;
+    }
+  },
+
 
 };
