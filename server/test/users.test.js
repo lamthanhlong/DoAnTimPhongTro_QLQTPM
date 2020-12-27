@@ -108,7 +108,7 @@ describe('Users', () => {
   });
 
   describe('POST /login', () => {
-    it('it should Post User base on Phone have status 400', (done) => {
+    it('it should Post User base on Phone have status 404', (done) => {
       const User = {
         phone: '1',
         password: '1',
@@ -118,14 +118,14 @@ describe('Users', () => {
         .post('/api/auth/login')
         .send(User)
         .end((err, res) => {
-          res.should.have.status(400);
+          res.should.have.status(404);
           done();
         });
     }).timeout(15000);
   });
 
   describe('POST /login', () => {
-    it('it should Post User base on Password have status 400', (done) => {
+    it('it should Post User base on Password have status 404', (done) => {
       const User = {
         phone: '0779151579',
         password: '2',
@@ -135,7 +135,7 @@ describe('Users', () => {
         .post('/api/auth/login')
         .send(User)
         .end((err, res) => {
-          res.should.have.status(400);
+          res.should.have.status(404);
           done();
         });
     }).timeout(15000);
@@ -177,13 +177,13 @@ describe('Users', () => {
   });
 
   describe('POST /register', () => {
-    it('it should Post Register User have status 400', (done) => {
+    it('it should Post Register User Status 400', (done) => {
       const User = {
         phone: '0779151579',
         password: '1',
         name: 'Huỳnh Trần Bảo An',
         address: '622/10 Đường Cộng Hòa, Phường 13, Quận Tân Bình, Hồ Chí Minh',
-        role:'CUSTOMER',
+        role:'',
         images:'',
       };
       chai
@@ -200,7 +200,7 @@ describe('Users', () => {
   describe('POST /', () => {
     it('it should Post User', (done) => {
       const User = {
-        phone: '0857518488',
+        phone: '0857518499',
         password: '1',
         name: 'Huỳnh Trần Bảo An',
         address: '622/10 Đường Cộng Hòa, Phường 13, Quận Tân Bình, Hồ Chí Minh',
@@ -287,7 +287,7 @@ describe('Users', () => {
           res.should.have.status(200);
           done();
         });
-    }).timeout(15000);;
+    }).timeout(15000);
   })
 
   describe('PUT /', () => {
@@ -307,7 +307,7 @@ describe('Users', () => {
           res.should.have.status(200);
           done();
         });
-    }).timeout(15000);;
+    }).timeout(15000);
   })
 
  
