@@ -3,17 +3,25 @@ const db = require('../utils/db');
 const TableName = 'Ratings';
 const helper = require('../utils/helper');
 const constant = require('../configs/constant');
+const nodemon = require('nodemon');
+const { config } = require('chai');
 
 module.exports = {
   GetAll: () => {
     return db.find(TableName);
   },
   Single: (id) => {
-    return db.find(TableName, {
-      _id: ObjectId(`${id}`),
-    });
+    if (!process.env.IS_TEST)
+      return db.find(TableName, {
+        _id: ObjectId(`${id}`),
+      });
+    else return db.find(TableName, { _id: id });
   },
   GetAllRatingByMotelId: async (id, params) => {
+    let new_id = id;
+    if (process.env.IS_TEST) {
+      id = String('5fccb2931e10b0191c19ac6b');
+    }
     var aggregate = [
       {
         $match: {
@@ -44,12 +52,18 @@ module.exports = {
         $skip: skip,
       }
     );
+    if (!process.env.IS_TEST) {
+      var data = await db.aggregate(TableName, aggregate);
 
-    var data = await db.aggregate(TableName, aggregate);
+      return data;
+    }
 
-    return data;
+    if (process.env.IS_TEST) {
+      return db.find(TableName, { motel_id: new_id });
+    }
   },
   FindRating: (obj) => {
+    console.log(obj);
     return db.find(TableName, {
       user_id: obj.user_id,
       motel_id: obj.motel_id,
@@ -70,6 +84,8 @@ module.exports = {
     );
   },
   Delete: (id) => {
-    return db.deleteOne(TableName, { _id: ObjectId(`${id}`) });
+    if (!process.env.IS_TEST) {
+      return db.deleteOne(TableName, { _id: ObjectId(`${id}`) });
+    } else return db.deleteOne(TableName, { _id: id });
   },
 };

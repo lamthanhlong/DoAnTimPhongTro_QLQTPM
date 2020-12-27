@@ -1,11 +1,10 @@
 process.env.IS_TEST = true;
-
+const jwt = require('jsonwebtoken');
 //Require the dev-dependencies
 let chai = require('chai');
 let chaiHttp = require('chai-http');
 let server = require('../app');
 let should = chai.should();
-let jwt = require('jsonwebtoken');
 chai.use(chaiHttp);
 
 //Our parent block
@@ -14,47 +13,19 @@ describe('Motels', () => {
     //Before each test we empty the database in your case
     done();
   });
-  describe('GET /', () => {
-    it('it should QUERY Motels with pagination', (done) => {
-      chai
-        .request(server)
-        .get('/api/motel/')
-        .end((err, res) => {
-          res.should.have.status(200);
-          var ret = JSON.parse(res.text);
-          ret.data.should.be.a('array');
-          done();
-        });
-    });
-  });
 
   describe('GET /', () => {
     it('it should QUERY Motels base on PARAMS conditions', (done) => {
       chai
         .request(server)
         .get(
-          '/api/motel?offset=0&limit=10&sort=price_desc&price=1.5-5&has_furniture=false&is_verified=false'
+          '/api/motel?city=TP HCM&district=6&sort=price&price=7-10&area=100-200'
         )
         .end((err, res) => {
           res.should.have.status(200);
           var ret = JSON.parse(res.text);
           ret.data.should.be.a('array');
-          done();
-        });
-    });
-  });
-
-  describe('GET /', () => {
-    it('it should QUERY Motels base on PARAMS conditions', (done) => {
-      chai
-        .request(server)
-        .get(
-          '/api/motel?offset=0&limit=10&sort=price_desc&price=1.5-5&has_furniture=false&is_verified=false'
-        )
-        .end((err, res) => {
-          res.should.have.status(200);
-          var ret = JSON.parse(res.text);
-          ret.data.should.be.a('array');
+          ret.count.should.be.eql(3);
           done();
         });
     });
@@ -62,19 +33,17 @@ describe('Motels', () => {
 
   describe('GET /:id', () => {
     it('it should Get Motels base on ID', (done) => {
-      let id = '5fccb2b71e10b0191c1a0f49';
+      let id = 1;
       chai
         .request(server)
         .get('/api/motel/' + id)
         .end((err, res) => {
           res.should.have.status(200);
           var ret = JSON.parse(res.text);
-          ret[0].owner_id.should.be.eql('5fccb2931e10b0191c19ac47');
-          ret[0].title.should.be.eql(
-            'Phòng trọ nội thất cơ bản - Giá siêu rẻ - Tân Bình, Tân Phú quận 10'
-          );
+          ret[0].area.should.be.eql(100);
+          ret[0].title.should.be.eql('Phòng Trọ Cao Cấp 01');
           ret[0].address.should.be.eql(
-            'Đường Âu Cơ, Phường 10, Quận Tân Bình, Hồ Chí Minh'
+            '01 Đường Nguyễn Văn Cừ, Phường 4, Quận 5, TP HCM'
           );
           done();
         });
@@ -83,20 +52,21 @@ describe('Motels', () => {
 
   describe('GET /user/:id', () => {
     it('it should GET Motels by OWNER_ID', (done) => {
+      var user_id = 1;
+      var user_role = 'MOTEL_OWNER';
       let token = jwt.sign(
         {
-          id: '5fccb2931e10b0191c19ac4c',
-          role: 'MOTEL_OWNER',
+          id: user_id,
+          role: user_role,
         },
         'BEST_SOLUTION',
         {
-          expiresIn: 10 * 6000,
+          expiresIn: 20 * 24 * 60 * 60000,
         }
       );
-      var id = '5fccb2931e10b0191c19ac4c';
       chai
         .request(server)
-        .get('/api/motel/user/' + id)
+        .get('/api/motel/user/' + user_id)
         .set({ Authorization: `Bearer ${token}` })
         .end((err, res) => {
           res.should.have.status(200);
@@ -133,21 +103,22 @@ describe('Motels', () => {
 
   describe('PUT /:id', () => {
     it('it should UPDATE Motel in Database', (done) => {
+      var user_id = 1;
+      var user_role = 'MOTEL_OWNER';
       let token = jwt.sign(
         {
-          id: '5fccb2931e10b0191c19e5bd',
-          role: 'MOTEL_OWNER',
+          id: user_id,
+          role: user_role,
         },
         'BEST_SOLUTION',
         {
-          expiresIn: 10 * 6000,
+          expiresIn: 20 * 24 * 60 * 60000,
         }
       );
-      var id = '5fccb2b71e10b0191c1a5163';
+      var id = 1;
       var motel = {
-        title:
-          'Phòng chuẩn 18m2 và 24m2, phù hợp cho nhân viên văn phòng và sinh viên',
-        address: 'Đường Chân Lý, Phường Tân Thành, Quận Tân Phú, Hồ Chí Minh',
+        title: 'Phòng Trọ Cao Cấp 01',
+        address: '01 Đường Nguyễn Văn Cừ, Phường 4, Quận 5, TP HCM',
       };
       chai
         .request(server)
@@ -165,23 +136,23 @@ describe('Motels', () => {
 
   describe('PUT /:id', () => {
     it('it should not UPDATE Motel in Database (Wrong id)', (done) => {
+      var id = 1;
+      var user_id = 2;
+      var user_role = 'MOTEL_OWNER';
       let token = jwt.sign(
         {
-          id: '5fccb2931e10b0191c19efdsf',
-          role: 'MOTEL_OWNER',
+          id: user_id,
+          role: user_role,
         },
         'BEST_SOLUTION',
         {
-          expiresIn: 10 * 6000,
+          expiresIn: 20 * 24 * 60 * 60000,
         }
       );
-      var id = '5fccb2b71e10b0191c1a5163';
       var motel = {
-        title:
-          'Phòng chuẩn 18m2 và 24m2, phù hợp cho nhân viên văn phòng và sinh viên',
-        description:
-          '<p>(Số 4, đ.chân lý, p.tân thanh, q.tân phu) phòng thoáng mát, yên tỉnh, gần chợ, siêu thị , điện nước wifi riêng, máy lạnh. Phòng chuẩn 18m2 và 24m2. Phù hợp cho nhân viên văn phòng và sinh viên thoi.kgp@gmai.com</p><p>---------------------------------------------</p>',
-        address: 'Đường Chân Lý, Phường Tân Thành, Quận Tân Phú, Hồ Chí Minh',
+        title: 'Phòng Trọ Cao Cấp 01 Update',
+        description: 'Update phòng trọ 01',
+        address: 'Địa chỉ phòng trọ 01',
       };
       chai
         .request(server)
@@ -199,7 +170,7 @@ describe('Motels', () => {
     it('it should not UPDATE Motel in Database (Wrong Role)', (done) => {
       let token = jwt.sign(
         {
-          id: '5fccb2931e10b0191c19e5bd',
+          id: 1,
           role: 'CUSTOMER',
         },
         'BEST_SOLUTION',
@@ -207,12 +178,10 @@ describe('Motels', () => {
           expiresIn: 10 * 6000,
         }
       );
-      var id = '5fccb2b71e10b0191c1a5163';
+      var id = 1;
       var motel = {
         title:
           'Phòng chuẩn 18m2 và 24m2, phù hợp cho nhân viên văn phòng và sinh viên',
-        description:
-          '<p>(Số 4, đ.chân lý, p.tân thanh, q.tân phu) phòng thoáng mát, yên tỉnh, gần chợ, siêu thị , điện nước wifi riêng, máy lạnh. Phòng chuẩn 18m2 và 24m2. Phù hợp cho nhân viên văn phòng và sinh viên thoi.kgp@gmai.com</p><p>---------------------------------------------</p>',
         address: 'Đường Chân Lý, Phường Tân Thành, Quận Tân Phú, Hồ Chí Minh',
       };
       chai
@@ -231,8 +200,8 @@ describe('Motels', () => {
     it('it should not UPDATE Motel in Database (Invalid Access Token)', (done) => {
       let token = jwt.sign(
         {
-          id: '5fccb2931e10b0191c19e5bd',
-          role: 'MOTEL_OWNER',
+          id: 1,
+          role: 'ADMIN',
         },
         'BEST_SOLUTION',
         {
@@ -240,12 +209,10 @@ describe('Motels', () => {
         }
       );
       token = token + 'dsgfagedsgysg';
-      var id = '5fccb2b71e10b0191c1a5163';
+      var id = 1;
       var motel = {
         title:
           'Phòng chuẩn 18m2 và 24m2, phù hợp cho nhân viên văn phòng và sinh viên',
-        description:
-          '<p>(Số 4, đ.chân lý, p.tân thanh, q.tân phu) phòng thoáng mát, yên tỉnh, gần chợ, siêu thị , điện nước wifi riêng, máy lạnh. Phòng chuẩn 18m2 và 24m2. Phù hợp cho nhân viên văn phòng và sinh viên thoi.kgp@gmai.com</p><p>---------------------------------------------</p>',
         address: 'Đường Chân Lý, Phường Tân Thành, Quận Tân Phú, Hồ Chí Minh',
       };
       chai
@@ -263,7 +230,7 @@ describe('Motels', () => {
     it('it should not UPDATE Motel in Database (AccessToken Not Found)', (done) => {
       let token = jwt.sign(
         {
-          id: '5fccb2931e10b0191c19e5bd',
+          id: 1,
           role: 'MOTEL_OWNER',
         },
         'BEST_SOLUTION',
@@ -271,8 +238,7 @@ describe('Motels', () => {
           expiresIn: 10 * 6000,
         }
       );
-      token = token + 'dsgfagedsgysg';
-      var id = '5fccb2b71e10b0191c1a5163';
+      var id = 1;
       var motel = {
         title:
           'Phòng chuẩn 18m2 và 24m2, phù hợp cho nhân viên văn phòng và sinh viên',
@@ -306,26 +272,12 @@ describe('Motels', () => {
   });
   describe('DELETE /:id', () => {
     it('it should Delete a Motel by Id', (done) => {
-      var motel = {
-        title: 'Phòng Trọ Cao Cấp Mới',
-        description: 'Phòng Trọ Cao Cấp Mới',
-        address: 'Phòng Trọ Cao Cấp Mới',
-        images: 'Phòng Trọ Cao Cấp Mới',
-        area: 1,
-        has_furniture: true,
-        price: 1,
-        owner_id: 'me',
-      };
+      var id = 2;
       chai
         .request(server)
-        .post('/api/motel/store')
-        .send(motel)
+        .delete('/api/motel/' + id)
         .end((err, res) => {
-          res.should.have.status(201);
-          var ret = JSON.parse(res.text);
-          ret.price.should.be.eql(1);
-          ret.is_verified = false;
-          chai.request(server).delete('/api/motel/' + ret._id);
+          res.should.have.status(200);
           done();
         });
     });

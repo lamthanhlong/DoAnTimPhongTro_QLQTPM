@@ -32,6 +32,7 @@ module.exports = {
   update: async (req, res) => {
     if (req.accessTokenPayload.role === 'MOTEL_OWNER') {
       const single = await motel.Single(req.params.id);
+
       if (single[0].owner_id != req.accessTokenPayload.id)
         return res
           .status(403)
@@ -70,8 +71,11 @@ module.exports = {
     }
   },
   delete: async (req, res) => {
-    const motel = await motel.Single(req.params.id);
-    const ratings = await rating.GetAllRatingByMotelId(req.params.id);
+    const motels = await motel.Single(req.params.id);
+    const ratings = await rating.GetAllRatingByMotelId(
+      req.params.id,
+      req.query
+    );
     if (ratings.length > 0) {
       for (const rate of ratings) {
         await rating.Delete(rate._id);

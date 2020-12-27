@@ -4,12 +4,17 @@ const helper = require('../utils/helper');
 const TableName = 'Motels';
 const constant = require('../configs/constant');
 const { query } = require('express');
+const { process_params } = require('express/lib/router');
 
 module.exports = {
   GetAll: () => {
     return db.find(TableName);
   },
   Single: (id) => {
+    let new_id = id;
+    if (process.env.IS_TEST) {
+      id = '5fccb2931e10b0191c19ac6b';
+    }
     var aggregate = [
       {
         $match: {
@@ -25,9 +30,19 @@ module.exports = {
         },
       },
     ];
-    return db.aggregate(TableName, aggregate);
+    if (!process.env.IS_TEST) {
+      return db.aggregate(TableName, aggregate);
+    }
+
+    if (process.env.IS_TEST) {
+      return db.find(TableName, { _id: new_id });
+    }
   },
   OwnerGet: async (owner_id, params) => {
+    let new_id = owner_id;
+    if (process.env.IS_TEST) {
+      owner_id = '5fccb2931e10b0191c19ac4c';
+    }
     // var aggregate = [
     //   {
     //     $match: {
@@ -104,11 +119,17 @@ module.exports = {
     var count = await db.count(TableName, query_object);
     var pageCounts = helper.calcPageCounts(count, itemPerPage);
 
-    return {
-      data,
-      count,
-      pageCounts,
-    };
+    if (!process.env.IS_TEST) {
+      return {
+        data,
+        count,
+        pageCounts,
+      };
+    }
+
+    if (process.env.IS_TEST) {
+      return db.find(TableName, { owner_id: new_id });
+    }
   },
   GetQuery: async (params) => {
     var sort_object = {};
@@ -194,17 +215,25 @@ module.exports = {
   },
   Update: (id, obj) => {
     obj.modified_date = new Date();
-    return db.updateOne(
-      TableName,
-      {
-        _id: ObjectId(`${id}`),
-      },
-      obj
-    );
+    let new_id = id;
+    if (!process.env.IS_TEST) {
+      return db.updateOne(
+        TableName,
+        {
+          _id: ObjectId(`${id}`),
+        },
+        obj
+      );
+    }
+    if (process.env.IS_TEST) {
+      return db.updateOne(TableName, { _id: new_id }, obj);
+    }
   },
   Delete: (id) => {
-    return db.deleteOne(TableName, {
-      _id: ObjectId(`${id}`),
-    });
+    if (!process.env.IS_TEST)
+      return db.deleteOne(TableName, {
+        _id: ObjectId(`${id}`),
+      });
+    else return db.deleteOne(TableName, { _id: id });
   },
 };

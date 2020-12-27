@@ -1,8 +1,11 @@
+const e = require('express');
 const express = require('express');
 const router = express.Router();
 const model = require('../models/rating.model');
 const validate = require('../utils/validate');
-const schema = require('../schemas/rating.json');
+let schema = {};
+if (process.env.IS_TEST) schema = require('../schemas/rating-test.json');
+else schema = require('../schemas/rating.json');
 router.get('/', async (req, res) => {
   var data = await model.GetAll();
   res.json(data);
@@ -19,6 +22,7 @@ router.get('/motel/:id', async function (req, res) {
 router.post('/', validate(schema), async function (req, res) {
   const object = req.body;
   const checkDup = await model.FindRating(object);
+  console.log(checkDup);
   if (checkDup.length > 0) return res.status(400).end();
   const id = await model.Add(object);
   object._id = id;
