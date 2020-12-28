@@ -5,7 +5,33 @@ export  const getters = {
 
 export const getDefaultState = () => ({
     windowMessengers: [
+        {   
+            item: {
+                name: "Phong",
+                id: 1,
+            },
+            isVisible: true,
+            listMessengers: [
+                {
+                    userId: 1,
+                    message: "hehehe",
+                }
+            ]
+        },
 
+        {
+            item: {
+                name: "Linh",
+                id: 2,
+            },
+            isVisible: true,
+            listMessengers: [
+                {
+                    userId: 1,
+                    message: "hello",
+                }
+            ]
+        }
     ],
 
 })
