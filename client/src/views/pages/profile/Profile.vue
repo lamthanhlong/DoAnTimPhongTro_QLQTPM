@@ -3,7 +3,7 @@
     <v-card class="main-layout pa-3">
       <router-view></router-view>
     </v-card>
-        <window-chat></window-chat>
+
   </div>
 </template>
 

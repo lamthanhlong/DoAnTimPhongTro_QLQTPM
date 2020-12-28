@@ -4,10 +4,18 @@
   >
     <v-row>
       <v-col cols="5">
-        <v-img
+        <v-img 
+          v-if="item.images"
           height="270"
-          :src="getImage"
+          :src="$helper.getMainImageMotel(item.images)"
         ></v-img>
+
+        <v-img
+        v-else
+        height="270"
+        src="@/assets/img/default.png"
+        >
+        </v-img>
       </v-col>
       <v-col cols="7">
         <v-card-title>{{ getItem.title }}</v-card-title>
@@ -66,11 +74,6 @@
           return this.item
         }
       },
-      getImage: {
-        get(){
-          return this.$helper.getMainImageMotel(this.getItem.images); 
-        }
-      }
     },
 
     methods: {
