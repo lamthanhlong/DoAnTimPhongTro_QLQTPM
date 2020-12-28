@@ -28,7 +28,7 @@ export default{
 
 	data(){
 		return {
-			getInputSearch: this.data,
+			getInputSearch: this.$route.query.hasOwnProperty('searchKey') ? this.$route.query.searchKey : this.data,
 			oldVal: "",
 		}
 	},
