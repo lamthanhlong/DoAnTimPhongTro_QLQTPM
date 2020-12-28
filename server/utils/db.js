@@ -1,10 +1,8 @@
-let config = {};
 if (process.env.IS_TEST) {
-  config = require('../configs/db.json').mongodb_test;
-} else {
-  config = require('../configs/db.json').mongodb;
+  module.exports = require('./db.mock');
+  return;
 }
-
+const config = require('../configs/db.json').mongodb;
 const MongoClient = require('mongodb').MongoClient;
 
 const connect = async (exec) => {

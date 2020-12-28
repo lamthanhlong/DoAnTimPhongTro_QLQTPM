@@ -31,8 +31,6 @@ module.exports = {
     c_id = city_id - 1;
     d_id = district_id - 1;
     wards = [];
-    console.log(c_id);
-    console.log(d_id);
     for (i in local[c_id].districts[d_id].wards) {
       let ward = {
         id: local[c_id].districts[d_id].wards[i].id,

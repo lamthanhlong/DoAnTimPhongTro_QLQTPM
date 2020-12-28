@@ -11,8 +11,9 @@ module.exports = {
     const id = req.params.id;
     var getRatings = await rating.GetAllRatingByMotelId(id, req.query);
     var data = await motel.Single(id);
-    data[0].Ratings = getRatings;
-
+    if (getRatings.length > 0) {
+      data[0].Ratings = getRatings;
+    }
     return res.json(data);
   },
   ownerFetchMotels: async (req, res) => {
@@ -32,6 +33,7 @@ module.exports = {
   update: async (req, res) => {
     if (req.accessTokenPayload.role === 'MOTEL_OWNER') {
       const single = await motel.Single(req.params.id);
+
       if (single[0].owner_id != req.accessTokenPayload.id)
         return res
           .status(403)
@@ -66,13 +68,15 @@ module.exports = {
           cities[k].districts[t].wards = local.GetWard(k + 1, t + 1);
         }
       }
-      //console.log(cities[0].districts);
       return res.json({ count: cities.length, data: cities });
     }
   },
   delete: async (req, res) => {
-    const motel = await motel.Single(req.params.id);
-    const ratings = await rating.GetAllRatingByMotelId(req.params.id);
+    const motels = await motel.Single(req.params.id);
+    const ratings = await rating.GetAllRatingByMotelId(
+      req.params.id,
+      req.query
+    );
     if (ratings.length > 0) {
       for (const rate of ratings) {
         await rating.Delete(rate._id);

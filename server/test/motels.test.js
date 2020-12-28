@@ -1,11 +1,10 @@
 process.env.IS_TEST = true;
-
+const jwt = require('jsonwebtoken');
 //Require the dev-dependencies
 let chai = require('chai');
 let chaiHttp = require('chai-http');
 let server = require('../app');
 let should = chai.should();
-let jwt = require('jsonwebtoken');
 chai.use(chaiHttp);
 
 //Our parent block
@@ -14,15 +13,19 @@ describe('Motels', () => {
     //Before each test we empty the database in your case
     done();
   });
+
   describe('GET /', () => {
-    it('it should QUERY Motels with pagination', (done) => {
+    it('it should QUERY Motels base on PARAMS conditions', (done) => {
       chai
         .request(server)
-        .get('/api/motel/')
+        .get(
+          '/api/motel?city=TP HCM&district=6&address=01&sort=price&price=7-10&area=100-200&searchkey=Gia re'
+        )
         .end((err, res) => {
           res.should.have.status(200);
           var ret = JSON.parse(res.text);
           ret.data.should.be.a('array');
+          ret.count.should.be.eql(3);
           done();
         });
     });
@@ -33,18 +36,93 @@ describe('Motels', () => {
       chai
         .request(server)
         .get(
-          '/api/motel?offset=0&limit=10&sort=price_desc&searchkey=sinh%20viên&city=Hồ%20Chí%20Minh&district=Tân%20Phú&area=10-20&price=1.5-5&has_furniture=false&is_verified=false'
+          '/api/motel?city=TP HCM&district=6&address=01&sort=price&price=7&area=100&searchkey=Gia re'
         )
         .end((err, res) => {
           res.should.have.status(200);
           var ret = JSON.parse(res.text);
           ret.data.should.be.a('array');
-          ret.count.should.be.eql(7);
+          ret.count.should.be.eql(3);
           done();
         });
     });
   });
 
+  describe('GET /:id', () => {
+    it('it should Get Motels base on ID', (done) => {
+      let id = 1;
+      chai
+        .request(server)
+        .get('/api/motel/' + id)
+        .end((err, res) => {
+          res.should.have.status(200);
+          var ret = JSON.parse(res.text);
+          ret[0].area.should.be.eql(100);
+          ret[0].title.should.be.eql('Phòng Trọ Cao Cấp 01');
+          ret[0].address.should.be.eql(
+            '01 Đường Nguyễn Văn Cừ, Phường 4, Quận 5, TP HCM'
+          );
+          done();
+        });
+    });
+  });
+
+  describe('GET /user/:id', () => {
+    it('it should GET Motels by OWNER_ID', (done) => {
+      var user_id = 1;
+      var user_role = 'MOTEL_OWNER';
+      let token = jwt.sign(
+        {
+          id: user_id,
+          role: user_role,
+        },
+        'BEST_SOLUTION',
+        {
+          expiresIn: 20 * 24 * 60 * 60000,
+        }
+      );
+      chai
+        .request(server)
+        .get(
+          '/api/motel/user/' +
+            user_id +
+            '?city=TP HCM&district=6&address=01&sort=price&price=7-10&area=100-200&searchkey=Gia re'
+        )
+        .set({ Authorization: `Bearer ${token}` })
+        .end((err, res) => {
+          res.should.have.status(200);
+          done();
+        });
+    });
+  });
+  describe('GET /user/:id', () => {
+    it('it should GET Motels by OWNER_ID', (done) => {
+      var user_id = 1;
+      var user_role = 'MOTEL_OWNER';
+      let token = jwt.sign(
+        {
+          id: user_id,
+          role: user_role,
+        },
+        'BEST_SOLUTION',
+        {
+          expiresIn: 20 * 24 * 60 * 60000,
+        }
+      );
+      chai
+        .request(server)
+        .get(
+          '/api/motel/user/' +
+            user_id +
+            '?city=TP HCM&district=6&address=01&sort=price&price=7&area=100&searchkey=Gia re'
+        )
+        .set({ Authorization: `Bearer ${token}` })
+        .end((err, res) => {
+          res.should.have.status(200);
+          done();
+        });
+    });
+  });
   describe('POST /store', () => {
     it('it should STORE Motel into Database', (done) => {
       var motel = {
@@ -55,7 +133,7 @@ describe('Motels', () => {
         area: 1,
         has_furniture: true,
         price: 1,
-        owner_id: 'me',
+        owner_id: '5fccb2931e10b0191c19ac6b',
       };
       chai
         .request(server)
@@ -74,20 +152,22 @@ describe('Motels', () => {
 
   describe('PUT /:id', () => {
     it('it should UPDATE Motel in Database', (done) => {
+      var user_id = 1;
+      var user_role = 'MOTEL_OWNER';
       let token = jwt.sign(
         {
-          id: '5fccb2931e10b0191c19e5bd',
-          role: 'MOTEL_OWNER',
+          id: user_id,
+          role: user_role,
         },
         'BEST_SOLUTION',
         {
-          expiresIn: 10 * 6000,
+          expiresIn: 20 * 24 * 60 * 60000,
         }
       );
-      var id = '5fccb2b71e10b0191c1a5163';
+      var id = 1;
       var motel = {
-        title:
-          'Phòng chuẩn 18m2 và 24m2, phù hợp cho nhân viên văn phòng và sinh viên',
+        title: 'Phòng Trọ Cao Cấp 01',
+        address: '01 Đường Nguyễn Văn Cừ, Phường 4, Quận 5, TP HCM',
       };
       chai
         .request(server)
@@ -105,9 +185,101 @@ describe('Motels', () => {
 
   describe('PUT /:id', () => {
     it('it should not UPDATE Motel in Database (Wrong id)', (done) => {
+      var id = 1;
+      var user_id = 2;
+      var user_role = 'MOTEL_OWNER';
       let token = jwt.sign(
         {
-          id: '5fccb2931e10b0191c19efdsf',
+          id: user_id,
+          role: user_role,
+        },
+        'BEST_SOLUTION',
+        {
+          expiresIn: 20 * 24 * 60 * 60000,
+        }
+      );
+      var motel = {
+        title: 'Phòng Trọ Cao Cấp 01 Update',
+        description: 'Update phòng trọ 01',
+        address: 'Địa chỉ phòng trọ 01',
+      };
+      chai
+        .request(server)
+        .put('/api/motel/update/' + id)
+        .set({ Authorization: `Bearer ${token}` })
+        .send(motel)
+        .end((err, res) => {
+          res.should.have.status(403);
+          done();
+        });
+    });
+  });
+
+  describe('PUT /:id', () => {
+    it('it should not UPDATE Motel in Database (Wrong Role)', (done) => {
+      let token = jwt.sign(
+        {
+          id: 1,
+          role: 'CUSTOMER',
+        },
+        'BEST_SOLUTION',
+        {
+          expiresIn: 10 * 6000,
+        }
+      );
+      var id = 1;
+      var motel = {
+        title:
+          'Phòng chuẩn 18m2 và 24m2, phù hợp cho nhân viên văn phòng và sinh viên',
+        address: 'Đường Chân Lý, Phường Tân Thành, Quận Tân Phú, Hồ Chí Minh',
+      };
+      chai
+        .request(server)
+        .put('/api/motel/update/' + id)
+        .set({ Authorization: `Bearer ${token}` })
+        .send(motel)
+        .end((err, res) => {
+          res.should.have.status(403);
+          done();
+        });
+    });
+  });
+
+  describe('PUT /:id', () => {
+    it('it should not UPDATE Motel in Database (Invalid Access Token)', (done) => {
+      let token = jwt.sign(
+        {
+          id: 1,
+          role: 'ADMIN',
+        },
+        'BEST_SOLUTION',
+        {
+          expiresIn: 10 * 6000,
+        }
+      );
+      token = token + 'dsgfagedsgysg';
+      var id = 1;
+      var motel = {
+        title:
+          'Phòng chuẩn 18m2 và 24m2, phù hợp cho nhân viên văn phòng và sinh viên',
+        address: 'Đường Chân Lý, Phường Tân Thành, Quận Tân Phú, Hồ Chí Minh',
+      };
+      chai
+        .request(server)
+        .put('/api/motel/update/' + id)
+        .set({ Authorization: `Bearer ${token}` })
+        .send(motel)
+        .end((err, res) => {
+          res.should.have.status(401);
+          done();
+        });
+    });
+  });
+  describe('PUT /:id', () => {
+    it('it should not UPDATE Motel in Database (AccessToken Not Found)', (done) => {
+      let token = jwt.sign(
+        {
+          id: 1,
           role: 'MOTEL_OWNER',
         },
         'BEST_SOLUTION',
@@ -115,7 +287,7 @@ describe('Motels', () => {
           expiresIn: 10 * 6000,
         }
       );
-      var id = '5fccb2b71e10b0191c1a5163';
+      var id = 1;
       var motel = {
         title:
           'Phòng chuẩn 18m2 và 24m2, phù hợp cho nhân viên văn phòng và sinh viên',
@@ -126,12 +298,59 @@ describe('Motels', () => {
       chai
         .request(server)
         .put('/api/motel/update/' + id)
-        .set({ Authorization: `Bearer ${token}` })
         .send(motel)
         .end((err, res) => {
-          res.should.have.status(403);
-          var ret = JSON.parse(res.text);
-          ret[0].title.should.be.eql(motel.title);
+          res.should.have.status(400);
+          done();
+        });
+    });
+  });
+
+  describe('GET /local', () => {
+    it('it should GET Country location base on PARAMS', (done) => {
+      chai
+        .request(server)
+        .get('/api/motel/local?city_id=1&district_id=1')
+        .end((err, res) => {
+          res.should.have.status(200);
+          res.body.count.should.be.eql(16);
+          res.body.data.should.be.a('array');
+          done();
+        });
+    });
+  });
+  describe('GET /local', () => {
+    it('it should GET All Country location base on City Id', (done) => {
+      chai
+        .request(server)
+        .get('/api/motel/local?city_id=1')
+        .end((err, res) => {
+          res.should.have.status(200);
+          res.body.data.should.be.a('array');
+          done();
+        });
+    });
+  });
+  describe('GET /local', () => {
+    it('it should GET All Country location', (done) => {
+      chai
+        .request(server)
+        .get('/api/motel/local')
+        .end((err, res) => {
+          res.should.have.status(200);
+          res.body.data.should.be.a('array');
+          done();
+        });
+    });
+  });
+  describe('DELETE /:id', () => {
+    it('it should Delete a Motel by Id', (done) => {
+      var id = 2;
+      chai
+        .request(server)
+        .delete('/api/motel/' + id)
+        .end((err, res) => {
+          res.should.have.status(200);
           done();
         });
     });
