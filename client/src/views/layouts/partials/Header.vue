@@ -87,7 +87,8 @@ export default {
       drawer: false,
       menuInfo: [
         { title: "Thông tin", icon: "mdi-account-circle", link: "/profile/info" },
-        { title: "Đăng bài", icon: "mdi-account-circle", link: "/profile/create_post" },
+        { title: "Đăng bài", icon: "mdi-plus-box-outline", link: "/profile/create_post" },
+        { title: "Danh sách bài đã đăng", icon: "mdi-playlist-edit", link: "/profile/list_motel" },
         { title: "Logout", icon: "mdi-login-variant", link: "/auth/login" }
       ],
       theme: this.getTheme(),
