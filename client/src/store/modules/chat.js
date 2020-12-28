@@ -4,7 +4,35 @@ export  const getters = {
 };
 
 export const getDefaultState = () => ({
-    windowMessengers: [],
+    windowMessengers: [
+        {   
+            item: {
+                name: "Phong",
+                id: 1,
+            },
+            isVisible: true,
+            listMessengers: [
+                {
+                    userId: 1,
+                    message: "hehehe",
+                }
+            ]
+        },
+
+        {
+            item: {
+                name: "Linh",
+                id: 2,
+            },
+            isVisible: true,
+            listMessengers: [
+                {
+                    userId: 1,
+                    message: "hello",
+                }
+            ]
+        }
+    ],
 
 })
 
@@ -17,6 +45,11 @@ export  const actions = {
 		commit('OPEN_WINDOW_MESSENGER', payload);
 	},
 
+    updateWindowMessenger({commit}, payload)
+    {
+
+    },
+
     reset({commit}){
       commit('RESET')
     }
@@ -25,6 +58,9 @@ export  const actions = {
 export  const mutations = {
 
     OPEN_WINDOW_MESSENGER(state, data){
+        console.log(data);
+        return false;
+
       state.windowMessengers = data;
     },
 

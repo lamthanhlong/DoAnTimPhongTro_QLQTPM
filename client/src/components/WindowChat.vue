@@ -1,10 +1,10 @@
 <template>
-<v-layout>
+<v-layout id="window-chat">
    <div class="d-flex window-chat" v-if="windowMessengers.length">
       <div v-for="item, index in windowMessengers">
         <v-card v-show="item.isVisible" >
           <v-toolbar dark color="primary darken-1">
-            <v-toolbar-title>{{ item.employee.fullName }}</v-toolbar-title>
+            <v-toolbar-title>{{ item.name }}</v-toolbar-title>
 
             <v-spacer></v-spacer>
                 <v-btn 
@@ -29,7 +29,7 @@
               <div class="block" v-if="messenger.userId !== userInfo.id">
                 <v-list-item>
                   <v-list-item-avatar class="logo-img">
-                    <v-img :src="$helper.getAvatar(item.avatar)"></v-img>
+                    <v-img src="https://gamek.mediacdn.vn/133514250583805952/2020/3/7/anh-1-1583592253266481895600.jpg"></v-img>
                   </v-list-item-avatar>
                   <v-list-item-title>
                     <v-chip :ripple="false">{{ messenger.message }}</v-chip>
@@ -65,7 +65,7 @@
                     class="ml-2"
                     @click="sendMessenger(item)"
                   >
-                    <v-icon dark>send</v-icon>
+                    <v-icon dark>mdi-send</v-icon>
                   </v-btn>
                 </div>
           </v-card-actions>
@@ -76,6 +76,18 @@
 </template>
 
 <style lang="scss">
+
+#window-chat{
+  height: 500px;
+  position: fixed;
+  right: 0;
+  bottom: 0;
+
+  .v-card {
+    height: 100%;
+    width: 350px;
+  }
+}
 
 .theme--dark.textfield__message .v-input__slot {
   background: #383838 !important;
@@ -91,6 +103,7 @@
 <script>
 
 // service
+import CookieService from "@/services/cookie";
 
 export default {
 
@@ -105,16 +118,26 @@ export default {
       smooth: false,
       statusUserLeave: false,
 
-      windowMessengers: [
-
-      ],
-
       message: "",
     }
   },
 
   mounted(){
     this.subscribeSendMessenger();
+  },
+
+  computed: {
+    windowMessengers: {
+      get(){
+        return this.$store.getters["chats/windowMessengers"];
+      }
+    },
+
+    userInfo: {
+      get(){
+        return CookieService.get('userInfo')._id;
+      }
+    }
   },
 
   methods: {
@@ -125,25 +148,26 @@ export default {
 
       this.sockets.subscribe(this.$socketEvent.USER_SEND_MESSENGER, res => {
         if (res) {
-          var windowMessenger = {
-            ...res.sender,
-            isVisible: true,
-            listMessengers: [
-              {
-                userId: res.sender.id,
-                message: res.message,
-              }
-            ] 
-          }
+          // var windowMessenger = {
+          //   ...res.sender,
+          //   isVisible: true,
+          //   listMessengers: [
+          //     {
+          //       userId: res.sender.id,
+          //       message: res.message,
+          //     }
+          //   ] 
+          // }
 
           this.windowMessengers.map(item => {
-            item.id !== res.sender.id ? item : {...item, listMessengers: item.listMessengers.push({
-              userId: item.id,
-              message: res.message
-              })
+            item.id !== res.sender.id ? item : {
+              ...item, 
+              listMessengers: item.listMessengers.push({
+                                  userId: item.id,
+                                  message: res.message
+                                })
             }
           })
-          
         }
 
         this.$forceUpdate()

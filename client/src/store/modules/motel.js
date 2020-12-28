@@ -26,15 +26,18 @@ export  const actions = {
 
     async fetchPaging({ commit }, payload) {
 
+
       const currentPage = payload.page;
       const price = payload.price || null;
-      const searchkey = payload.searchkey || null;
+      const searchKey = payload.searchKey || null;
       const city = payload.city || null;
       const district = payload.district || null;
       const area = payload.area || null;
       const filterPrice = payload.sort || null;
 
-      const res = await MotelService.fetchPaging(currentPage, searchkey, price, city, district, area, filterPrice);
+
+
+      const res = await MotelService.fetchPaging(currentPage, searchKey, price, city, district, area, filterPrice);
       if(res.data){
         var data = res.data;
         commit("FETCH_PAGING", data);

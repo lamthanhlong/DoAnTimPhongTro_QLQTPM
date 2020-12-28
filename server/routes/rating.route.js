@@ -1,8 +1,11 @@
+const e = require('express');
 const express = require('express');
 const router = express.Router();
 const model = require('../models/rating.model');
 const validate = require('../utils/validate');
-const schema = require('../schemas/rating.json');
+let schema = {};
+if (process.env.IS_TEST) schema = require('../schemas/rating-test.json');
+else schema = require('../schemas/rating.json');
 router.get('/', async (req, res) => {
   var data = await model.GetAll();
   res.json(data);

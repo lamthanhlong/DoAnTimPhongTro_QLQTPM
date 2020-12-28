@@ -185,8 +185,7 @@ export default {
 
 	    openWindowChat(user){
 	    	var payload = user;
-	    	console.log(payload);
-	    	return false;
+
 	    	this.$store.dispatch("chats/openWindowMessenger", payload)
 	    }
 	},

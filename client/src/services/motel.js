@@ -6,6 +6,7 @@ export default {
   rootURL: '/motel/',
 
   async fetchPaging(currentPage, searchkey, price, city, district, area, filterPrice) {
+
     try {
       return  await axios.get(this.rootURL, {
         params: {
@@ -68,6 +69,19 @@ export default {
 
        return helperCommon.getError(error) || false; 
     }
+  },
+
+
+  async getAllByOwner(userId)
+  {
+    try {
+      return await axios.get(this.rootURL + `user/${userId}`);
+    } catch (error) {
+
+       return helperCommon.getError(error) || false; 
+    }
   }
+
+
 
 };

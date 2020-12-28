@@ -1,8 +1,8 @@
-if(process.env.IS_TEST){
+if (process.env.IS_TEST) {
   module.exports = require('./db.mock');
-  return 1;
+  return;
 }
-
+const config = require('../configs/db.json').mongodb;
 const MongoClient = require('mongodb').MongoClient;
 
 const connect = async (exec) => {

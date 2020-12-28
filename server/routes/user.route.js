@@ -18,10 +18,6 @@ router.get('/:id', async (req, res) => {
   var data = await model.Single(id);
   res.json(data);
 });
-/*router.get('/paginate', async (req, res) => {
-  var data = model.GetPaginate(0, 2);
-  res.json(data);
-});*/
 router.post('/', validate(schema), async function (req, res) {
   let object = req.body;
   const valid = await model.FindByPhone(object.phone);

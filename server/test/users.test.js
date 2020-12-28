@@ -6,7 +6,6 @@ let chaiHttp = require('chai-http');
 let server = require('../app');
 let should = chai.should();
 
-
 describe('Users', () => {
   beforeEach((done) => {
     //Before each test we empty the database in your case
@@ -30,7 +29,7 @@ describe('Users', () => {
 
   describe('GET /:id', () => {
     it('it should Get User base on Id', (done) => {
-      let id = '5fccb2931e10b0191c19ac4c';
+      let id = 1;
       chai
         .request(server)
         .get('/api/user/' + id)
@@ -40,11 +39,13 @@ describe('Users', () => {
           res.body[0].should.be.a('object');
           res.body.length.should.be.eql(1);
           var ret = JSON.parse(res.text);
-          ret[0]._id.should.be.eql('5fccb2931e10b0191c19ac4c');
+          ret[0]._id.should.be.eql(1);
           ret[0].phone.should.be.eql('0779151579');
           ret[0].password.should.be.a('string');
           ret[0].name.should.be.eql('Phạm Ngọc Hùng');
-          ret[0].address.should.be.eql('43 Đường Thân Nhân Trung, Phường 13, Quận Tân Bình, Hồ Chí Minh');
+          ret[0].address.should.be.eql(
+            '43 Đường Thân Nhân Trung, Phường 13, Quận Tân Bình, Hồ Chí Minh'
+          );
           ret[0].role.should.be.eql('MOTEL_OWNER');
           ret[0].images.should.be.eql('');
           done();
@@ -73,7 +74,7 @@ describe('Users', () => {
   });
 
   describe('POST /login', () => {
-    it('it should Post User base on Phone', (done) => {
+    it('it should not Post User base on Phone', (done) => {
       const User = {
         phone: '0779151579',
         password: '',
@@ -84,14 +85,14 @@ describe('Users', () => {
         .send(User)
         .end((err, res) => {
           res.should.have.status(400);
-    
+
           done();
         });
     }).timeout(15000);
   });
 
   describe('POST /login', () => {
-    it('it should Post User base on Password', (done) => {
+    it('it should not Post User base on Password', (done) => {
       const User = {
         phone: '',
         password: '1',
@@ -108,7 +109,7 @@ describe('Users', () => {
   });
 
   describe('POST /login', () => {
-    it('it should Post User base on Phone have status 404', (done) => {
+    it('it should not Post User base on Phone have status 404', (done) => {
       const User = {
         phone: '1',
         password: '1',
@@ -125,7 +126,7 @@ describe('Users', () => {
   });
 
   describe('POST /login', () => {
-    it('it should Post User base on Password have status 404', (done) => {
+    it('it should not Post User base on Password have status 404', (done) => {
       const User = {
         phone: '0779151579',
         password: '2',
@@ -144,12 +145,12 @@ describe('Users', () => {
   describe('POST /register', () => {
     it('it should Post Register User', (done) => {
       const User = {
-        phone: '0857518499',
+        phone: '0963212454955',
         password: '1',
         name: 'Huỳnh Trần Bảo An',
         address: '622/10 Đường Cộng Hòa, Phường 13, Quận Tân Bình, Hồ Chí Minh',
-        role:'CUSTOMER',
-        images:'',
+        role: 'CUSTOMER',
+        images: '',
       };
       chai
         .request(server)
@@ -162,15 +163,11 @@ describe('Users', () => {
           ret.user.phone.should.be.a('string');
           ret.user.password.should.be.a('string');
           ret.user.name.should.be.eql('Huỳnh Trần Bảo An');
-          ret.user.address.should.be.eql('622/10 Đường Cộng Hòa, Phường 13, Quận Tân Bình, Hồ Chí Minh');
+          ret.user.address.should.be.eql(
+            '622/10 Đường Cộng Hòa, Phường 13, Quận Tân Bình, Hồ Chí Minh'
+          );
           ret.user.role.should.be.eql('CUSTOMER');
           ret.user.images.should.be.eql('');
-          ret.token.should.be.a('string');
-          let new_id = ret.user._id;
-          chai
-            .request(server)
-            .delete('/api/User/' + new_id)
-            .end();
           done();
         });
     }).timeout(15000);
@@ -183,8 +180,8 @@ describe('Users', () => {
         password: '1',
         name: 'Huỳnh Trần Bảo An',
         address: '622/10 Đường Cộng Hòa, Phường 13, Quận Tân Bình, Hồ Chí Minh',
-        role:'',
-        images:'',
+        role: '',
+        images: '',
       };
       chai
         .request(server)
@@ -204,8 +201,8 @@ describe('Users', () => {
         password: '1',
         name: 'Huỳnh Trần Bảo An',
         address: '622/10 Đường Cộng Hòa, Phường 13, Quận Tân Bình, Hồ Chí Minh',
-        role:'CUSTOMER',
-        images:'',
+        role: 'CUSTOMER',
+        images: '',
       };
       chai
         .request(server)
@@ -220,15 +217,11 @@ describe('Users', () => {
           ret.user.phone.should.be.a('string');
           ret.user.password.should.be.a('string');
           ret.user.name.should.be.eql('Huỳnh Trần Bảo An');
-          ret.user.address.should.be.eql('622/10 Đường Cộng Hòa, Phường 13, Quận Tân Bình, Hồ Chí Minh');
+          ret.user.address.should.be.eql(
+            '622/10 Đường Cộng Hòa, Phường 13, Quận Tân Bình, Hồ Chí Minh'
+          );
           ret.user.role.should.be.eql('CUSTOMER');
           ret.user.images.should.be.eql('');
-          ret.token.should.be.a('string');
-          let new_id = ret.user._id;
-          chai
-            .request(server)
-            .delete('/api/User/' + new_id)
-            .end();
           done();
         });
     }).timeout(15000);
@@ -237,12 +230,12 @@ describe('Users', () => {
   describe('POST /', () => {
     it('it should Post User have status 400', (done) => {
       const User = {
-        phone: '0829994240',
+        phone: '0779151579',
         password: '1',
         name: 'Huỳnh Trần Bảo An',
         address: '622/10 Đường Cộng Hòa, Phường 13, Quận Tân Bình, Hồ Chí Minh',
-        role:'CUSTOMER',
-        images:'',
+        role: 'CUSTOMER',
+        images: '',
       };
       chai
         .request(server)
@@ -257,7 +250,7 @@ describe('Users', () => {
 
   describe('DELETE /', () => {
     it('it should Delete User by Id', (done) => {
-      const id = '5fe83864ecec5c38d0ba70ee';
+      const id = 1;
       chai
         .request(server)
         .delete('/api/user/' + id)
@@ -271,14 +264,15 @@ describe('Users', () => {
 
   describe('PUT /', () => {
     it('it should Update User by Id change password', (done) => {
-      const id = '5fccb2931e10b0191c19ac4c';
+      const id = 1;
       const update = {
         phone: '0779151579',
         password: '2',
         name: 'Phạm Ngọc Hùng',
-        address: '43 Đường Thân Nhân Trung, Phường 13, Quận Tân Bình, Hồ Chí Minh',
-        role:'MOTEL_OWNER',
-        images:'',
+        address:
+          '43 Đường Thân Nhân Trung, Phường 13, Quận Tân Bình, Hồ Chí Minh',
+        role: 'MOTEL_OWNER',
+        images: '',
       };
       chai
         .request(server)
@@ -288,17 +282,18 @@ describe('Users', () => {
           done();
         });
     }).timeout(15000);
-  })
+  });
 
   describe('PUT /', () => {
-    it('it should Update User by Id', (done) => {
-      const id = '5fccb2931e10b0191c19ac4c';
+    it('it should not Update User by Id', (done) => {
+      const id = 1;
       const update = {
         phone: '0779151579',
         name: 'Phạm Ngọc Hùng',
-        address: '43 Đường Thân Nhân Trung, Phường 13, Quận Tân Bình, Hồ Chí Minh',
-        role:'MOTEL_OWNER',
-        images:'',
+        address:
+          '43 Đường Thân Nhân Trung, Phường 13, Quận Tân Bình, Hồ Chí Minh',
+        role: 'MOTEL_OWNER',
+        images: '',
       };
       chai
         .request(server)
@@ -308,7 +303,8 @@ describe('Users', () => {
           done();
         });
     }).timeout(15000);
-  })
-
- 
+    afterEach(function (done) {
+      done();
+    });
+  });
 });

@@ -1,0 +1,93 @@
+[
+  {
+    "_id": 1,
+    "phone": "0779151579",
+    "password": "$2a$10$0RtZnlhi1KMdvvCBKzv7s.czECkl27qseJS1GAb5U9Nxl1xhYB8Wy",
+    "name": "Phạm Ngọc Hùng",
+    "address": "43 Đường Thân Nhân Trung, Phường 13, Quận Tân Bình, Hồ Chí Minh",
+    "images": "",
+    "description": "",
+    "role": "MOTEL_OWNER",
+    "is_verified": false,
+    "modified_date": "2020-12-27T15:13:59.255Z",
+    "created_date": "2020-12-06T10:28:54.516Z"
+  },
+  {
+    "_id": 2,
+    "phone": "0389193312",
+    "password": "",
+    "name": "laodaihehe",
+    "address": "24/13 Đường Nguyễn Thái Bình, Phường 4, Quận Tân Bình, Hồ Chí Minh",
+    "images": "",
+    "description": "",
+    "role": "MOTEL_OWNER",
+    "is_verified": false,
+    "modified_date": "2020-12-06T10:28:54.516Z",
+    "created_date": "2020-12-06T10:28:54.516Z"
+  },
+  {
+    "_id": 3,
+    "phone": "0774193178",
+    "password": "",
+    "name": "duthuanan",
+    "address": "85 Đường Nguyễn Đình Chiểu, Phường 4, Quận Phú Nhuận, Hồ Chí Minh",
+    "images": "",
+    "description": "",
+    "role": "MOTEL_OWNER",
+    "is_verified": false,
+    "modified_date": "2020-12-06T10:28:54.516Z",
+    "created_date": "2020-12-06T10:28:54.516Z"
+  },
+  {
+    "_id": 4,
+    "phone": "0931808903",
+    "password": "",
+    "name": "dangthien",
+    "address": "127/17 Đường Âu Cơ, Phường 14, Quận 11, Hồ Chí Minh",
+    "images": "",
+    "description": "",
+    "role": "MOTEL_OWNER",
+    "is_verified": false,
+    "modified_date": "2020-12-06T10:28:54.516Z",
+    "created_date": "2020-12-06T10:28:54.516Z"
+  },
+  {
+    "_id": 5,
+    "phone": "0383172117",
+    "password": "",
+    "name": "minh đúc lưu",
+    "address": "4a/45 Đường D1, Phường 25, Quận Bình Thạnh, Hồ Chí Minh",
+    "images": "",
+    "description": "",
+    "role": "MOTEL_OWNER",
+    "is_verified": false,
+    "modified_date": "2020-12-06T10:28:54.516Z",
+    "created_date": "2020-12-06T10:28:54.516Z"
+  },
+  {
+    "_id": 6,
+    "phone": "0973373779",
+    "password": "",
+    "name": "tatuan",
+    "address": "125/16/11 Đường Bùi Đình Túy, Phường 24, Quận Bình Thạnh, Hồ Chí Minh",
+    "images": "",
+    "description": "",
+    "role": "MOTEL_OWNER",
+    "is_verified": false,
+    "modified_date": "2020-12-06T10:28:54.516Z",
+    "created_date": "2020-12-06T10:28:54.516Z"
+  },
+  {
+    "_id": 7,
+    "phone": "0947225045",
+    "password": "",
+    "name": "Nguyễn Văn Sơn",
+    "address": "744/2 Đường Nguyễn Kiệm, Phường 4, Quận Phú Nhuận, Hồ Chí Minh",
+    "images": "",
+    "description": "",
+    "role": "MOTEL_OWNER",
+    "is_verified": false,
+    "modified_date": "2020-12-06T10:28:54.516Z",
+    "created_date": "2020-12-06T10:28:54.516Z"
+  }
+]
