@@ -5,7 +5,9 @@
 
 				<v-card >
 
-					<m-carousel v-show="motel.images"  :items.native="getImages"></m-carousel>
+					<m-carousel v-if="motel.images"  :items.native="getImages"></m-carousel>
+
+					<v-img v-else  src="@/assets/img/default.png"></v-img>
 	
 					<v-tabs
 				      v-model="tab"

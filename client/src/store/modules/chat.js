@@ -6,34 +6,25 @@ export  const getters = {
 export const getDefaultState = () => ({
     windowMessengers: [
         {   
-            item: {
+            sender: {
                 name: "Phong",
-                id: 1,
+                id: "5fe867f253be3d1b3438842c",
             },
             isVisible: true,
             listMessengers: [
                 {
                     userId: 1,
                     message: "hehehe",
-                }
-            ]
-        },
-
-        {
-            item: {
-                name: "Linh",
-                id: 2,
-            },
-            isVisible: true,
-            listMessengers: [
+                },
                 {
-                    userId: 1,
-                    message: "hello",
+                    userId: "5fe867f253be3d1b3438842c",
+                    message: "cuoi cc",
                 }
-            ]
-        }
-    ],
+            ],
 
+            messageInput: "",
+        },
+    ],
 })
 
 const state = getDefaultState();

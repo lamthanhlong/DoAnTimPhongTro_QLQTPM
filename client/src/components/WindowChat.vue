@@ -2,9 +2,9 @@
 <v-layout id="window-chat">
    <div class="d-flex window-chat" v-if="windowMessengers.length">
       <div v-for="item, index in windowMessengers">
-        <v-card v-show="item.isVisible" >
+        <v-card v-show="item.isVisible" class="mr-4" >
           <v-toolbar dark color="primary darken-1">
-            <v-toolbar-title>{{ item.name }}</v-toolbar-title>
+            <v-toolbar-title>{{ item.sender.name }}</v-toolbar-title>
 
             <v-spacer></v-spacer>
                 <v-btn 
@@ -26,7 +26,7 @@
               :key="index"
               class="receive pa-0"
             >
-              <div class="block" v-if="messenger.userId !== userInfo.id">
+              <div class="block" v-if="messenger.userId !== userInfo._id">
                 <v-list-item>
                   <v-list-item-avatar class="logo-img">
                     <v-img src="https://gamek.mediacdn.vn/133514250583805952/2020/3/7/anh-1-1583592253266481895600.jpg"></v-img>
@@ -49,7 +49,7 @@
               <v-spacer></v-spacer>
                 <div class="d-flex float-right align-center" style="width: 100%;">
                   <v-text-field
-                    v-model="message"
+                    v-model="item.messageInput"
                     solo
                     clearable
                     label="Message"
@@ -81,11 +81,22 @@
   height: 500px;
   position: fixed;
   right: 0;
-  bottom: 0;
+  bottom: 1px;
 
   .v-card {
     height: 100%;
     width: 350px;
+  }
+
+  .v-card__actions{
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+  }
+
+  .v-card__text{
+    height: 375px;
+    overflow-y: scroll;
   }
 }
 
@@ -135,7 +146,7 @@ export default {
 
     userInfo: {
       get(){
-        return CookieService.get('userInfo')._id;
+        return CookieService.get('userInfo');
       }
     }
   },

@@ -5,7 +5,7 @@
    
     <router-view></router-view>
 
-
+            <window-chat></window-chat>
   </v-app>
 </template>
 
