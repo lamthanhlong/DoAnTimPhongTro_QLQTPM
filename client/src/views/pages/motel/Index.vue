@@ -249,6 +249,7 @@ export default {
     var city = this.cities.find(item => item.name === this.filterAddress.city);
 
     this.handleCityEvent(city)
+
     this.retrieveData(this.$route.query);
   },
 

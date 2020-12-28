@@ -4,6 +4,8 @@
     <progress-loading></progress-loading>
    
     <router-view></router-view>
+
+
   </v-app>
 </template>
 

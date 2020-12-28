@@ -25,6 +25,8 @@ import ButtonCancel from '@/components/button/ButtonCancel';
 
 import LabelTable from '@/components/label/LabelTable';
 
+import WindowChat from  "@/components/WindowChat.vue";
+
 // config
 import constant from '@/config/constant';
 import lang from '@/config/lang';
@@ -77,7 +79,7 @@ Vue.component('pagination-custom', Pagination);
 Vue.component('progress-header', ProgressHeader);
 Vue.component('progress-loading', ProgressLoading);
 Vue.component('label-table', LabelTable);
-
+Vue.component('window-chat', WindowChat);
 
 Vue.use(VueChatScroll);
 Vue.use(VueCookies);
