@@ -1,6 +1,5 @@
 <template>
 <v-layout>
-
    <div class="d-flex window-chat" v-if="windowMessengers.length">
       <div v-for="item, index in windowMessengers">
         <v-card v-show="item.isVisible" >
@@ -95,13 +94,9 @@
 
 export default {
 
-  created(){
-     this.retrieveUsers();
-  },
-
   data(){
     return {
-      listUsers: [],
+
       showMenu: false,
       classActive: "active",
       menuRight: "menu-right",
@@ -109,10 +104,6 @@ export default {
 
       smooth: false,
       statusUserLeave: false,
-
-      windowMessengers: [
-
-      ],
 
       message: "",
     }
@@ -122,58 +113,46 @@ export default {
     this.subscribeSendMessenger();
   },
 
+  computed: {
+    windowMessengers: {
+      get(){
+        return this.$store.getters["chats/windowMessengers"];
+      }
+    }
+  },
+
   methods: {
     loadMoreMessenger() {},
 
     subscribeSendMessenger(){
-      this.sockets.listener.subscribe(this.$socketEvent.USER_SEND_MESSENGER, res => {
-        if (res) {
-          var windowMessenger = {
-            ...res.sender,
-            isVisible: true,
-            listMessengers: [
-              {
-                userId: res.sender.id,
-                message: res.message,
-              }
-            ] 
-          }
 
-          var enablePushWindowMessenger =  this.conditionPushWindowMessenger(this.windowMessengers, windowMessenger)
-          if(enablePushWindowMessenger){
-            this.windowMessengers.push(windowMessenger)
-          }else{
-            this.windowMessengers.map(item => {
-              item.id !== res.sender.id ? item : {...item, listMessengers: item.listMessengers.push({
-                userId: item.id,
-                message: res.message
-                })
-              }
-            })
-          }
+
+      this.sockets.subscribe(this.$socketEvent.USER_SEND_MESSENGER, res => {
+        if (res) {
+          // var windowMessenger = {
+          //   ...res.sender,
+          //   isVisible: true,
+          //   listMessengers: [
+          //     {
+          //       userId: res.sender.id,
+          //       message: res.message,
+          //     }
+          //   ] 
+          // }
+
+          this.windowMessengers.map(item => {
+            item.id !== res.sender.id ? item : {...item, listMessengers: item.listMessengers.push({
+              userId: item.id,
+              message: res.message
+              })
+            }
+          })
         }
 
         this.$forceUpdate()
-
       });
-
     },
 
-    conditionPushWindowMessenger(windowMessengers, windowMessengerSelected){
-      var checkExist = this.windowMessengers.some(item => { return item.id === windowMessengerSelected.id});
-
-      if(checkExist)
-      {
-          return false;
-      }
-
-
-      if(this.windowMessengers.length === 2){
-        return false;
-      }
-
-      return true
-    },
 
     clearMessage() {
       this.message = "";
@@ -194,36 +173,15 @@ export default {
 
 
       this.$socket.emit(this.$socketEvent.USER_SEND_MESSENGER, data, receiver);
-
       this.clearMessage();
     },
 
-    openWindowMessenger(windowMessengerSelected){
-
-      var enablePushWindowMessenger =  this.conditionPushWindowMessenger(this.windowMessengers, windowMessengerSelected)
-    
-      if(enablePushWindowMessenger)
-      {
-        windowMessengerSelected.isVisible = true
-        windowMessengerSelected.listMessengers = []
-        this.windowMessengers.push(windowMessengerSelected)
-      }
-
-
-    },
 
     closeWindowMessenger(data){
       var index = this.windowMessengers.indexOf(data);
       this.windowMessengers.splice(index, 1)
     },
 
-    async retrieveUsers(){
-      const res = await HTTP.get('/user')
-      if(res.status === 200){
-        this.listUsers = res.data.data
-      }
-
-    }
   },
 
 

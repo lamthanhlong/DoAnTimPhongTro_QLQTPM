@@ -98,7 +98,7 @@
 					<v-card-text><b>Địa chỉ:</b> {{ motel.user.address }}</v-card-text>
 					
 					<v-card-text>
-						<v-btn small outlined>
+						<v-btn small outlined @click="openWindowChat(motel.user)">
 							Chat với người bán
 							<v-icon>mdi-account</v-icon>
 						</v-btn>
@@ -181,6 +181,12 @@ export default {
 	      setTimeout(async () => {
 	        this.$store.dispatch("motels/fetch", payload);
 	      }, 200);
+	    },
+
+	    openWindowChat(user){
+	    	var payload = user;
+
+	    	this.$store.dispatch("chats/openWindowMessenger", payload)
 	    }
 	},
 

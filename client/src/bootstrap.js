@@ -7,6 +7,7 @@ import helperValidation from '@/helpers/validation'
 import VueSocketIO from "vue-socket.io";
 import SocketIO from "socket.io-client";
 import VueChatScroll from "vue-chat-scroll";
+import SocketEvent from '@/config/socket_event'
 
 //plugin
 require("@/plugins/directive");
@@ -21,6 +22,8 @@ import ProgressLoading from "@/components/progress/ProgressLoading.vue";
 
 import ButtonSave from '@/components/button/ButtonSave';
 import ButtonCancel from '@/components/button/ButtonCancel';
+
+import LabelTable from '@/components/label/LabelTable';
 
 // config
 import constant from '@/config/constant';
@@ -66,13 +69,14 @@ Vue.prototype.$helper = helperCommon;
 Vue.prototype.$validation = helperValidation;
 Vue.prototype.$constant = constant;
 Vue.prototype.$lang = lang;
-
+Vue.prototype.$socketEvent = SocketEvent;
 
 Vue.component('breadcrumbs', BreadCrumbs);
 Vue.component('pagination-custom', Pagination);
 
 Vue.component('progress-header', ProgressHeader);
 Vue.component('progress-loading', ProgressLoading);
+Vue.component('label-table', LabelTable);
 
 
 Vue.use(VueChatScroll);

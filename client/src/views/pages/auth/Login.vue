@@ -12,22 +12,24 @@
             <v-card-text>
               <v-form ref="form" v-model="valid" :lazy-validation="lazy">
                 <v-text-field
-                  label="Email"
-                  name="email"
-                  prepend-icon="mdi-email"
+                  label="SĐT"
+                  prepend-icon="mdi-phone"
                   type="email"
-                  v-model="userInfo.email"
-                  :rules="emailRules"
+                  v-model="form.phone"
+                  :rules="[
+                    $validation.required(form.phone, `Số điện thoại`)
+                  ]"
                 ></v-text-field>
 
                 <v-text-field
                   id="password"
-                  label="Password"
-                  name="password"
+                  label="Mật khảu"
                   prepend-icon="mdi-lock"
                   type="password"
-                  :rules="passwordRules"
-                  v-model="userInfo.password"
+                  :rules="[
+                    $validation.required(form.password, `Mật khẩu`)
+                  ]"
+                  v-model="form.password"
                 ></v-text-field>
 
                 <div class="pb-4 caption d-flex">
@@ -38,35 +40,7 @@
                   </v-flex>
                 </div>
 
-                <v-btn block color="primary" @click="login">Login</v-btn>
-
-                <v-card-text class="text-center horizontal-line">
-                  OR Continue
-                </v-card-text>
-
-                <div class="text-center pb-8">
-                  <v-btn
-                    v-bind:style="[isMobile ? styleBtn : '']"
-                    :class="{ 'mx-2': !isMobile}"
-                    dark
-                    color="red darken-4"
-                    v-on:click="loginGoogle"
-                  >
-                    <v-icon dark>mdi-google-plus</v-icon>
-                    <span class="pl-3">With Google</span>
-                  </v-btn>
-
-                  <v-btn
-                    v-bind:style="[isMobile ? styleBtn : '']"
-                    :class="{ 'mx-2': !isMobile }"
-                    dark
-                    color="primary"
-                    @click.sync="loginFacebook"
-                  >
-                    <v-icon dark>mdi-facebook</v-icon>
-                    <span class="pl-3">With Facebook</span>
-                  </v-btn>
-                </div>
+                <v-btn block color="primary" @click="login()">Login</v-btn>
 
                 <hr />
 
@@ -89,48 +63,41 @@
   </v-app>
 </template>
 <script>
+import Auth from "@/services/auth";
+
 //mixin
 import IsMobile from "@/mixins/is_mobile";
-
-
-// service
-import AuthServices from "@/services/auth";
-import CookieServices from "@/services/cookie";
-
 
 export default {
   mixins: [IsMobile],
 
-  beforeRouteEnter(to, from, next) {
-    const tokenUser = $cookies.get("accessToken");
-    if (!tokenUser) {
-      return next();
-    }
-    return next({ path: "/dashboard" });
-  },
+  // beforeRouteEnter(to, from, next) {
+  //   // const tokenUser = $cookies.get("accessToken");
+  //   // if (!tokenUser) {
+  //   //   return next();
+  //   // }
+  //   // return next({ path: "/motels" });
+  // },
 
   data() {
     return {
       valid: true,
       lazy: false,
-      emailRules: [v => !!v || "Email is required!"],
-      passwordRules: [v => !!v || "Password is required!"],
-
-      userInfo: {
-        email: "",
-        password: "",
-      },
 
       styleBtn: {
         width: '100%',
         marginTop: '10px'
       },
+
+      form: {
+        phone: "",
+        password: "",
+      }
     };
   },
 
   mounted() {
-    // SocialAuth.loadFacebookSDK(document, "script", "facebook-jssdk");
-    // SocialAuth.initFacebook();
+
   },
 
   methods: {
@@ -138,104 +105,39 @@ export default {
       this.$router.push("/auth/register");
     },
 
-    async login() {
+    login() {
+
       if (this.$refs.form.validate()) {
-        var loader = this.$loading.show();
-        const { email, password } = this.userLogin;
-        const res = await AuthServices.login(email, password);
+        this.$store.dispatch("components/progressLoading", { option: "show" })
 
-        // case success
-        if(res.data){
-          CookieServices.set("userToken", res.data.adminLogin.token);
-          CookieServices.set("userInfo", res.data.adminLogin.info);
+        var dataLogin = {
+          phone: this.form.phone,
+          password: this.form.password
+        };
 
-          this.$router.push('/users');
-          loader.hide();
+        Auth.login(dataLogin).then(res => {
+      
+          if (res.status == 200) {
 
-        // case error
-        }else{
-          toastr.error(res.message, this.$lang.ERROR, { timeOut: 1000 });
-          loader.hide();
+            this.$cookies.set("userInfo", res.data.user);
+            this.$cookies.set("accessToken", res.data.token);
+            this.$socket.emit(this.$socketEvent.ADD_USER, res.data.user);
+            setTimeout(() => {
+                this.$store.dispatch("components/progressLoading", { option: "hide" })
+               this.$router.push("/motels");
+            }, 1500);
 
-          // login fail -> reset input password
-          this.userLogin.password = "";
-
-          // update component & reset validation
-          this.$forceUpdate();
-          this.$refs.form.resetValidation();
-        }
+           
+          } else {
+            setTimeout(() => {
+              toastr.error(res.data.message, "Error", { timeOut: 1000 });
+               this.$store.dispatch("components/progressLoading", { option: "hide" })
+            }, 1500);
+          }
+        });
       }
     },
 
-    async loginGoogle() {
-      try {
-        const googleUser = await this.$gAuth.signIn();
-        var data = {};
-
-        data.email =
-        googleUser.getBasicProfile().$t || googleUser.getBasicProfile().yu;
-        data.password = "";
-        data.providerId = googleUser.getId();
-        data.providerType = googleUser.getAuthResponse().idpId;
-        data.fullName = googleUser.getBasicProfile().Ad; //(FV + GT)
-        data.accessToken = googleUser.getAuthResponse().access_token;
-        data.expires = googleUser.getAuthResponse().expires_in;
-
-        Auth.loginSocial(data, "google").then(res => {
-          if (res.status === 200) {
-
-            // CookieServices.set("userToken", res.data.adminLogin.token);
-            // CookieServices.set("userInfo", res.data.adminLogin.info);
-
-
-            // store user vuex 
-            this.$router.push("/");
-          }
-        });
-      } catch (e) {}
-    },
-
-    async loginFacebook() {
-      FB.getLoginStatus(res => {
-        FB.login(
-          res => {
-            if (res.authResponse) {
-              var data = {};
-              var authResponse = res.authResponse;
-
-              FB.api("/me", { fields: "id, name, email" }, res => {
-                data.email = res.email;
-                data.password = "";
-                data.providerId = authResponse.userID;
-                data.providerType = authResponse.graphDomain;
-                data.fullName = res.name;
-                data.accessToken = authResponse.accessToken;
-                data.expires = authResponse.expiresIn;
-
-                Auth.loginSocial(data, "facebook").then(res => {
-                  if (res.status === 200) {
-                    this.$cookies.set("dataUser", res.data.data.userInfo);
-                    this.$cookies.set("accessToken", res.data.data.accessToken);
-                    this.$cookies.set(
-                      "refreshToken",
-                      res.data.data.refreshToken
-                    );
-
-                    this.$socket.emit(this.$socketEvent.ADD_USER, res.data.data.userInfo);
-
-                    // store user vuex 
-                    User.dispatch('updateUser', res.data.data.userInfo);
-
-                    this.$router.push("/dashboard");
-                  }
-                });
-              });
-            }
-          },
-          { scope: "public_profile,email" }
-        );
-      });
-    }
   },
 };
 </script>

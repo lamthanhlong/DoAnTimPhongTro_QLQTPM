@@ -155,7 +155,7 @@ module.exports = {
   },
   Add: (obj) => {
     obj.created_date = obj.modified_date = new Date();
-    obj.owner_id = ObjectId(`${owner_id}`);
+    obj.owner_id = ObjectId(`${obj.owner_id}`);
     return db.insertOne(TableName, obj);
   },
   Update: (id, obj) => {
