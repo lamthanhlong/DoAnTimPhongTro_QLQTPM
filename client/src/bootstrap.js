@@ -23,6 +23,8 @@ import ProgressLoading from "@/components/progress/ProgressLoading.vue";
 import ButtonSave from '@/components/button/ButtonSave';
 import ButtonCancel from '@/components/button/ButtonCancel';
 
+import LabelTable from '@/components/label/LabelTable';
+
 // config
 import constant from '@/config/constant';
 import lang from '@/config/lang';
@@ -74,6 +76,7 @@ Vue.component('pagination-custom', Pagination);
 
 Vue.component('progress-header', ProgressHeader);
 Vue.component('progress-loading', ProgressLoading);
+Vue.component('label-table', LabelTable);
 
 
 Vue.use(VueChatScroll);

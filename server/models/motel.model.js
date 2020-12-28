@@ -105,6 +105,7 @@ module.exports = {
     var count = await db.count(TableName, query_object);
     var pageCounts = helper.calcPageCounts(count, itemPerPage);
 
+
     return {
       data,
       count,
@@ -190,6 +191,7 @@ module.exports = {
   },
   Add: (obj) => {
     obj.created_date = obj.modified_date = new Date();
+    obj.owner_id = ObjectId(`${obj.owner_id}`);
     return db.insertOne(TableName, obj);
   },
   Update: (id, obj) => {

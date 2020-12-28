@@ -105,16 +105,20 @@ export default {
       smooth: false,
       statusUserLeave: false,
 
-      windowMessengers: [
-
-      ],
-
       message: "",
     }
   },
 
   mounted(){
     this.subscribeSendMessenger();
+  },
+
+  computed: {
+    windowMessengers: {
+      get(){
+        return this.$store.getters["chats/windowMessengers"];
+      }
+    }
   },
 
   methods: {
@@ -125,16 +129,16 @@ export default {
 
       this.sockets.subscribe(this.$socketEvent.USER_SEND_MESSENGER, res => {
         if (res) {
-          var windowMessenger = {
-            ...res.sender,
-            isVisible: true,
-            listMessengers: [
-              {
-                userId: res.sender.id,
-                message: res.message,
-              }
-            ] 
-          }
+          // var windowMessenger = {
+          //   ...res.sender,
+          //   isVisible: true,
+          //   listMessengers: [
+          //     {
+          //       userId: res.sender.id,
+          //       message: res.message,
+          //     }
+          //   ] 
+          // }
 
           this.windowMessengers.map(item => {
             item.id !== res.sender.id ? item : {...item, listMessengers: item.listMessengers.push({
@@ -143,7 +147,6 @@ export default {
               })
             }
           })
-          
         }
 
         this.$forceUpdate()

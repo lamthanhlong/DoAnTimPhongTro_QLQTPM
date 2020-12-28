@@ -1,80 +1,141 @@
 <template>
-  <v-app id="list_motel">
-  	
-  	<v-card
-    class="mx-auto"
-    max-width="500"
-  >
-    <v-toolbar
-      color="pink"
-      dark
-    >
-      <v-app-bar-nav-icon></v-app-bar-nav-icon>
+<v-layout v-resize="onResize">
+  <v-container>
+    <v-row>
+      <label-table title="Profile"> </label-table>
+    </v-row>
 
-      <v-toolbar-title>Inbox</v-toolbar-title>
+    <v-row>
+      <v-col cols="12" md="4" :class="{ 'pa-0': isMobile }">
+        <m-menu></m-menu>
+      </v-col>
 
-      <v-spacer></v-spacer>
+      <v-col cols="12" md="8" :class="{ 'pa-0': isMobile }">
+        <v-card tile  style="height: 100%;">
 
-      <v-btn icon>
-        <v-icon>mdi-magnify</v-icon>
-      </v-btn>
+          <v-card-title class="border-bottom">Các bài đã đăng</v-card-title>
 
-      <v-btn icon>
-        <v-icon>mdi-checkbox-marked-circle</v-icon>
-      </v-btn>
-    </v-toolbar>
+          <v-list two-line>
+              <v-list-item-group
+                v-model="selected"
+                active-class="pink--text"
+                multiple
+              >
+                <template v-for="(item, index) in motels">
+                  <v-row>
+                      <v-col cols="5">
+                        <v-img 
+                          v-if="item.images"
+                          width="100%"
+                          height="auto"
+                          :src="$helper.getMainImageMotel(item.images)"
+                          contain
+                          :aspect-ratio="16/9"
+                        ></v-img>
 
-    <v-list two-line>
-      <v-list-item-group
-        v-model="selected"
-        active-class="pink--text"
-        multiple
-      >
-        <template v-for="(item, index) in items">
-          <v-list-item :key="item.title">
-            <template v-slot:default="{ active }">
-              <v-list-item-content>
-                <v-list-item-title v-text="item.title"></v-list-item-title>
+                        <v-img
+                        v-else
+                        width="100%"
+                        height="auto"
+                        contain
+                        :aspect-ratio="16/9"
+                        src="@/assets/img/default.png"
+                        >
 
-                <v-list-item-subtitle
-                  class="text--primary"
-                  v-text="item.headline"
-                ></v-list-item-subtitle>
+                        </v-img>
+                      </v-col>
+                      <v-col cols="7">
+                      <v-card-title>{{ item.title }}</v-card-title>
+                        <v-card-text>
+                          <v-row
+                            align="center"
+                            class="mx-0"
+                          >
+                            <v-rating
+                              :value="item.rating"
+                              color="amber"
+                              dense
+                              half-increments
+                              readonly
+                              size="14"
+                            ></v-rating>
 
-                <v-list-item-subtitle v-text="item.subtitle"></v-list-item-subtitle>
-              </v-list-item-content>
+                          </v-row>
 
-              <v-list-item-action>
-                <v-list-item-action-text v-text="item.action"></v-list-item-action-text>
+                          <div class="my-4 subtitle-1 red--text font-weight-bold">
+                            {{ item.price }} triệu VNĐ
+                          </div>
 
-                <v-icon
-                  v-if="!active"
-                  color="grey lighten-1"
-                >
-                  mdi-star-outline
-                </v-icon>
+                          <div>
+                            <code>{{item.area}}m<sup>2</sup></code>
+                          </div>
 
-                <v-icon
-                  v-else
-                  color="yellow darken-3"
-                >
-                  mdi-star
-                </v-icon>
-              </v-list-item-action>
-            </template>
-          </v-list-item>
-
-          <v-divider
-            v-if="index < items.length - 1"
-            :key="index"
-          ></v-divider>
-        </template>
-      </v-list-item-group>
-    </v-list>
-  </v-card>
-  </v-app>
+                          <div class="my-4 subtitle-1 text-decoration-underline" v-if="item.has_furniture">
+                            Có nội thất
+                          </div>
+                        </v-card-text>
+                    </v-col>
+                </v-row>
+                  <v-divider
+                    v-if="index < motels.length - 1"
+                    :key="index"
+                  ></v-divider>
+                </template>
+              </v-list-item-group>
+            </v-list>
+        </v-card>
+      </v-col>
+    </v-row>
+  </v-container>
+</v-layout>
 </template>
 
 <script type="text/javascript">
+// services
+import MotelService from "@/services/motel";
+import CookieService from "@/services/cookie";
 
+// component
+import Menu from './components/Menu.vue';
+
+// mixins
+import IsMobile from "@/mixins/is_mobile";
+
+export default {
+
+  components: {
+    'm-menu': Menu
+  },
+
+  mixins: [IsMobile],
+
+  data(){
+    return {
+      userId: CookieService.get('userInfo')._id,
+      selected: [2],
+      motels: [],
+      currentPage: 1,
+      pageCounts: 1,
+    }
+  },
+
+  created(){
+
+    this.retrieveData(this.userId);
+  },
+
+  methods: {
+    async retrieveData(userId){
+      const res = await MotelService.getAllByOwner(userId);
+      if(res.status === 200)
+      {
+        this.motels = res.data.data;
+        this.pageCounts = res.data.pageCounts;
+      }
+  
+    }
+  },
+
+
+}
 </script>

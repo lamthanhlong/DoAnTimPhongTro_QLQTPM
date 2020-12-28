@@ -17,6 +17,7 @@ module.exports = {
   },
   ownerFetchMotels: async (req, res) => {
     const id = req.params.id;
+
     const motels = await motel.OwnerGet(id, req.query);
     return res.json(motels);
   },
