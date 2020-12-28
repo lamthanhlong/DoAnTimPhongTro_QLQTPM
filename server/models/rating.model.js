@@ -52,9 +52,8 @@ module.exports = {
         $skip: skip,
       }
     );
+    var data = await db.aggregate(TableName, aggregate);
     if (!process.env.IS_TEST) {
-      var data = await db.aggregate(TableName, aggregate);
-
       return data;
     }
 
@@ -63,7 +62,6 @@ module.exports = {
     }
   },
   FindRating: (obj) => {
-    console.log(obj);
     return db.find(TableName, {
       user_id: obj.user_id,
       motel_id: obj.motel_id,
@@ -75,6 +73,9 @@ module.exports = {
   },
   Update: (id, obj) => {
     obj.modified_date = new Date();
+    if (process.env.IS_TEST) {
+      return db.updateOne(TableName, { _id: id }, obj);
+    }
     return db.updateOne(
       TableName,
       {

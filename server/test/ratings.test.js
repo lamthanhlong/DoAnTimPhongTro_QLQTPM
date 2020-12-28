@@ -68,9 +68,9 @@ describe('Ratings', () => {
   describe('POST /', () => {
     it('it should Post Rating to Motel Id', (done) => {
       const rating = {
-        motel_id: 5,
-        user_id: 6,
-        rating: 3,
+        motel_id: 24,
+        user_id: 25,
+        rating: 5,
         comment: 'Phòng trọ tốt, giá cả phải chăng',
       };
       chai
@@ -78,12 +78,12 @@ describe('Ratings', () => {
         .post('/api/rating')
         .send(rating)
         .end((err, res) => {
-          //res.should.have.status(201);
+          res.should.have.status(201);
           res.body.should.be.a('object');
           var ret = JSON.parse(res.text);
-          ret.motel_id.should.be.eql(2);
-          ret.user_id.should.be.eql(1);
-          ret.rating.should.be.eql(4);
+          ret.motel_id.should.be.eql(24);
+          ret.user_id.should.be.eql(25);
+          ret.rating.should.be.eql(5);
           ret.comment.should.be.a('string');
 
           done();
@@ -92,103 +92,83 @@ describe('Ratings', () => {
     });
   });
 
-  // describe('POST /', () => {
-  //   it('it should not Post Rating to Motel Id because of duplication', (done) => {
-  //     const rating = {
-  //       motel_id: 2,
-  //       user_id: 1,
-  //       rating: 4,
-  //       comment: 'Phòng trọ tốt, giá cả phải chăng',
-  //     };
-  //     chai
-  //       .request(server)
-  //       .post('/api/rating/')
-  //       .send(rating)
-  //       .end((err, res) => {
-  //         res.should.have.status(400);
+  describe('POST /', () => {
+    it('it should not Post Rating to Motel Id because of duplication', (done) => {
+      const rating = {
+        motel_id: 2,
+        user_id: 1,
+        rating: 4,
+        comment: 'Phòng trọ tốt, giá cả phải chăng',
+      };
+      chai
+        .request(server)
+        .post('/api/rating/')
+        .send(rating)
+        .end((err, res) => {
+          res.should.have.status(400);
+          done();
+        })
+        .timeout(5000);
+    });
+  });
 
-  //         res.body.should.be.a('object');
-  //         var ret = JSON.parse(res.text);
-  //         ret.motel_id.should.be.eql(2);
-  //         ret.user_id.should.be.eql(1);
-  //         ret.rating.should.be.eql(4);
-  //         ret.comment.should.be.a('string');
-  //         let new_id = ret._id;
+  describe('DELETE /', () => {
+    it('it should Delete Rating by Id', (done) => {
+      const id = 3;
+      chai
+        .request(server)
+        .delete('/api/rating/' + id)
+        .end((err, res) => {
+          res.should.have.status(200);
+          res.body.should.be.a('object');
+          done();
+        });
+    });
+  });
 
-  //         done();
-  //       })
-  //       .timeout(5000);
-  //   });
-  // });
+  describe('PUT /', () => {
+    it('it should Update Rating by Id', (done) => {
+      const id = 1;
+      const update = {
+        user_id: 2,
+        motel_id: 3,
+        rating: 4,
+        comment: 'phòng trọ ổn.',
+      };
+      chai
+        .request(server)
+        .put('/api/rating/' + id)
+        .send(update)
+        .end((err, res) => {
+          res.should.have.status(200);
+          ret = JSON.parse(res.text);
+          ret[0]._id.should.be.eql(1);
+          ret[0].user_id.should.be.eql(2);
+          ret[0].motel_id.should.be.eql(1);
+          ret[0].rating.should.be.eql(4);
+          ret[0].comment.should.be.a('string');
+          done();
+        });
+    });
+  });
 
-  //   describe('POST /', () => {
-  //     it('it should not Post Rating to Motel Id', (done) => {
-  //       const rating = {
-  //         user_id: '5fddba4b5ee3560660340a61',
-  //         motel_id: '5fccb2b71e10b0191c1a0fc6',
-  //         rating: 4,
-  //         comment: 'phòng trọ tạm được.',
-  //       };
-  //       chai
-  //         .request(server)
-  //         .post('/api/rating/')
-  //         .send(rating)
-  //         .end((err, res) => {
-  //           res.should.have.status(400);
-  //           done();
-  //         });
-  //     });
-  //   });
-
-  //   describe('DELETE /', () => {
-  //     it('it should Delete Rating by Id', (done) => {
-  //       const id = '5fe755641a84bf4a3c8ba597';
-  //       chai
-  //         .request(server)
-  //         .delete('/api/rating/' + id)
-  //         .end((err, res) => {
-  //           res.should.have.status(200);
-  //           res.body.should.be.a('object');
-  //           done();
-  //         });
-  //     });
-  //   });
-
-  //   describe('PUT /', () => {
-  //     it('it should Update Rating by Id', (done) => {
-  //       const id = '5fddbb35d86dd127c01df38b';
-  //       const update = {
-  //         user_id: '5fddba4b5ee3560660340a61',
-  //         motel_id: '5fccb2b71e10b0191c1a0fc6',
-  //         rating: 4,
-  //         comment: 'phòng trọ ổn.',
-  //       };
-  //       chai
-  //         .request(server)
-  //         .put('/api/rating/' + id)
-  //         .end((err, res) => {
-  //           res.should.have.status(200);
-  //           done();
-  //         });
-  //     });
-  //   });
-
-  //   describe('PUT /', () => {
-  //     it('it should not Update Rating by Id (Wrong Id)', (done) => {
-  //       const id = '5fddbb35d86dd127c0abcdef';
-  //       const update = {
-  //         user_id: '5fddba4b5ee3560660340a61',
-  //         motel_id: '5fccb2b71e10b0191c1a0fc6',
-  //         rating: 4,
-  //         comment: 'phòng trọ ổn.',
-  //       };
-  //       chai
-  //         .request(server)
-  //         .put('/api/rating/' + id)
-  //         .end((err, res) => {
-  //           res.should.have.status(400);
-  //           done();
-  //         });
-  //     });
-  //   });
+  describe('PUT /', () => {
+    it('it should not Update Rating by Id (Wrong Id)', (done) => {
+      const id = 25;
+      const update = {
+        user_id: 1,
+        motel_id: 4,
+        rating: 4,
+        comment: 'phòng trọ ổn.',
+      };
+      chai
+        .request(server)
+        .put('/api/rating/' + id)
+        .send(update)
+        .end((err, res) => {
+          res.should.have.status(400);
+          done();
+        });
+    });
+  });
 });

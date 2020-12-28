@@ -1,20 +1,6 @@
 const jwt = require('jsonwebtoken');
 const model = require('../models/user.model');
-// if (process.env.IS_TEST) {
-//   module.exports = {
-//     protect: function (req, res, next) {
-//       next();
-//     },
 
-//     authorize: (...roles) =>
-//       function (req, res, next) {
-//         next();
-//       },
-
-//     sendTokenResponse: async function (req, res, next) {},
-//   };
-//   return;
-// }
 exports.protect = function (req, res, next) {
   let accessToken;
   if (

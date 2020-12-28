@@ -31,11 +31,9 @@ module.exports = {
     if (typeof obj_query === 'undefined') {
       return dummyData;
     }
-    console.log(obj_query);
     if (!helper.ObjectIsEmpty(obj_query)) {
       dummyData = Find(dummyData, obj_query);
     }
-    console.log();
     return dummyData;
   },
   insertOne: (table, obj) => {

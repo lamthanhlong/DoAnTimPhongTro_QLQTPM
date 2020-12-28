@@ -4,9 +4,15 @@ const TableName = 'Users';
 const jwt = require('jsonwebtoken');
 module.exports = {
   getSignedJwtToken: async (user_id) => {
-    const users = await db.find(TableName, {
-      _id: ObjectId(`${user_id}`),
-    });
+    let users;
+    if (!process.env.IS_TEST) {
+      users = await db.find(TableName, {
+        _id: ObjectId(`${user_id}`),
+      });
+    } else
+      users = await db.find(TableName, {
+        _id: user_id,
+      });
     const user = users[0];
     if (users.length == 0) {
       return;
@@ -26,6 +32,11 @@ module.exports = {
     return db.find(TableName);
   },
   Single: (id) => {
+    if (process.env.IS_TEST) {
+      return db.find(TableName, {
+        _id: id,
+      });
+    }
     return db.find(TableName, {
       _id: ObjectId(`${id}`),
     });
@@ -39,15 +50,26 @@ module.exports = {
   },
   Update: (id, obj) => {
     obj.modified_date = new Date();
-    return db.updateOne(
-      TableName,
-      {
-        _id: ObjectId(`${id}`),
-      },
-      obj
-    );
+    if (process.env.IS_TEST) {
+      return db.updateOne(
+        TableName,
+        {
+          _id: id,
+        },
+        obj
+      );
+    } else
+      return db.updateOne(
+        TableName,
+        {
+          _id: ObjectId(`${id}`),
+        },
+        obj
+      );
   },
   Delete: (id) => {
-    return db.deleteOne(TableName, { _id: ObjectId(`${id}`) });
+    if (process.env.IS_TEST) {
+      return db.deleteOne(TableName, { _id: id });
+    } else return db.deleteOne(TableName, { _id: ObjectId(`${id}`) });
   },
 };

@@ -19,7 +19,24 @@ describe('Motels', () => {
       chai
         .request(server)
         .get(
-          '/api/motel?city=TP HCM&district=6&sort=price&price=7-10&area=100-200'
+          '/api/motel?city=TP HCM&district=6&address=01&sort=price&price=7-10&area=100-200&searchkey=Gia re'
+        )
+        .end((err, res) => {
+          res.should.have.status(200);
+          var ret = JSON.parse(res.text);
+          ret.data.should.be.a('array');
+          ret.count.should.be.eql(3);
+          done();
+        });
+    });
+  });
+
+  describe('GET /', () => {
+    it('it should QUERY Motels base on PARAMS conditions', (done) => {
+      chai
+        .request(server)
+        .get(
+          '/api/motel?city=TP HCM&district=6&address=01&sort=price&price=7&area=100&searchkey=Gia re'
         )
         .end((err, res) => {
           res.should.have.status(200);
@@ -66,7 +83,39 @@ describe('Motels', () => {
       );
       chai
         .request(server)
-        .get('/api/motel/user/' + user_id)
+        .get(
+          '/api/motel/user/' +
+            user_id +
+            '?city=TP HCM&district=6&address=01&sort=price&price=7-10&area=100-200&searchkey=Gia re'
+        )
+        .set({ Authorization: `Bearer ${token}` })
+        .end((err, res) => {
+          res.should.have.status(200);
+          done();
+        });
+    });
+  });
+  describe('GET /user/:id', () => {
+    it('it should GET Motels by OWNER_ID', (done) => {
+      var user_id = 1;
+      var user_role = 'MOTEL_OWNER';
+      let token = jwt.sign(
+        {
+          id: user_id,
+          role: user_role,
+        },
+        'BEST_SOLUTION',
+        {
+          expiresIn: 20 * 24 * 60 * 60000,
+        }
+      );
+      chai
+        .request(server)
+        .get(
+          '/api/motel/user/' +
+            user_id +
+            '?city=TP HCM&district=6&address=01&sort=price&price=7&area=100&searchkey=Gia re'
+        )
         .set({ Authorization: `Bearer ${token}` })
         .end((err, res) => {
           res.should.have.status(200);
@@ -258,13 +307,37 @@ describe('Motels', () => {
   });
 
   describe('GET /local', () => {
-    it('it should GET Country location', (done) => {
+    it('it should GET Country location base on PARAMS', (done) => {
       chai
         .request(server)
         .get('/api/motel/local?city_id=1&district_id=1')
         .end((err, res) => {
           res.should.have.status(200);
           res.body.count.should.be.eql(16);
+          res.body.data.should.be.a('array');
+          done();
+        });
+    });
+  });
+  describe('GET /local', () => {
+    it('it should GET All Country location base on City Id', (done) => {
+      chai
+        .request(server)
+        .get('/api/motel/local?city_id=1')
+        .end((err, res) => {
+          res.should.have.status(200);
+          res.body.data.should.be.a('array');
+          done();
+        });
+    });
+  });
+  describe('GET /local', () => {
+    it('it should GET All Country location', (done) => {
+      chai
+        .request(server)
+        .get('/api/motel/local')
+        .end((err, res) => {
+          res.should.have.status(200);
           res.body.data.should.be.a('array');
           done();
         });

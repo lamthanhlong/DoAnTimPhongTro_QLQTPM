@@ -22,7 +22,6 @@ router.get('/motel/:id', async function (req, res) {
 router.post('/', validate(schema), async function (req, res) {
   const object = req.body;
   const checkDup = await model.FindRating(object);
-  console.log(checkDup);
   if (checkDup.length > 0) return res.status(400).end();
   const id = await model.Add(object);
   object._id = id;

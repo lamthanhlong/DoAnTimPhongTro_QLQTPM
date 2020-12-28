@@ -18,12 +18,14 @@ router.post('/login', async function (req, res) {
       .json({ err_msg: 'Please input correct login information' });
   }
   let user = await model.FindByPhone(phone);
+
   if (user.length == 0) {
-    res.status(404).json({ err_msg: 'User not found' });
+    return res.status(404).json({ err_msg: 'User not found' });
   }
+
   user = user[0];
   if (!bcrypt.compareSync(password, user.password)) {
-    res.status(404).end();
+    return res.status(404).end();
   }
   const accessToken = jwt.sign(
     {
