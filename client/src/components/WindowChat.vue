@@ -4,7 +4,7 @@
       <div v-for="item, index in windowMessengers">
         <v-card v-show="item.isVisible" class="mr-4" >
           <v-toolbar dark color="primary darken-1">
-            <v-toolbar-title>{{ item.sender.name }}</v-toolbar-title>
+            <v-toolbar-title>{{ item.receiver.name }}</v-toolbar-title>
 
             <v-spacer></v-spacer>
                 <v-btn 
@@ -16,6 +16,7 @@
                 </v-btn>
           </v-toolbar>
 
+
           <v-card-text
             @v-chat-scroll-top-reached="loadMoreMessenger"
             v-chat-scroll="{ always: false, smooth: true, scrollonremoved: true }"
@@ -26,12 +27,15 @@
               :key="index"
               class="receive pa-0"
             >
+
               <div class="block" v-if="messenger.userId !== userInfo._id">
                 <v-list-item>
+
                   <v-list-item-avatar class="logo-img">
                     <v-img src="https://gamek.mediacdn.vn/133514250583805952/2020/3/7/anh-1-1583592253266481895600.jpg"></v-img>
                   </v-list-item-avatar>
                   <v-list-item-title>
+
                     <v-chip :ripple="false">{{ messenger.message }}</v-chip>
                   </v-list-item-title>
                 </v-list-item>
@@ -54,7 +58,7 @@
                     clearable
                     label="Message"
                     hide-details="auto"
-                    @click:clear="clearMessage"
+                    
                     class="textfield__message"
                   ></v-text-field>
                   <v-btn
@@ -159,53 +163,61 @@ export default {
 
       this.sockets.subscribe(this.$socketEvent.USER_SEND_MESSENGER, res => {
         if (res) {
-          // var windowMessenger = {
-          //   ...res.sender,
-          //   isVisible: true,
-          //   listMessengers: [
-          //     {
-          //       userId: res.sender.id,
-          //       message: res.message,
-          //     }
-          //   ] 
-          // }
 
-          this.windowMessengers.map(item => {
-            item.id !== res.sender.id ? item : {
-              ...item, 
-              listMessengers: item.listMessengers.push({
-                                  userId: item.id,
-                                  message: res.message
-                                })
-            }
+          var sender = res.sender;
+          var receiver = res.receiver;
+          var message = res.message;
+
+          var payload = {
+            _id: sender._id,
+            receiver: sender,
+            isVisible: true,
+            messageInput: "",
+          };
+
+
+          var listMessengers = this.windowMessengers.filter((item) => {
+
+            console.log(item);
+
+            // item._id !== sender._id ? item.listMessengers : item.listMessengers.push({
+            //   userId: this.userInfo._id,
+            //   message: item.message
+            // })
           })
+
+          return false;
+
+          payload.listMessengers = listMessengers;
+
+          this.$store.dispatch("chats/openWindowMessenger", payload);
+
         }
 
         this.$forceUpdate()
       });
     },
 
+    sendMessenger(item){
 
-    clearMessage() {
-      this.message = "";
-    },
-
-    sendMessenger(receiver){
+      var receiver = item.receiver;
 
       var data = {
-        message: this.message,
+        message: item.messageInput,
       }
 
       this.windowMessengers.map(item => {
-        item.id !== receiver.id ? item : {...item, listMessengers: item.listMessengers.push({
-          userId: this.userInfo.id,
-          message: this.message
+        item._id !== receiver._id ? item : {...item, listMessengers: item.listMessengers.push({
+          userId: this.userInfo._id,
+          message: item.messageInput
         })}
       })
 
 
       this.$socket.emit(this.$socketEvent.USER_SEND_MESSENGER, data, receiver);
-      this.clearMessage();
+      
+      // clear
+      item.messageInput = "";
     },
 
 
