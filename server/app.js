@@ -57,7 +57,7 @@ if (!process.env.IS_BUILD) {
     socket.on('disconnect', () => {
       console.log('A user disconnected');
     });
-    console.log('Socket.io is Running');
+    if(!process.env.IS_TEST) console.log('Socket.io is Running');
   });
 }
 

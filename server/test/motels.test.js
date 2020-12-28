@@ -133,7 +133,7 @@ describe('Motels', () => {
         area: 1,
         has_furniture: true,
         price: 1,
-        owner_id: 'me',
+        owner_id: '5fccb2931e10b0191c19ac6b',
       };
       chai
         .request(server)

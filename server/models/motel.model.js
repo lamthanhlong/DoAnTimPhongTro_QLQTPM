@@ -60,7 +60,7 @@ module.exports = {
     );
 
     var data = await db.aggregate(TableName, aggregate);
-    var count = await db.count(TableName, query_object);
+    var count = await db.count(TableName, {});
     var pageCounts = helper.calcPageCounts(count, itemPerPage);
 
     if (!process.env.IS_TEST) {
