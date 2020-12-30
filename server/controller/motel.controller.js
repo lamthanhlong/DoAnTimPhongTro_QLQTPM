@@ -14,10 +14,6 @@ module.exports = {
     if (getRatings.length > 0) {
       data[0].Ratings = getRatings;
     }
-<<<<<<< HEAD
-
-=======
->>>>>>> 4f8bf426f1ec3a03e53cfd824a2a62c4e7bb8b05
     return res.json(data);
   },
   ownerFetchMotels: async (req, res) => {

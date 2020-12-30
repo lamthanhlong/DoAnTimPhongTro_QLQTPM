@@ -43,9 +43,8 @@ module.exports = {
     if (process.env.IS_TEST) {
       owner_id = '5fccb2931e10b0191c19ac4c';
     }
-    
+
     var aggregate = [];
-<<<<<<< HEAD
     if (!helper.ObjectIsEmpty(query_object))
       aggregate.push({
         $match: query_object,
@@ -55,8 +54,6 @@ module.exports = {
       aggregate.push({
         $sort: sort_object,
       });
-=======
->>>>>>> 4f8bf426f1ec3a03e53cfd824a2a62c4e7bb8b05
     var currentPage = params.page || 1;
     var itemPerPage = params.itemPerPage || constant.DEFAULT_PAGINATION_ITEMS;
 

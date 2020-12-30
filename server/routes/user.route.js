@@ -10,7 +10,7 @@ const authRouter = require('./auth.route');
 
 const { protect, authorize, sendTokenResponse } = require('../utils/auth');
 router.get('/', async (req, res) => {
-  var data = await model.GetAll();
+  var data = await model.GetQuery(req.query);
   res.json(data);
 });
 router.get('/:id', async (req, res) => {
