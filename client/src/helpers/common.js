@@ -171,8 +171,10 @@ export default {
   },
 
   getMainImageMotel(imageString){
-    if(!imageString)
+
+    if(!imageString){
       return null;
+    }
 
     return imageString.split(";")[0];
   },

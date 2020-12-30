@@ -9,10 +9,6 @@ import Logout from "@/views/pages/auth/Logout";
 import AuthLayout from "@/views/layouts/AuthLayout";
 import MainLayout from "@/views/layouts/MainLayout";
 
-import ChatLayout from '@/views/layouts/ChatLayout';
-
-import Message from "@/views/pages/chat/Message";
-
 import NotFoundPage from "@/views/pages/errors/404.vue";
 import ForbiddenPage from "@/views/pages/errors/403.vue";
 
@@ -62,18 +58,7 @@ const routes = [
       }
     ]
   },
-  {
-    path: "/chat",
-    component: ChatLayout,
-    name: "chat",
-    children: [
-      {
-        path: "message",
-        component: Message,
-        name: "message"
-      }
-    ]
-  },
+
 
   // {
   //   path: "/",
@@ -88,7 +73,7 @@ const routes = [
         path: "",
         component: Home,
         name: "home",
-        redirect: '/motels'
+        redirect: '/motels',
       },
       {
         path: "motels",
@@ -112,6 +97,9 @@ const routes = [
         path: "profile",
         component: Profile,
         name: "profile",
+        meta: {
+          requireAuth: true
+        },
         children: [
           {
             path: "info",
@@ -152,10 +140,13 @@ const router = new VueRouter({
 });
 
 router.beforeEach((to, from, next) => {
+ const tokenUser = $cookies.get("accessToken");
 
   if (to.matched.some(m => m.meta.requireAuth)) {
     if (to.name !== "login" && !tokenUser) {
-
+      $cookies.remove("accessToken");
+      $cookies.remove("userInfo");
+      store.dispatch("SOCKET_REMOVE_USER");
       next({ name: "login" });
     } else {
       next();

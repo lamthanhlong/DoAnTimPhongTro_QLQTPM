@@ -7,8 +7,6 @@ export default {
 
   async fetchPaging(currentPage, searchkey, price, city, district, area, filterPrice) {
 
-
-
     try {
       return  await axios.get(this.rootURL, {
         params: {
@@ -38,7 +36,7 @@ export default {
 
   async store(form){
     try {
-      return await axios.post(this.rootURL + `/store`, form);
+      return await axios.post(this.rootURL + `store`, form);
     } catch (error) {
        return helperCommon.getError(error) || false; 
     }
@@ -71,6 +69,19 @@ export default {
 
        return helperCommon.getError(error) || false; 
     }
+  },
+
+
+  async getAllByOwner(userId)
+  {
+    try {
+      return await axios.get(this.rootURL + `user/${userId}`);
+    } catch (error) {
+
+       return helperCommon.getError(error) || false; 
+    }
   }
+
+
 
 };

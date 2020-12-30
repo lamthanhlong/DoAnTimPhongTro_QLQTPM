@@ -249,6 +249,7 @@ export default {
     var city = this.cities.find(item => item.name === this.filterAddress.city);
 
     this.handleCityEvent(city)
+
     this.retrieveData(this.$route.query);
   },
 
@@ -368,10 +369,10 @@ export default {
 
     nextPage(){
 
-      var query = this.$route.query;
+      var query = Object.assign({}, this.$route.query);
+      query.page = this.currentPage;
 
       this.$router.push({
-            name: 'motelIndex', 
             query: query
       });
 

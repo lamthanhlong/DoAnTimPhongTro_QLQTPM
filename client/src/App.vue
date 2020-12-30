@@ -1,8 +1,11 @@
 <template>
   <v-app>
     <progress-header></progress-header>
+    <progress-loading></progress-loading>
    
     <router-view></router-view>
+
+            <window-chat></window-chat>
   </v-app>
 </template>
 

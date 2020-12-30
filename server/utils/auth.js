@@ -1,5 +1,6 @@
 const jwt = require('jsonwebtoken');
 const model = require('../models/user.model');
+
 exports.protect = function (req, res, next) {
   let accessToken;
   if (
