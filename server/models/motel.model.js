@@ -82,7 +82,6 @@ module.exports = {
         $match: query_object,
       });
 
-    console.log(aggregate);
     if (!helper.ObjectIsEmpty(sort_object))
       aggregate.push({
         $sort: sort_object,
@@ -123,7 +122,8 @@ module.exports = {
     var query_address = '';
     if (params.city) query_address = params.city;
     if (params.district)
-      query_address = params.district + (query_address ? ', ' + query_address : '');
+      query_address =
+        params.district + (query_address ? ', ' + query_address : '');
     if (query_address) query_object.address = new RegExp(query_address, 'i');
     if (params.area) {
       var range = params.area.split('-');

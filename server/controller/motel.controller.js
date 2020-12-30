@@ -11,7 +11,9 @@ module.exports = {
     const id = req.params.id;
     var getRatings = await rating.GetAllRatingByMotelId(id, req.query);
     var data = await motel.Single(id);
-    data[0].Ratings = getRatings;
+    if (getRatings.length > 0) {
+      data[0].Ratings = getRatings;
+    }
 
     return res.json(data);
   },
@@ -37,9 +39,9 @@ module.exports = {
           .json({ err_msg: 'User not have permission to edit' });
     }
     const object = req.body;
-    object._id = null;
-    object.owner_id = null;
-    object.modified_date = null;
+    delete object._id;
+    delete object.owner_id;
+    delete object.modified_date;
     const id = req.params.id;
     const update = await motel.Update(id, object);
     if (update == 0) return res.status(400).end();
@@ -65,7 +67,6 @@ module.exports = {
           cities[k].districts[t].wards = local.GetWard(k + 1, t + 1);
         }
       }
-      //console.log(cities[0].districts);
       return res.json({ count: cities.length, data: cities });
     }
   },
