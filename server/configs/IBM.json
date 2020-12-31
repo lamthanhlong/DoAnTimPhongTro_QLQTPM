@@ -1,0 +1,7 @@
+{
+    "endpoint": "s3.au-syd.cloud-object-storage.appdomain.cloud",
+    "apiKeyId": "CxjxL7hLLK6AWfvaaEdeB7Q2PW7WAA26qFg6f7OhXoi3",
+    "serviceInstanceId": "crn:v1:bluemix:public:cloud-object-storage:global:a/2f4b0f43114f46139d8911810975a1a2:d7ae04f2-67ad-4c63-a23b-99fe509902b4::",
+    "BucketName": "dreammotels",
+    "BucketURL": "https://dreammotels.s3.au-syd.cloud-object-storage.appdomain.cloud"
+}
