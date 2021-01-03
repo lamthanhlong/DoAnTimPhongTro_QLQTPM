@@ -43,8 +43,17 @@ module.exports = {
     if (process.env.IS_TEST) {
       owner_id = '5fccb2931e10b0191c19ac4c';
     }
-    
+
     var aggregate = [];
+    if (!helper.ObjectIsEmpty(query_object))
+      aggregate.push({
+        $match: query_object,
+      });
+
+    if (!helper.ObjectIsEmpty(sort_object))
+      aggregate.push({
+        $sort: sort_object,
+      });
     var currentPage = params.page || 1;
     var itemPerPage = params.itemPerPage || constant.DEFAULT_PAGINATION_ITEMS;
 

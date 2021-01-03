@@ -6,7 +6,25 @@ const bcrypt = require('bcryptjs');
 const validate = require('../utils/validate');
 const schema = require('../schemas/user.json');
 const { getSignedJwtToken } = require('../models/user.model');
-const { sendTokenResponse } = require('../utils/auth');
+const { protect, authorize, sendTokenResponse } = require('../utils/auth');
+router.get('/me', protect, async (req, res) => {
+  const user = await model.Single(req.accessTokenPayload.id);
+  if (user.length == 0)
+    return res.status(404).json({ err_msg: 'User not found!!!' });
+  return res.status(200).json(user[0]);
+});
+router.post('/me', protect, async (req, res) => {
+  const user = req.body;
+  const id = user._id;
+  delete user._id;
+  delete user.phone;
+  if (user.password) {
+    user.password = bcrypt.hashSync(user.password, 10);
+  }
+  const edit = await model.Update(id, user);
+  user._id = id;
+  return res.status(200).json(user);
+});
 router.post('/login', async function (req, res) {
   const { phone, password } = req.body;
   if (!phone || !password) {

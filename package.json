@@ -18,5 +18,6 @@
   "homepage": "https://github.com/lamthanhlong/DoAnTimPhongTro_QLQTPM#readme",
   "engines": {
     "node": "14.x"
-  }
+  },
+  "dependencies": {}
 }
