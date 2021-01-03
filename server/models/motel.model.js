@@ -46,6 +46,9 @@ module.exports = {
     if (params.is_verified) {
       query_object.is_verified = JSON.parse(params.is_verified);
     }
+    if (params.has_furniture) {
+      query_object.has_furniture = JSON.parse(params.has_furniture);
+    }
     var aggregate = [];
     if (!helper.ObjectIsEmpty(query_object))
       aggregate.push({
@@ -103,6 +106,9 @@ module.exports = {
     if (query_address) query_object.address = new RegExp(query_address, 'i');
     if (params.is_verified) {
       query_object.is_verified = JSON.parse(params.is_verified);
+    }
+    if (params.has_furniture) {
+      query_object.has_furniture = JSON.parse(params.has_furniture);
     }
     if (params.area) {
       var range = params.area.split('-');
