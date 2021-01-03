@@ -8,6 +8,7 @@ import Logout from "@/views/pages/auth/Logout";
 
 import AuthLayout from "@/views/layouts/AuthLayout";
 import MainLayout from "@/views/layouts/MainLayout";
+import AdminLayout from "@/views/layouts/AdminLayout";
 
 import NotFoundPage from "@/views/pages/errors/404.vue";
 import ForbiddenPage from "@/views/pages/errors/403.vue";
@@ -56,6 +57,19 @@ const routes = [
         component: Logout,
         name: "logout"
       }
+    ]
+  },
+
+  {
+    path: "/admin",
+    component: AdminLayout,
+    name: "admin",
+    children: [
+      {
+        path: "login",
+        component: Login,
+        name: "login"
+      },
     ]
   },
 

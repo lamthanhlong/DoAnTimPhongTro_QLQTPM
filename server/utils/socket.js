@@ -5,7 +5,7 @@ let addUser = (socket) => {
 
     console.log(data);
 
-    socket.userId = data.id;
+    socket.userId = data._id;
     socket.userInfo = data;
     users[socket.userId] = socket;
   });
@@ -14,7 +14,8 @@ let addUser = (socket) => {
 let userSendMessenger = (socket) => {
   socket.on('USER_SEND_MESSENGER', (data, receiver) => {
     var message = data.message;
-    var receiverId = receiver.id;
+    var receiverId = receiver._id;
+
     if (!users[receiverId]) return;
 
     console.log(message);
