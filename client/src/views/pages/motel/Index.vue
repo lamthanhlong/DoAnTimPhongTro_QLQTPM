@@ -291,6 +291,8 @@ export default {
     motels(data){
       if(data.length)
          this.$store.dispatch("components/actionProgressHeader", { option: "hide" })
+       else
+         this.$store.dispatch("components/actionProgressHeader", { option: "hide" })
     },
   },
 

@@ -18,7 +18,7 @@ let userSendMessenger = (socket) => {
 
     if (!users[receiverId]) return;
 
-    console.log(data);
+    console.log(message);
 
     users[receiverId].emit('USER_SEND_MESSENGER', {
       message: message,

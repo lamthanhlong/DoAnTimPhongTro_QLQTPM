@@ -5,7 +5,7 @@ export  const getters = {
 
 export const getDefaultState = () => ({
     windowMessengers: [
-        
+
     ],
 })
 
@@ -26,7 +26,12 @@ export  const actions = {
 export  const mutations = {
 
     OPEN_WINDOW_MESSENGER(state, data){
-      state.windowMessengers.push(data);
+
+
+        data.isVisible = true
+        data.listMessengers = [];
+        data.message = "";
+        state.windowMessengers.push(data)
     },
 
     RESET(state){

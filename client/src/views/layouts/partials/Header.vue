@@ -28,13 +28,16 @@
         </v-btn>
       </div> -->
 
-    <!--   <div>
+      <div v-if="!userInfo">
         <v-btn outlined small color="primary" @click="login()">
           Đăng nhập
         </v-btn>
-      </div> -->
+      </div>
 
-      <v-menu transition="slide-y-transition">
+      <v-menu 
+      v-else
+      transition="slide-y-transition"
+      >
         <template v-slot:activator="{ on: activeMenu }">
           <v-avatar v-on="activeMenu">
             <img src="https://gamek.mediacdn.vn/133514250583805952/2020/3/7/anh-1-1583592253266481895600.jpg" alt="Avatar" />
@@ -75,6 +78,7 @@
 <script>
 
 import SearchHeader from "./SearchHeader";
+import CookieService from "@/services/cookie";
 
 export default {
   components: {
@@ -89,7 +93,7 @@ export default {
         { title: "Thông tin", icon: "mdi-account-circle", link: "/profile/info" },
         { title: "Đăng bài", icon: "mdi-plus-box-outline", link: "/profile/create_post" },
         { title: "Danh sách bài đã đăng", icon: "mdi-playlist-edit", link: "/profile/list_motel" },
-        { title: "Logout", icon: "mdi-login-variant", link: "/auth/login" }
+        { title: "Logout", icon: "mdi-login-variant", link: "/auth/logout" }
       ],
       theme: this.getTheme(),
 
@@ -143,6 +147,10 @@ export default {
       return this.theme ? "mdi-brightness-4" : "mdi-brightness-5";
     },
 
+    userInfo()
+    {
+      return CookieService.get('userInfo');
+    }
   }
 };
 </script>

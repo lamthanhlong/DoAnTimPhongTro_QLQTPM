@@ -1,10 +1,12 @@
 <template>
-<v-layout id="window-chat">
+<v-layout id="window-chat" v-if="userInfo">
    <div class="d-flex window-chat" v-if="windowMessengers.length">
       <div v-for="item, index in windowMessengers">
         <v-card v-show="item.isVisible" class="mr-4" >
           <v-toolbar dark color="primary darken-1">
-            <v-toolbar-title>{{ item.receiver.name }}</v-toolbar-title>
+
+            <v-toolbar-title>{{ item.name }}</v-toolbar-title>
+
 
             <v-spacer></v-spacer>
                 <v-btn 
@@ -53,12 +55,12 @@
               <v-spacer></v-spacer>
                 <div class="d-flex float-right align-center" style="width: 100%;">
                   <v-text-field
-                    v-model="item.messageInput"
+                    v-model="message"
                     solo
                     clearable
                     label="Message"
                     hide-details="auto"
-                    
+
                     class="textfield__message"
                   ></v-text-field>
                   <v-btn
@@ -134,6 +136,7 @@ export default {
       statusUserLeave: false,
 
       message: "",
+
     }
   },
 
@@ -164,33 +167,31 @@ export default {
       this.sockets.subscribe(this.$socketEvent.USER_SEND_MESSENGER, res => {
         if (res) {
 
-          var sender = res.sender;
-          var receiver = res.receiver;
-          var message = res.message;
-
-          var payload = {
-            _id: sender._id,
-            receiver: sender,
+          var windowMessenger = {
+            ...res.sender,
             isVisible: true,
-            messageInput: "",
-          };
+            listMessengers: [
+              {
+                userId: res.sender.id,
+                message: res.message,
+              }
+            ],
+            messageInput: "", 
+          }
 
+          var enablePushWindowMessenger =  this.conditionPushWindowMessenger(this.windowMessengers, windowMessenger)
+          if(enablePushWindowMessenger){
+            this.windowMessengers.push(windowMessenger)
+          }else{
+            this.windowMessengers.map(item => {
+              item.id !== res.sender.id ? item : {...item, listMessengers: item.listMessengers.push({
+                userId: item.id,
+                message: res.message
+                })
+              }
+            })
+          }
 
-          var listMessengers = this.windowMessengers.filter((item) => {
-
-            console.log(item);
-
-            // item._id !== sender._id ? item.listMessengers : item.listMessengers.push({
-            //   userId: this.userInfo._id,
-            //   message: item.message
-            // })
-          })
-
-          return false;
-
-          payload.listMessengers = listMessengers;
-
-          this.$store.dispatch("chats/openWindowMessenger", payload);
 
         }
 
@@ -198,28 +199,46 @@ export default {
       });
     },
 
-    sendMessenger(item){
 
-      var receiver = item.receiver;
+    sendMessenger(receiver){
+
 
       var data = {
-        message: item.messageInput,
+        message: this.message,
       }
 
       this.windowMessengers.map(item => {
         item._id !== receiver._id ? item : {...item, listMessengers: item.listMessengers.push({
-          userId: this.userInfo._id,
-          message: item.messageInput
-        })}
+            userId: this.userInfo._id,
+            message: this.message
+          })
+        }
       })
 
-
-      this.$socket.emit(this.$socketEvent.USER_SEND_MESSENGER, data, receiver);
-      
-      // clear
-      item.messageInput = "";
+       this.$socket.emit(this.$socketEvent.USER_SEND_MESSENGER, data, receiver);
+       this.clearMessage();
     },
 
+
+     conditionPushWindowMessenger(windowMessengers, windowMessengerSelected){
+      var checkExist = this.windowMessengers.some(item => { return item.id === windowMessengerSelected.id});
+
+      if(checkExist)
+      {
+          return false;
+      }
+
+
+      if(this.windowMessengers.length === 2){
+        return false;
+      }
+
+      return true
+    },
+
+    clearMessage() {
+      this.message = "";
+    },
 
     closeWindowMessenger(data){
       var index = this.windowMessengers.indexOf(data);
