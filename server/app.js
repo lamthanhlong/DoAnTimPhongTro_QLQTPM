@@ -4,6 +4,8 @@ require('express-async-errors'); // handle async errors
 const cors = require('cors'); // allow access from another web server
 const PORT = process.env.PORT || 3000;
 const app = express();
+const fileUpload = require('express-fileupload');
+const IBMCloud = require('./utils/IBMCloud');
 
 
 // hide log when testing
@@ -13,6 +15,9 @@ if(!process.env.IS_TEST){
 
 app.use(cors());
 app.use(express.json());
+app.use(fileUpload({
+  useTempFiles : true
+}));
 
 
 
@@ -27,6 +32,18 @@ app.use('/api/user', require('./routes/user.route'));
 app.use('/api/motel', require('./routes/motel.route'));
 app.use('/api/rating', require('./routes/rating.route'));
 //app.use('/api/conversation', require('./routes/conversation.route'));
+
+// Test upload
+app.post('/', function(req, res){
+  var myfile = req.files.myFile;
+  IBMCloud.uploadItem(myfile, 'Test');
+  res.end('OK');
+});
+app.delete('/', function(req, res){
+  IBMCloud.deleteItems(req.body.files.split(';'));
+  res.end('OK');
+});
+
 // Error Handlers
 app.use(function (req, res, next) {
   res.status(404).send({
@@ -59,19 +76,6 @@ if (!process.env.IS_BUILD) {
     });
     if(!process.env.IS_TEST) console.log('Socket.io is Running');
   });
-}
-
-
-
-
-// Listening
-if (!process.env.IS_BUILD) {
-
-  // app.listen(PORT, function () {
-  //   console.log(
-  //     `The Best Solution backend api is running at http://localhost:${PORT}`
-  //   );
-  // });
 }
 
 // Export for testing
