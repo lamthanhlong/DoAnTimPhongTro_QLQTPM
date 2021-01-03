@@ -186,7 +186,18 @@ export default {
 	    },
 
 	    openWindowChat(user){
-	    	var payload = user;
+	    	var payload = {
+	    		_id: user._id,
+	    		receiver: {
+	                name:  user.name,
+	                _id: user._id,
+	            },
+	            isVisible: true,
+	            listMessengers: [
+	          
+	            ],
+	            messageInput: "",
+	    	}
 
 	    	this.$store.dispatch("chats/openWindowMessenger", payload)
 	    }
