@@ -7,12 +7,14 @@
     :label="label"
     append-icon="mdi-search-web"
     outlined
-  dense
-  @keydown="emitEvent"
-  @paste="emitEvent"
-  hide-details
-
-	>            
+	  dense
+	  hide-details
+	>   
+		 <template v-slot:append>
+		 	<v-btn @click="emitEvent" color="white" outlined small class="primary" >
+		 		<v-icon>mdi-search-web</v-icon>
+		 	</v-btn>
+		 </template>         
 	</v-text-field>
 </template>
 
