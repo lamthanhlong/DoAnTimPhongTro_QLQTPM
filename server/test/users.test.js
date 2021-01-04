@@ -85,7 +85,6 @@ describe('Users', () => {
         .send(User)
         .end((err, res) => {
           res.should.have.status(400);
-
           done();
         });
     }).timeout(15000);
@@ -212,7 +211,7 @@ describe('Users', () => {
         password: '1',
         name: 'Huỳnh Trần Bảo An',
         address: '622/10 Đường Cộng Hòa, Phường 13, Quận Tân Bình, Hồ Chí Minh',
-        role: '',
+        role: 'CUSTOMER',
         images: '',
       };
       chai

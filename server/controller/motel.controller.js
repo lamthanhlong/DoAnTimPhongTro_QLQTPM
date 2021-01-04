@@ -87,9 +87,6 @@ module.exports = {
   },
   verifyMotel: async (req, res) => {
     const motels = await motel.Single(req.params.id);
-    if (motels.length === 0) {
-      return res.status(400).end();
-    }
     await motel.Update(req.params.id, { is_verified: true });
     return res.status(200).json({ success: true });
   },

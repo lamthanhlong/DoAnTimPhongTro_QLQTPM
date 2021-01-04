@@ -30,11 +30,6 @@ router.post('/login', async function (req, res) {
   if (!phone || !password) {
     return res.status(400).json({ err_msg: 'Please input phone & password' });
   }
-  if (phone == '' || password == '') {
-    return res
-      .status(400)
-      .json({ err_msg: 'Please input correct login information' });
-  }
   let user = await model.FindByPhone(phone);
 
   if (user.length == 0) {
