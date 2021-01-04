@@ -174,6 +174,38 @@ describe('Users', () => {
   });
 
   describe('POST /register', () => {
+    it('it should Post Register User', (done) => {
+      process.env.CHANGE_ID = true;
+      const User = {
+        phone: '0963212454955',
+        password: '1',
+        name: 'Huỳnh Trần Bảo An',
+        address: '622/10 Đường Cộng Hòa, Phường 13, Quận Tân Bình, Hồ Chí Minh',
+        role: 'CUSTOMER',
+        images: '',
+      };
+      chai
+        .request(server)
+        .post('/api/auth/register')
+        .send(User)
+        .end((err, res) => {
+          res.should.have.status(201);
+          res.body.should.be.a('object');
+          var ret = JSON.parse(res.text);
+          ret.user.phone.should.be.a('string');
+          ret.user.password.should.be.a('string');
+          ret.user.name.should.be.eql('Huỳnh Trần Bảo An');
+          ret.user.address.should.be.eql(
+            '622/10 Đường Cộng Hòa, Phường 13, Quận Tân Bình, Hồ Chí Minh'
+          );
+          ret.user.role.should.be.eql('CUSTOMER');
+          ret.user.images.should.be.eql('');
+          done();
+        });
+    }).timeout(15000);
+  });
+
+  describe('POST /register', () => {
     it('it should Post Register User Status 400', (done) => {
       const User = {
         phone: '0779151579',
