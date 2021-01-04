@@ -6,19 +6,17 @@ const helper = require('../utils/helper');
 const constant = require('../configs/constant');
 module.exports = {
   getSignedJwtToken: async (user_id) => {
-    let users;
-    if (!process.env.IS_TEST) {
-      users = await db.find(TableName, {
-        _id: ObjectId(`${user_id}`),
-      });
-    } else
-      users = await db.find(TableName, {
-        _id: user_id,
-      });
-    const user = users[0];
+    if (process.env.CHANGE_ID){
+      user_id = "5fccb2931e10b0191c19ac6b";
+    }
+    const obj_query = {_id: process.env.IS_TEST ? user_id : ObjectId(`${user_id}`)};
+    
+    var users = await db.find(TableName, obj_query);
+    
     if (users.length == 0) {
       return;
-    } else
+    } else{
+      const user = users[0];
       return jwt.sign(
         {
           id: user._id,
@@ -29,10 +27,11 @@ module.exports = {
           expiresIn: 10 * 6000,
         }
       );
+    }
   },
-  GetAll: () => {
+  /*GetAll: () => {
     return db.find(TableName);
-  },
+  },*/
   GetQuery: async (params) => {
     var aggregate = [];
     var currentPage = params.page || 1;
