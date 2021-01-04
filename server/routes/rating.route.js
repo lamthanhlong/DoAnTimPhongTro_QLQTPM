@@ -3,9 +3,8 @@ const express = require('express');
 const router = express.Router();
 const model = require('../models/rating.model');
 const validate = require('../utils/validate');
-let schema = {};
-if (process.env.IS_TEST) schema = require('../schemas/rating-test.json');
-else schema = require('../schemas/rating.json');
+let schema = require('../schemas/rating.json');
+
 router.get('/', async (req, res) => {
   var data = await model.GetAll();
   res.json(data);
@@ -27,7 +26,7 @@ router.post('/', validate(schema), async function (req, res) {
   object._id = id;
   res.status(201).json(object);
 });
-router.put('/:id', async function (req, res) {
+/*router.put('/:id', async function (req, res) {
   const object = req.body;
   const id = req.params.id;
   const update = await model.Update(id, object);
@@ -39,6 +38,6 @@ router.delete('/:id', async function (req, res) {
   const id = req.params.id;
   const check = await model.Delete(id);
   res.json({ success: true });
-});
+});*/
 
 module.exports = router;

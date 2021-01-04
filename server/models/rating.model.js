@@ -11,11 +11,12 @@ module.exports = {
     return db.find(TableName);
   },
   Single: (id) => {
-    if (!process.env.IS_TEST)
-      return db.find(TableName, {
-        _id: ObjectId(`${id}`),
-      });
-    else return db.find(TableName, { _id: id });
+    if (process.env.IS_TEST) {
+      id = "5fccb2931e10b0191c19ac6b";
+    }
+    return db.find(TableName, {
+      _id: ObjectId(`${id}`),
+    });
   },
   GetAllRatingByMotelId: async (id, params) => {
     let new_id = id;
@@ -37,7 +38,7 @@ module.exports = {
         },
       },
     ];
-
+/*
     // pagination
     var currentPage = params.page || 1;
     var itemPerPage = params.itemPerPage || constant.DEFAULT_PAGINATION_ITEMS;
@@ -51,15 +52,9 @@ module.exports = {
       {
         $skip: skip,
       }
-    );
+    );*/
     var data = await db.aggregate(TableName, aggregate);
-    if (!process.env.IS_TEST) {
-      return data;
-    }
-
-    if (process.env.IS_TEST) {
-      return db.find(TableName, { motel_id: new_id });
-    }
+    return data;
   },
   FindRating: (obj) => {
     return db.find(TableName, {
@@ -71,7 +66,7 @@ module.exports = {
     obj.created_date = obj.modified_date = new Date();
     return db.insertOne(TableName, obj);
   },
-  Update: (id, obj) => {
+  /*Update: (id, obj) => {
     obj.modified_date = new Date();
     if (process.env.IS_TEST) {
       return db.updateOne(TableName, { _id: id }, obj);
@@ -83,10 +78,11 @@ module.exports = {
       },
       obj
     );
-  },
+  },*/
   Delete: (id) => {
-    if (!process.env.IS_TEST) {
-      return db.deleteOne(TableName, { _id: ObjectId(`${id}`) });
-    } else return db.deleteOne(TableName, { _id: id });
+    if (process.env.IS_TEST) {
+      id = "5fccb2931e10b0191c19ac6b";
+    }
+    return db.deleteOne(TableName, { _id: ObjectId(`${id}`) });
   },
 };

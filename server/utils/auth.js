@@ -42,7 +42,7 @@ exports.sendTokenResponse = async (user, statusCode, res) => {
     httpOnly: true,
   };
 
-  if (process.env.IS_BUILD) {
+  if (process.env.IS_BUILD || process.env.IS_TEST) {
     options.secure = true;
   }
   res

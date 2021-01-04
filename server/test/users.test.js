@@ -20,7 +20,7 @@ describe('Users', () => {
         .end((err, res) => {
           res.should.have.status(200);
           res.should.be.json;
-          res.body.should.be.a('array');
+          res.body.data.should.be.a('array');
           var ret = JSON.parse(res.text);
           done();
         });
@@ -29,7 +29,7 @@ describe('Users', () => {
 
   describe('GET /:id', () => {
     it('it should Get User base on Id', (done) => {
-      let id = 1;
+      let id = "5fccb2931e10b0191c19ac6b";
       chai
         .request(server)
         .get('/api/user/' + id)
@@ -39,7 +39,7 @@ describe('Users', () => {
           res.body[0].should.be.a('object');
           res.body.length.should.be.eql(1);
           var ret = JSON.parse(res.text);
-          ret[0]._id.should.be.eql(1);
+          ret[0]._id.should.be.eql("5fccb2931e10b0191c19ac6b");
           ret[0].phone.should.be.eql('0779151579');
           ret[0].password.should.be.a('string');
           ret[0].name.should.be.eql('Phạm Ngọc Hùng');
@@ -250,7 +250,7 @@ describe('Users', () => {
 
   describe('DELETE /', () => {
     it('it should Delete User by Id', (done) => {
-      const id = 1;
+      const id = "5fccb2931e10b0191c19ac6b";
       chai
         .request(server)
         .delete('/api/user/' + id)
@@ -264,7 +264,7 @@ describe('Users', () => {
 
   describe('PUT /', () => {
     it('it should Update User by Id change password', (done) => {
-      const id = 1;
+      const id = "5fccb2931e10b0191c19ac6b";
       const update = {
         phone: '0779151579',
         password: '2',
@@ -277,6 +277,7 @@ describe('Users', () => {
       chai
         .request(server)
         .put('/api/user/' + id)
+        .send(update)
         .end((err, res) => {
           res.should.have.status(200);
           done();
@@ -286,7 +287,7 @@ describe('Users', () => {
 
   describe('PUT /', () => {
     it('it should not Update User by Id', (done) => {
-      const id = 1;
+      const id = "5fccb2931e10b0191c19ac6b";
       const update = {
         phone: '0779151579',
         name: 'Phạm Ngọc Hùng',
@@ -298,6 +299,7 @@ describe('Users', () => {
       chai
         .request(server)
         .put('/api/user/' + id)
+        .send(update)
         .end((err, res) => {
           res.should.have.status(200);
           done();
