@@ -121,6 +121,10 @@
 import Carousel from "./components/detail/Carousel"
 import Rating from "./components/detail/Rating"
 
+// service
+import CookieService from "@/services/cookie";
+
+
 //mixin
 import IsMobile from "@/mixins/is_mobile";
 export default {
@@ -141,6 +145,7 @@ export default {
 	          'Thông tin chi tiết', 'Lượt đánh giá', 
 	        ],
 	         text: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.',
+	        userInfo: CookieService.get('userInfo'),
 		}
 	},
 
@@ -165,6 +170,11 @@ export default {
 			}
 		},
 
+	    windowMessengers: {
+	      get(){
+	        return this.$store.getters["chats/windowMessengers"];
+	      }
+	    },
 	},
 
 	watch: {
@@ -176,6 +186,23 @@ export default {
 	},
 
 	methods: {
+
+		conditionPushWindowMessenger(windowMessengers, windowMessengerSelected){
+	      var checkExist = this.windowMessengers.some(item => { return item.id === windowMessengerSelected.id});
+
+	      if(checkExist)
+	      {
+	          return false;
+	      }
+
+
+	      if(this.windowMessengers.length === 2){
+	        return false;
+	      }
+
+	      return true
+	    },
+
 		retrieveData(){
 	      var payload = { id: this.$route.params.id }
 	      this.$store.dispatch("components/actionProgressHeader", { option: "show" })
@@ -185,10 +212,21 @@ export default {
 	      }, 200);
 	    },
 
-	    openWindowChat(user){
-	    	var payload = user;
 
-	    	this.$store.dispatch("chats/openWindowMessenger", payload)
+	    openWindowChat(windowMessengerSelected){
+
+	    	if(!this.userInfo)
+	    	{
+	    		this.$router.push('/auth/logout');
+	    	}
+
+	    	var payload = windowMessengerSelected;
+	    	var enablePushWindowMessenger =  this.conditionPushWindowMessenger(this.windowMessengers, windowMessengerSelected)
+    
+		    if(enablePushWindowMessenger)
+		    {
+	    		this.$store.dispatch("chats/openWindowMessenger", payload)
+	    	}
 	    }
 	},
 

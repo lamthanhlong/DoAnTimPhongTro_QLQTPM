@@ -69,9 +69,10 @@
                       Edit
                     </v-btn>
 
-                    <v-divider class="mx-2" vertical> </v-divider>
+                    <v-divider class="mx-2" vertical  v-show="edit"> </v-divider>
 
                     <v-btn color="primary" small
+                      v-show="edit"
                       v-on:click="handleUpdateUserInfo()"
                     >
                       Save
@@ -102,6 +103,7 @@
 
 // service
 import CookieService from "@/services/cookie";
+import UserService from "@/services/user";
 
 // component
 import Menu from './components/Menu.vue';
@@ -153,9 +155,11 @@ export default {
       this.showAvatarDialog = true
     },
 
-    handleUpdateUserInfo(){
-      var userId = this.$route.params.id
-      User.api().updateUserInfo(userId, this.employeeInfo)
+    async handleUpdateUserInfo(){
+      var userId = this.userInfo._id;
+      const res = await UserService.update(userId, this.userInfo)
+
+      console.log(res);
     }
 
   },
