@@ -6,7 +6,8 @@
     "address": "01 Đường Nguyễn Văn Cừ, Phường 4, Quận 5, TP HCM",
     "area": 100,
     "price": 7,
-    "owner_id": 1
+    "owner_id": 1,
+    "is_verified": false
   },
   {
     "_id": 2,
@@ -15,7 +16,8 @@
     "address": "02 Đường Nguyễn Văn Cừ, Phường 4, Quận 5, TP HCM",
     "area": 101,
     "price": 7.1,
-    "owner_id": 1
+    "owner_id": 1,
+    "is_verified": false
   },
   {
     "_id": 3,
@@ -24,7 +26,8 @@
     "address": "03 Đường Nguyễn Văn Cừ, Phường 4, Quận 6, TP HCM",
     "area": 103,
     "price": 7.3,
-    "owner_id": 1
+    "owner_id": 1,
+    "is_verified": false
   },
   {
     "_id": 4,
@@ -32,7 +35,8 @@
     "description": "Phòng trọ cao cấp nhất TP HCM",
     "address": "04 Đường Nguyễn Văn Cừ, Phường 4, Quận 6, TP HCM",
     "area": 104,
-    "price": 7.4
+    "price": 7.4,
+    "is_verified": false
   },
   {
     "_id": 5,
@@ -40,7 +44,8 @@
     "description": "Phòng trọ cao cấp nhất TP HCM",
     "address": "05 Đường Nguyễn Văn Cừ, Phường 4, Quận 6, TP HCM",
     "area": 105,
-    "price": 7.5
+    "price": 7.5,
+    "is_verified": false
   },
   {
     "_id": 6,
@@ -48,6 +53,7 @@
     "description": "Phòng trọ cao cấp nhất TP Hà Nội",
     "address": "06 Đường Nguyễn Văn Cừ, Phường 4, Quận 6, TP Hà Nội",
     "area": 106,
-    "price": 7.6
+    "price": 7.6,
+    "is_verified": false
   }
 ]

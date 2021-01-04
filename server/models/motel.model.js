@@ -43,6 +43,49 @@ module.exports = {
     if (process.env.IS_TEST) {
       owner_id = '5fccb2931e10b0191c19ac4c';
     }
+    var sort_object = {};
+    if (params.sort) {
+      var sort = params.sort.split('_');
+      if (sort.length == 1) sort.push('asc');
+      sort_object = JSON.parse(`{"${sort[0]}": ${sort[1] == 'asc' ? 1 : -1}}`);
+    }
+
+    var query_object = {};
+    var query_address = '';
+    if (params.city) query_address = params.city;
+    if (params.district)
+      query_address =
+        params.district + (query_address ? ', ' + query_address : '');
+    if (query_address) query_object.address = new RegExp(query_address, 'i');
+    if (params.is_verified) {
+      query_object.is_verified = JSON.parse(params.is_verified);
+    }
+    if (params.has_furniture) {
+      query_object.has_furniture = JSON.parse(params.has_furniture);
+    }
+    if (params.area) {
+      var range = params.area.split('-');
+      if (range.length == 1) {
+        query_object.area = { $gte: +range[0] };
+      } else {
+        query_object.area = {
+          $gte: +range[0],
+          $lte: +range[1],
+        };
+      }
+    }
+    query_object.price = {};
+    if (params.price) {
+      var range = params.price.split('-');
+      if (range.length == 1) {
+        query_object.price = { $gte: +range[0] };
+      } else {
+        query_object.price = {
+          $gte: +range[0],
+          $lte: +range[1],
+        };
+      }
+    }
     if (params.is_verified) {
       query_object.is_verified = JSON.parse(params.is_verified);
     }
