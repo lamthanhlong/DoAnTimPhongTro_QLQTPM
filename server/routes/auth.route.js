@@ -15,7 +15,7 @@ router.get('/me', protect, async (req, res) => {
 });
 router.post('/me', protect, async (req, res) => {
   const user = req.body;
-  const id = user._id;
+  const id = req.accessTokenPayload.id;
   delete user._id;
   delete user.phone;
   if (user.password) {

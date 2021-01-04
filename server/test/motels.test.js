@@ -164,7 +164,7 @@ describe('Motels', () => {
           expiresIn: 20 * 24 * 60 * 60000,
         }
       );
-      var id = "5fccb2931e10b0191c19ac6b";
+      var id = '5fccb2931e10b0191c19ac6b';
       var motel = {
         title: 'Phòng Trọ Cao Cấp 01',
         address: '01 Đường Nguyễn Văn Cừ, Phường 4, Quận 5, TP HCM',
@@ -345,10 +345,33 @@ describe('Motels', () => {
   });
   describe('DELETE /:id', () => {
     it('it should Delete a Motel by Id', (done) => {
-      var id = "5fccb2931e10b0191c19ac6b";
+      var id = '5fccb2931e10b0191c19ac6b';
       chai
         .request(server)
         .delete('/api/motel/' + id)
+        .end((err, res) => {
+          res.should.have.status(200);
+          done();
+        });
+    });
+  });
+  describe('PUT /:id/verify', () => {
+    it('it should Verify a Motel by Id', (done) => {
+      var id = '5fccb2931e10b0191c19ac6b';
+      let token = jwt.sign(
+        {
+          id: 1,
+          role: 'ADMIN',
+        },
+        'BEST_SOLUTION',
+        {
+          expiresIn: 10 * 6000,
+        }
+      );
+      chai
+        .request(server)
+        .put('/api/motel/' + id + '/verify')
+        .set({ Authorization: `Bearer ${token}` })
         .end((err, res) => {
           res.should.have.status(200);
           done();
