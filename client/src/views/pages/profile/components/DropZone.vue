@@ -16,6 +16,9 @@
 </template>
 
 <script>
+
+import UploadService from "@/services/upload";
+
 import vue2Dropzone from "vue2-dropzone";
 import "vue2-dropzone/dist/vue2Dropzone.min.css";
 
@@ -46,8 +49,11 @@ export default {
   methods: {
     async complete(file) {
 
-      var files = this.$refs.myVueDropzone.dropzone.files
-      this.$emit("update:data", files);
+
+      const res = await UploadService.image(file);
+      console.log(res);
+      // var files = this.$refs.myVueDropzone.dropzone.files
+      // this.$emit("update:data", files);
       
     },
     remove(file) {

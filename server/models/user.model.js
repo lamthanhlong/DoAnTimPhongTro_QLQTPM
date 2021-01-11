@@ -6,19 +6,17 @@ const helper = require('../utils/helper');
 const constant = require('../configs/constant');
 module.exports = {
   getSignedJwtToken: async (user_id) => {
-    let users;
-    if (!process.env.IS_TEST) {
-      users = await db.find(TableName, {
-        _id: ObjectId(`${user_id}`),
-      });
-    } else
-      users = await db.find(TableName, {
-        _id: user_id,
-      });
-    const user = users[0];
+    if (process.env.CHANGE_ID){
+      user_id = "5fccb2931e10b0191c19ac6b";
+    }
+    const obj_query = {_id: process.env.IS_TEST ? user_id : ObjectId(`${user_id}`)};
+    
+    var users = await db.find(TableName, obj_query);
+    
     if (users.length == 0) {
       return;
-    } else
+    } else{
+      const user = users[0];
       return jwt.sign(
         {
           id: user._id,
@@ -29,35 +27,13 @@ module.exports = {
           expiresIn: 10 * 6000,
         }
       );
-  },
-  GetAll: () => {
-    return db.find(TableName);
-  },
-  GetQuery: async (params) => {
-    var sort_object = {};
-    if (params.sort) {
-      var sort = params.sort.split('_');
-      if (sort.length == 1) sort.push('asc');
-      sort_object = JSON.parse(`{"${sort[0]}": ${sort[1] == 'asc' ? 1 : -1}}`);
     }
-
-    var query_object = {};
-    const reqQuery = params;
-    const removeFields = ['sort', 'page', 'limit'];
-    removeFields.forEach((param) => delete reqQuery[param]);
-    if (reqQuery.is_verified)
-      reqQuery.is_verified = JSON.parse(reqQuery.is_verified);
-    query_object = reqQuery;
+  },
+  /*GetAll: () => {
+    return db.find(TableName);
+  },*/
+  GetQuery: async (params) => {
     var aggregate = [];
-    if (!helper.ObjectIsEmpty(query_object))
-      aggregate.push({
-        $match: reqQuery,
-      });
-
-    if (!helper.ObjectIsEmpty(sort_object))
-      aggregate.push({
-        $sort: sort_object,
-      });
     var currentPage = params.page || 1;
     var itemPerPage = params.itemPerPage || constant.DEFAULT_PAGINATION_ITEMS;
 
@@ -73,7 +49,7 @@ module.exports = {
     );
 
     var data = await db.aggregate(TableName, aggregate);
-    var count = await db.count(TableName, query_object);
+    var count = await db.count(TableName, {});
     var pageCounts = helper.calcPageCounts(count, itemPerPage);
 
     return {
@@ -83,11 +59,6 @@ module.exports = {
     };
   },
   Single: (id) => {
-    if (process.env.IS_TEST) {
-      return db.find(TableName, {
-        _id: id,
-      });
-    }
     return db.find(TableName, {
       _id: ObjectId(`${id}`),
     });
@@ -101,26 +72,15 @@ module.exports = {
   },
   Update: (id, obj) => {
     obj.modified_date = new Date();
-    if (process.env.IS_TEST) {
-      return db.updateOne(
-        TableName,
-        {
-          _id: id,
-        },
-        obj
-      );
-    } else
-      return db.updateOne(
-        TableName,
-        {
-          _id: ObjectId(`${id}`),
-        },
-        obj
-      );
+    return db.updateOne(
+      TableName,
+      {
+        _id: ObjectId(`${id}`),
+      },
+      obj
+    );
   },
   Delete: (id) => {
-    if (process.env.IS_TEST) {
-      return db.deleteOne(TableName, { _id: id });
-    } else return db.deleteOne(TableName, { _id: ObjectId(`${id}`) });
+    return db.deleteOne(TableName, { _id: ObjectId(`${id}`) });
   },
 };

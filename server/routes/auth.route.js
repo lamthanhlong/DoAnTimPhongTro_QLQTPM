@@ -15,7 +15,7 @@ router.get('/me', protect, async (req, res) => {
 });
 router.post('/me', protect, async (req, res) => {
   const user = req.body;
-  const id = user._id;
+  const id = req.accessTokenPayload.id;
   delete user._id;
   delete user.phone;
   if (user.password) {
@@ -29,11 +29,6 @@ router.post('/login', async function (req, res) {
   const { phone, password } = req.body;
   if (!phone || !password) {
     return res.status(400).json({ err_msg: 'Please input phone & password' });
-  }
-  if (phone == '' || password == '') {
-    return res
-      .status(400)
-      .json({ err_msg: 'Please input correct login information' });
   }
   let user = await model.FindByPhone(phone);
 

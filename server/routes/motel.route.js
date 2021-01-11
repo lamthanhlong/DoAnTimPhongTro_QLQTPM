@@ -17,6 +17,13 @@ router.get(
 
 router.get('/:id', motelcontroller.fetch);
 
+router.put(
+  '/:id/verify',
+  protect,
+  authorize('ADMIN'),
+  motelcontroller.verifyMotel
+);
+
 router.post('/store', validate(schema), motelcontroller.store);
 
 router.put(

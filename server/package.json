@@ -3,7 +3,8 @@
   "version": "1.0.0",
   "main": "app.js",
   "scripts": {
-    "test": "nyc mocha",
+    "test": "mocha",
+    "coverage": "nyc npm run test",
     "start": "node app.js",
     "build": "node build"
   },

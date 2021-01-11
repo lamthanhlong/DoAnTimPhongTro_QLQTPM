@@ -85,4 +85,9 @@ module.exports = {
     const del = await motel.Delete(req.params.id);
     res.status(200).json({ success: 'true' });
   },
+  verifyMotel: async (req, res) => {
+    const motels = await motel.Single(req.params.id);
+    await motel.Update(req.params.id, { is_verified: true });
+    return res.status(200).json({ success: true });
+  },
 };
