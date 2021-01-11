@@ -25,6 +25,8 @@ export default {
     }
   },
 
+ 
+
   async fetch(id) {
     try {
       return await axios.get(this.rootURL + `${id}`);
