@@ -13,14 +13,13 @@ const GetDummyData = (TableName) => {
 
 const Find = (arr, item) => {
   var newArr = [];
-  for (prop of Object.keys(item)) {
-    for (i of arr) {
-      if (
-        i[prop] == item[prop] ||
-        (item[prop].test && item[prop].test(i[prop]))
-      )
-        newArr.push(i);
+  var lenProp = Object.keys(item).length;
+  for (i of arr) {
+    var count = 0;
+    for (prop of Object.keys(item)) {
+      if (i[prop] == item[prop] || (item[prop].test && item[prop].test(i[prop])) || (JSON.stringify(item[prop]).indexOf('{')>=0)) count++;
     }
+    if(count==lenProp) newArr.push(i);
   }
   return newArr;
 };

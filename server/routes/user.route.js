@@ -52,13 +52,18 @@ router.put('/:id', async function (req, res) {
     //}
     res.json({ success: true });
   });
-router.put('/:id/verify', async function (req, res) {
-  const user = await model.Single(req.params.id);
-  if (user.length === 0) {
-    res.status(400).json({ err_msg: 'User not found!!' });
+router.put(
+  '/:id/verify',
+  protect,
+  authorize('ADMIN'),
+  async function (req, res) {
+    const user = await model.Single(req.params.id);
+    if (user.length === 0) {
+      return res.status(400).json({ err_msg: 'User not found!!' });
+    }
+    await model.Update(req.params.id, { is_verified: true });
+    const update = await model.Single(req.params.id);
+    return res.status(200).json({ success: true });
   }
-  await model.Update(req.params.id, { is_verified: true });
-  const update = await model.Single(req.params.id);
-  res.status(200).json({ success: true });
-});
+);
 module.exports = router;

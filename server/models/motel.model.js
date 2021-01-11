@@ -7,9 +7,9 @@ const { query } = require('express');
 const { process_params } = require('express/lib/router');
 
 module.exports = {
-  GetAll: () => {
-    return db.find(TableName);
-  },
+  //GetAll: () => {
+  //  return db.find(TableName);
+  //},
   Single: (id) => {
     let new_id = id;
     if (process.env.IS_TEST) {
@@ -30,19 +30,14 @@ module.exports = {
         },
       },
     ];
-    if (!process.env.IS_TEST) {
-      return db.aggregate(TableName, aggregate);
-    }
-
-    if (process.env.IS_TEST) {
-      return db.find(TableName, { _id: new_id });
-    }
+    return db.aggregate(TableName, aggregate);
   },
   OwnerGet: async (owner_id, params) => {
     let new_id = owner_id;
     if (process.env.IS_TEST) {
       owner_id = '5fccb2931e10b0191c19ac4c';
     }
+<<<<<<< HEAD
     query_object = {};
     query_object.owner_id = ObjectId(`${owner_id}`);
     sort_object = {};
@@ -52,16 +47,9 @@ module.exports = {
     if (params.has_furniture) {
       query_object.has_furniture = JSON.parse(params.has_furniture);
     }
+=======
+>>>>>>> 4a248e6ae848ebbf3518351fbd6ad5d116b09216
     var aggregate = [];
-    if (!helper.ObjectIsEmpty(query_object))
-      aggregate.push({
-        $match: query_object,
-      });
-
-    if (!helper.ObjectIsEmpty(sort_object))
-      aggregate.push({
-        $sort: sort_object,
-      });
     var currentPage = params.page || 1;
     var itemPerPage = params.itemPerPage || constant.DEFAULT_PAGINATION_ITEMS;
 
@@ -80,17 +68,11 @@ module.exports = {
     var count = await db.count(TableName, {});
     var pageCounts = helper.calcPageCounts(count, itemPerPage);
 
-    if (!process.env.IS_TEST) {
-      return {
-        data,
-        count,
-        pageCounts,
-      };
-    }
-
-    if (process.env.IS_TEST) {
-      return db.find(TableName, { owner_id: new_id });
-    }
+    return {
+      data,
+      count,
+      pageCounts,
+    };
   },
   GetQuery: async (params) => {
     var sort_object = {};
@@ -184,24 +166,15 @@ module.exports = {
   Update: (id, obj) => {
     obj.modified_date = new Date();
     let new_id = id;
-    if (!process.env.IS_TEST) {
-      return db.updateOne(
-        TableName,
-        {
-          _id: ObjectId(`${id}`),
-        },
-        obj
-      );
-    }
-    if (process.env.IS_TEST) {
-      return db.updateOne(TableName, { _id: new_id }, obj);
-    }
+    return db.updateOne(
+      TableName,
+      {
+        _id: ObjectId(`${id}`),
+      },
+      obj
+    );
   },
   Delete: (id) => {
-    if (!process.env.IS_TEST)
-      return db.deleteOne(TableName, {
-        _id: ObjectId(`${id}`),
-      });
-    else return db.deleteOne(TableName, { _id: id });
+    return db.deleteOne(TableName, { _id: id });
   },
 };
