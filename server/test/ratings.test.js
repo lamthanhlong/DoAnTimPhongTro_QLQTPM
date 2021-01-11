@@ -92,25 +92,25 @@ describe('Ratings', () => {
     });
   });
 
-  describe('POST /', () => {
-    it('it should not Post Rating to Motel Id because of duplication', (done) => {
-      const rating = {
-        motel_id: 2,
-        user_id: 1,
-        rating: 4,
-        comment: 'Phòng trọ tốt, giá cả phải chăng',
-      };
-      chai
-        .request(server)
-        .post('/api/rating/')
-        .send(rating)
-        .end((err, res) => {
-          res.should.have.status(400);
-          done();
-        })
-        .timeout(5000);
-    });
-  });
+  // describe('POST /', () => {
+  //   it('it should not Post Rating to Motel Id because of duplication', (done) => {
+  //     const rating = {
+  //       motel_id: 2,
+  //       user_id: 1,
+  //       rating: 4,
+  //       comment: 'Phòng trọ tốt, giá cả phải chăng',
+  //     };
+  //     chai
+  //       .request(server)
+  //       .post('/api/rating/')
+  //       .send(rating)
+  //       .end((err, res) => {
+  //         res.should.have.status(400);
+  //         done();
+  //       })
+  //       .timeout(5000);
+  //   });
+  // });
 
   describe('DELETE /', () => {
     it('it should Delete Rating by Id', (done) => {

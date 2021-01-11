@@ -43,6 +43,9 @@ module.exports = {
     if (process.env.IS_TEST) {
       owner_id = '5fccb2931e10b0191c19ac4c';
     }
+    query_object = {};
+    query_object.owner_id = ObjectId(`${owner_id}`);
+    sort_object = {};
     if (params.is_verified) {
       query_object.is_verified = JSON.parse(params.is_verified);
     }
