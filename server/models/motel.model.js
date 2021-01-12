@@ -47,6 +47,7 @@ module.exports = {
       query_object.has_furniture = JSON.parse(params.has_furniture);
     }
     var aggregate = [];
+    aggregate.push({ $match: query_object });
     var currentPage = params.page || 1;
     var itemPerPage = params.itemPerPage || constant.DEFAULT_PAGINATION_ITEMS;
 
@@ -62,7 +63,7 @@ module.exports = {
     );
 
     var data = await db.aggregate(TableName, aggregate);
-    var count = await db.count(TableName, {});
+    var count = await db.count(TableName, query_object);
     var pageCounts = helper.calcPageCounts(count, itemPerPage);
 
     return {
