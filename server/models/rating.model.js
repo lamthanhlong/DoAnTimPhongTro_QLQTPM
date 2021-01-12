@@ -26,7 +26,7 @@ module.exports = {
     var aggregate = [
       {
         $match: {
-          motel_id: id,
+          motel_id: ObjectId(`${id}`),
         },
       },
       {
@@ -64,6 +64,8 @@ module.exports = {
   },
   Add: (obj) => {
     obj.created_date = obj.modified_date = new Date();
+    obj.user_id = ObjectId(`${obj.user_id}`);
+    obj.motel_id = ObjectId(`${obj.motel_id}`);
     return db.insertOne(TableName, obj);
   },
   /*Update: (id, obj) => {
