@@ -37,8 +37,6 @@ module.exports = {
     if (process.env.IS_TEST) {
       owner_id = '5fccb2931e10b0191c19ac4c';
     }
-<<<<<<< HEAD
-<<<<<<< HEAD
     query_object = {};
     query_object.owner_id = ObjectId(`${owner_id}`);
     sort_object = {};
@@ -48,11 +46,8 @@ module.exports = {
     if (params.has_furniture) {
       query_object.has_furniture = JSON.parse(params.has_furniture);
     }
-=======
->>>>>>> 4a248e6ae848ebbf3518351fbd6ad5d116b09216
-=======
->>>>>>> 4a248e6ae848ebbf3518351fbd6ad5d116b09216
     var aggregate = [];
+    aggregate.push({ $match: query_object });
     var currentPage = params.page || 1;
     var itemPerPage = params.itemPerPage || constant.DEFAULT_PAGINATION_ITEMS;
 
@@ -68,7 +63,7 @@ module.exports = {
     );
 
     var data = await db.aggregate(TableName, aggregate);
-    var count = await db.count(TableName, {});
+    var count = await db.count(TableName, query_object);
     var pageCounts = helper.calcPageCounts(count, itemPerPage);
 
     return {

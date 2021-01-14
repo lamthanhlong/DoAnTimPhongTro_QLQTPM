@@ -3,14 +3,12 @@ import helperCommon from '@/helpers/common';
 
 export default {
 
-    async image(file)
+	rootURL: '/photo',
+
+    async image(data)
     {
 	     try {
-	      return await axios.post(this.rootURL +  `${id}`, {
-	        params: {
-	          myFile: file
-	        }
-	      });
+	      return await axios.post(this.rootURL, data);
 	    } catch (error) {
 
 	      console.log(error);

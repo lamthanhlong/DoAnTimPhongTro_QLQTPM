@@ -73,7 +73,17 @@
                           <div class="my-4 subtitle-1 text-decoration-underline" v-if="item.has_furniture">
                             Có nội thất
                           </div>
-                        </v-card-text>
+                      </v-card-text>
+                      <v-card-actions>
+                        <v-btn
+                        color="primary"
+                        small
+                        outlined
+                        @click="edit(item)"
+                        >
+                          Sửa
+                        </v-btn>
+                      </v-card-actions>
                     </v-col>
                 </v-row>
                   <v-divider
@@ -86,6 +96,12 @@
         </v-card>
       </v-col>
     </v-row>
+    <m-update-post  
+    :editModal.sync="editModal"
+    v-if="editModal"
+    :motel.sync="motel"
+    >
+    </m-update-post>
   </v-container>
 </v-layout>
 </template>
@@ -97,6 +113,7 @@ import CookieService from "@/services/cookie";
 
 // component
 import Menu from './components/Menu.vue';
+import UpdatePost from "./UpdatePost.vue";
 
 // mixins
 import IsMobile from "@/mixins/is_mobile";
@@ -104,7 +121,8 @@ import IsMobile from "@/mixins/is_mobile";
 export default {
 
   components: {
-    'm-menu': Menu
+    'm-menu': Menu,
+    'm-update-post': UpdatePost
   },
 
   mixins: [IsMobile],
@@ -116,6 +134,9 @@ export default {
       motels: [],
       currentPage: 1,
       pageCounts: 1,
+
+      editModal: false,
+      motel: motel,
     }
   },
 
@@ -132,7 +153,12 @@ export default {
         this.motels = res.data.data;
         this.pageCounts = res.data.pageCounts;
       }
-  
+    },
+
+    edit(motel)
+    {
+      this.motel = motel;
+      this.editModal = true;
     }
   },
 

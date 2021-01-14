@@ -20,6 +20,9 @@ export default {
 	SAVE_CONFIRM: "登録してもよろしいでしょうか。",
 	REMOVE_CONFIRM: "削除してもよろしいでしょうか。",
 
+	REMOVE_SUCCESS: "Xóa thành công",
+	REMOVE_FAIL: "Xóa thất bại",
+
 
 	ERROR: "Lỗi",
 	SUCCESS: "Thành công",
