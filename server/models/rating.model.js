@@ -12,7 +12,7 @@ module.exports = {
   },
   Single: (id) => {
     if (process.env.IS_TEST) {
-      id = "5fccb2931e10b0191c19ac6b";
+      id = '5fccb2931e10b0191c19ac6b';
     }
     return db.find(TableName, {
       _id: ObjectId(`${id}`),
@@ -38,7 +38,7 @@ module.exports = {
         },
       },
     ];
-/*
+    /*
     // pagination
     var currentPage = params.page || 1;
     var itemPerPage = params.itemPerPage || constant.DEFAULT_PAGINATION_ITEMS;
@@ -64,6 +64,8 @@ module.exports = {
   },
   Add: (obj) => {
     obj.created_date = obj.modified_date = new Date();
+    obj.user_id = ObjectId(`${obj.user_id}`);
+    obj.motel_id = ObjectId(`${obj.motel_id}`);
     return db.insertOne(TableName, obj);
   },
   /*Update: (id, obj) => {
@@ -81,7 +83,7 @@ module.exports = {
   },*/
   Delete: (id) => {
     if (process.env.IS_TEST) {
-      id = "5fccb2931e10b0191c19ac6b";
+      id = '5fccb2931e10b0191c19ac6b';
     }
     return db.deleteOne(TableName, { _id: ObjectId(`${id}`) });
   },
