@@ -26,6 +26,13 @@ import ProfileInfo from "@/views/pages/profile/Info.vue";
 import CreatePost from "@/views/pages/profile/CreatePost.vue";
 import ListMotel from '@/views/pages/profile/ListMotel.vue';
 
+
+// admin 
+import AdminMotel from "@/views/pages/admin/motel/Motel.vue";
+import AdminMotelIndex from "@/views/pages/admin/motel/Index.vue";
+
+
+
 import store from "@/store/index";
 
 const originalPush = VueRouter.prototype.push;
@@ -78,6 +85,24 @@ const routes = [
   //   path: "/",
   //   component: Home,
   // },
+
+  {
+    path: "/admin",
+    component: AdminLayout,
+    children: [
+      {
+        path: "motels",
+        component: AdminMotel,
+        children: [
+          {
+            path: "",
+            component: AdminMotelIndex
+          },
+
+        ]
+      }
+    ]
+  },
 
   {
     path: "/",

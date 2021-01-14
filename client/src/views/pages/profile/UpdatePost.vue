@@ -20,9 +20,9 @@
                        
                   <v-form ref="form" v-model="valid" lazy-validation>
                       <v-text-field
-                        v-model="form.title"
+                        v-model="motel.title"
                         :rules="[
-                          $validation.required(form.title, 'Thông tin')
+                          $validation.required(motel.title, 'Thông tin')
                         ]"
                         label="Thông tin"
                         required
@@ -30,9 +30,9 @@
 
                       <v-text-field
                         type="number"
-                        v-model.number="form.area"
+                        v-model.number="motel.area"
                         :rules="[
-                          $validation.required(form.area, 'Diện tích')
+                          $validation.required(motel.area, 'Diện tích')
                         ]"
                         label="Diện tích"
                         required 
@@ -45,7 +45,7 @@
                       </v-text-field>
 
                       <v-text-field
-                        v-model.number="form.price" 
+                        v-model.number="motel.price" 
                         type="number" 
                         label="Giá"
                       >
@@ -57,9 +57,9 @@
 
 
                       <v-text-field
-                        v-model="form.address"
+                        v-model="motel.address"
                        :rules="[
-                          $validation.required(form.price, 'Địa chỉ')
+                          $validation.required(motel.price, 'Địa chỉ')
                         ]"
                         label="Địa chỉ"
                         required
@@ -67,21 +67,20 @@
 
 
                       <m-dropzone
-                       :data.sync="form.images"
+                       :data.sync="motel.images"
                        :multiple="true"
                       >
-
                       </m-dropzone>
 
                       <v-checkbox
-                        v-model="form.has_furniture"
+                        v-model="motel.has_furniture"
                         label="Có nội thất"
                       ></v-checkbox>
 
                       <v-textarea 
                       name="descriptions" label="Mô tả"
                       class="no-resize"
-                       v-model="form.description"
+                       v-model="motel.description"
                       >
                         
                       </v-textarea>
@@ -144,16 +143,7 @@ export default {
     return {
        lazy: false,
       valid: true,
-      form: {
-        title: "",
-        address: "",
-        price: "",
-        images: "",
-        area: 0,
-        description: "",
-        has_furniture: null,
-        owner_id: CookieService.get('userInfo')._id
-      }
+
     }
   },
 
@@ -165,12 +155,12 @@ export default {
     async save(){
 
       if (this.$refs.form.validate()) {
-        const res = await MotelService.store(this.form);
+        const res = await MotelService.update(id, this.motel);
 
         if(res.status === 201)
         {
            toastr.success(
-              "<p> Đăng bài thành công <p>",
+              "<p> Cập nhật thành công <p>",
               "Success",
               { timeOut: false }
             );

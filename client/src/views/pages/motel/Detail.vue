@@ -70,7 +70,7 @@
 				          color="basil"
 				          flat
 				        >
-				        	<v-card-text>
+				        	<v-card-text class="d-flex">
 				        	 <v-rating
 				                :value="motel.rating"
 				                color="amber"
@@ -79,6 +79,9 @@
 				                readonly
 				                size="20"
 				              ></v-rating>
+				              <v-spacer></v-spacer>
+
+				              <v-btn outlined small color="primary" @click="addRating()">Đánh giá</v-btn>
 				            </v-card-text>
 
 				            <v-card-text>
@@ -112,14 +115,23 @@
 				</v-card>
 			</v-col> 
 		</v-row>
+
+		<form-rating
+		v-if="showFormRating"
+		title="Đánh giá phòng trọ"
+		:motel="motel"
+		:showFormRating.sync="showFormRating"
+		>
+		</form-rating>
 	</v-container>
 </template>
 
 <script type="text/javascript">
 
 // components	
-import Carousel from "./components/detail/Carousel"
-import Rating from "./components/detail/Rating"
+import Carousel from "./components/detail/Carousel";
+import Rating from "./components/detail/Rating";
+import AddRating from "./components/detail/AddRating";
 
 // service
 import CookieService from "@/services/cookie";
@@ -133,7 +145,8 @@ export default {
 
     components: {
     	'm-carousel': Carousel,
-    	'm-rating': Rating
+    	'm-rating': Rating,
+    	'form-rating': AddRating
 	},
 
 	data(){
@@ -146,6 +159,8 @@ export default {
 	        ],
 	         text: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.',
 	        userInfo: CookieService.get('userInfo'),
+
+	        showFormRating: false,
 		}
 	},
 
@@ -186,6 +201,10 @@ export default {
 	},
 
 	methods: {
+
+		addRating(){
+			this.showFormRating = true;
+		},
 
 		conditionPushWindowMessenger(windowMessengers, windowMessengerSelected){
 	      var checkExist = this.windowMessengers.some(item => { return item.id === windowMessengerSelected.id});

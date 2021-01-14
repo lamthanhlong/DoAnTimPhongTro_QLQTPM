@@ -1,0 +1,146 @@
+<template>
+  <v-container>
+    <v-row>
+      <label-table title="Phòng trọ"> </label-table>
+    </v-row>
+    <v-row>
+      <v-flex :class="{ 'pa-4': !isMobile }">
+        <v-card flat>
+          <v-row no-gutters>
+
+            <v-spacer></v-spacer>
+          </v-row>
+
+          <v-layout
+            v-resize="onResize"
+            column
+            class="table"
+            :class="{ 'mt-4': isMobile }"
+          >
+            <v-responsive :aspect-ratio="$constant.aspectRatio.TABLE">
+              <v-simple-table :class="{ mobile: isMobile }">
+                <template  v-if="motels.length">
+                   <thead>
+                      <tr>
+                        <th class="text-center">STT</th>
+                        <th class="text-center">Hình ảnh</th>
+                        <th class="text-center">Thân chủ</th>
+                        <th class="text-center">Diện tích</th>
+                        <th class="text-center">Giá</th>
+                        <th class="text-center">Hành động</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr  v-for="(item, index) in motels" :key="item.id">
+                        <td class="text-center">
+                           {{ $helper.showIndex(index, currentPage, itemsPerPage) }}
+                        </td>
+                        <td class="text-center">{{ $helper.getMainImageMotel(item.images) }}</td>
+                        <td class="text-center">{{ item.Users[0].name }}</td>
+                        <td class="text-center">{{ item.area }}</td>
+                        <td class="text-center">{{ item.price }} triệu VNĐ</td>
+
+                        <td class="text-center">
+                           <btn-edit
+                            
+                            :title="$lang.DETAIL"
+                            v-on:action="edit(item)"
+                            color="blue darken-1"
+                            :classProp="`mr-4`"
+                            type="edit"
+                          ></btn-edit>
+
+                          <btn-remove 
+                            :title="$lang.REMOVE"
+                            v-on:action="remove(item)"
+                            type="remove"
+                          >
+                          </btn-remove>
+                        </td>
+                      </tr>
+                    </tbody>
+                </template>
+
+        
+              </v-simple-table>
+            </v-responsive>
+          </v-layout>
+
+        </v-card>
+      </v-flex>
+    </v-row>
+  </v-container>
+</template>
+
+<script>
+
+//mixin
+import IsMobile from "@/mixins/is_mobile";
+
+
+// services
+import MotelService from "@/services/motel";
+export default {
+
+  mixins: [IsMobile],
+
+  created(){
+    this.retrieveData();
+  },
+
+  data(){
+    return {
+      currentPage: this.$constant.pagination.CURRENT_PAGE,
+      itemsPerPage: this.$constant.pagination.ITEMS_PER_PAGE,
+      isLoading: false,
+      motels: [],
+    }
+  },
+
+  methods: {
+
+    async retrieveData()
+    {
+      this.$store.dispatch("components/actionProgressHeader", {option: "show"});
+      setTimeout(async () => {
+
+
+        var currentPage = this.$route.query.page || 1;
+        const res = await MotelService.fetchPaging(currentPage);
+
+        if(res){
+          this.$store.dispatch('components/actionProgressHeader', {option: "hide"});
+          this.motels = res.data.data
+        }else{
+           this.$store.dispatch('components/actionProgressHeader', {option: "hide"});
+        }
+
+      }, 200)
+    },
+
+
+    edit(item){
+      this.$router.push('/hobbies/' + item.id);
+    },
+
+    create(){
+      this.$router.push('/hobbies/create');
+    },
+
+    async remove(item){
+      var conf = confirm(this.$lang.REMOVE_CONFIRM);
+
+      if(conf){
+        const res = await MotelService.delete(item.id);
+        if(!res){
+          toastr.error(this.$lang.REMOVE_FAIL, this.$lang.ERROR, { timeOut: 1000 });
+        }else{
+          toastr.success(this.$lang.REMOVE_SUCCESS, this.$lang.SUCCESS, { timeOut: 1000 });
+        }
+      }
+    }
+  },
+
+
+};
+</script>
