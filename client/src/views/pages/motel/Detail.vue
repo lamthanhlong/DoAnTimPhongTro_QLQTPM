@@ -118,6 +118,7 @@
 
 		<form-rating
 		v-if="showFormRating"
+		title="Đánh giá phòng trọ"
 		:motel="motel"
 		:showFormRating.sync="showFormRating"
 		>

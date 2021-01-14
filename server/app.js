@@ -40,11 +40,11 @@ app.use('/api/rating', require('./routes/rating.route'));
 //   IBMCloud.uploadItem(myfile, 'Test');
 //   res.end('OK');
 // });
-app.delete('/photo', function (req, res) {
+app.delete('/api/photo', function (req, res) {
   IBMCloud.deleteItems(req.body.files.split(';'));
   res.status(200).json({ success: true });
 });
-app.post('/photo', function (req, res) {
+app.post('/api/photo', function (req, res) {
   if (!req.files) {
     return res.status(400).json({ err_msg: 'Please upload an file' });
   }

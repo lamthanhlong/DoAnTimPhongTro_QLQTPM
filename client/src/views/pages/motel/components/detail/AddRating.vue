@@ -17,12 +17,13 @@
               <v-form ref="form" v-model="valid" lazy-validation>
                 <v-row>
                   <v-col cols="12">
+                      <v-card-subtitle>Vote</v-card-subtitle>
                       <v-rating
                         v-model="form.rating"
                         color="amber"
                         dense
                         half-increments
-                        readonly
+                        
                         size="20"
 
                       >
@@ -31,6 +32,7 @@
 
                   <v-col cols="12">
                      <v-textarea
+                     outlined
                      rows="5"
                      v-model="form.comment"
                      label="Message"
@@ -50,7 +52,7 @@
               <v-spacer></v-spacer>
               <btn-save 
                 :outlined="true"
-                title="Cập nhật"
+                title="Submit"
                 v-on:action="save()"
                 color="blue darken-1"
                 type="save"
@@ -81,7 +83,7 @@ export default {
       default: false,
     },
     title: String,
-    motel: Object,
+    data: [Array, String]
   },
 
 
@@ -90,8 +92,6 @@ export default {
       form: {
         comment: "",
         rating: 1,
-        user_id: this.motel.user._id,
-        motel_id: this.motel._id
       },
       valid: false,
     }
@@ -114,6 +114,8 @@ export default {
 
         if(res.data)
         { 
+
+          this.$store.dispatch("motels/updateRatings", res.data);
            toastr.success(
               "<p> Đánh giá thành công <p>",
               "Success",
@@ -123,10 +125,7 @@ export default {
         }
 
         this.$refs.form.reset();
-       
-
       }
-
     },
   },
 };

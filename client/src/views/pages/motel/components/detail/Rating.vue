@@ -10,7 +10,7 @@
               <v-list-item-content>
                 <v-list-item-title v-text="item.Users[0].name"></v-list-item-title>
 
-                <v-list-item-subtitle v-text="item.comment"></v-list-item-subtitle>
+                <v-list-item-subtitle v-text="item.comment" class="pt-4"></v-list-item-subtitle>
               </v-list-item-content>
 
               <v-list-item-action>
@@ -50,8 +50,5 @@ export default {
     }
   },
 
-  mounted(){
-    console.log(this.ratings)
-  }
 }
 </script>
