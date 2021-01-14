@@ -16,6 +16,7 @@
             column
             class="table"
             :class="{ 'mt-4': isMobile }"
+            v-if="!isLoading"
           >
             <v-responsive :aspect-ratio="$constant.aspectRatio.TABLE">
               <v-simple-table :class="{ mobile: isMobile }">
@@ -24,7 +25,6 @@
                       <tr>
                         <th class="text-center">STT</th>
                         <th class="text-center">Hình ảnh</th>
-                        <th class="text-center">Thân chủ</th>
                         <th class="text-center">Diện tích</th>
                         <th class="text-center">Giá</th>
                         <th class="text-center">Hành động</th>
@@ -35,36 +35,42 @@
                         <td class="text-center">
                            {{ $helper.showIndex(index, currentPage, itemsPerPage) }}
                         </td>
-                        <td class="text-center">{{ $helper.getMainImageMotel(item.images) }}</td>
-                        <td class="text-center">{{ item.Users[0].name }}</td>
+                        <td class="text-center">
+                          <v-img class="mx-auto" height="70" width="120" :src="$helper.getMainImageMotel(item.images)"></v-img>
+                        </td>
                         <td class="text-center">{{ item.area }}</td>
                         <td class="text-center">{{ item.price }} triệu VNĐ</td>
 
                         <td class="text-center">
-                           <btn-edit
+                           <btn-detail
                             
                             :title="$lang.DETAIL"
                             v-on:action="edit(item)"
                             color="blue darken-1"
                             :classProp="`mr-4`"
                             type="edit"
-                          ></btn-edit>
-
-                          <btn-remove 
-                            :title="$lang.REMOVE"
-                            v-on:action="remove(item)"
-                            type="remove"
-                          >
-                          </btn-remove>
+                          ></btn-detail>
                         </td>
                       </tr>
                     </tbody>
                 </template>
-
-        
               </v-simple-table>
             </v-responsive>
           </v-layout>
+                  <v-row justify="center">
+            <v-col cols="8">
+              <v-container class="max-width">
+                 <pagination-custom
+                  :pageCounts="pageCounts"
+                  :currentPage.sync="currentPage"
+                  :key="currentPage"
+                  @change="nextPage()"
+                 >
+                   
+                 </pagination-custom>
+              </v-container>
+            </v-col>
+          </v-row>
 
         </v-card>
       </v-flex>
@@ -85,37 +91,56 @@ export default {
   mixins: [IsMobile],
 
   created(){
-    this.retrieveData();
+      var query = Object.assign({}, this.$route.query);
+      query.page = this.currentPage;
+    this.retrieveData(query);
   },
 
   data(){
     return {
-      currentPage: this.$constant.pagination.CURRENT_PAGE,
+      currentPage: parseInt(this.$route.query.page) || 1,
       itemsPerPage: this.$constant.pagination.ITEMS_PER_PAGE,
+
       isLoading: false,
+      pageCounts: 1,
       motels: [],
     }
   },
 
   methods: {
 
-    async retrieveData()
+    async retrieveData(query)
     {
+      this.isLoading = true;
       this.$store.dispatch("components/actionProgressHeader", {option: "show"});
       setTimeout(async () => {
 
-
-        var currentPage = this.$route.query.page || 1;
+        var currentPage = query.page || 1;
         const res = await MotelService.fetchPaging(currentPage);
 
         if(res){
           this.$store.dispatch('components/actionProgressHeader', {option: "hide"});
-          this.motels = res.data.data
+          this.motels = res.data.data;
+          this.pageCounts = res.data.pageCounts;
+          this.isLoading = false;
         }else{
            this.$store.dispatch('components/actionProgressHeader', {option: "hide"});
+           this.isLoading = false;
         }
 
       }, 200)
+    },
+
+    nextPage(){
+
+      var query = Object.assign({}, this.$route.query);
+      query.page = this.currentPage;
+
+      this.$router.push({
+            query: query
+      });
+
+      this.retrieveData(query);
     },
 
 

@@ -12,7 +12,7 @@ export default {
 
 	props: {
 		currentPage: {
-			type: Number,
+			type: [Number, String],
 			default: 1
 		},
 		pageCounts: {

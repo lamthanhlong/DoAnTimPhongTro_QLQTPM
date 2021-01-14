@@ -165,6 +165,12 @@ export default {
     async save(){
 
       if (this.$refs.form.validate()) {
+
+        if(this.form.images.length > 0){
+          this.form.images = this.form.images.join(";");
+        }
+
+
         const res = await MotelService.store(this.form);
 
         if(res.status === 201)
