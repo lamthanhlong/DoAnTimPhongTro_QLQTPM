@@ -36,7 +36,7 @@ router.post('/', validate(schema), async function (req, res) {
   }
   const user = await userModel.Single(object.user_id);
   object._id = id;
-  object.user = user[0];
+  object.Users = user;
   res.status(201).json(object);
 });
 /*router.put('/:id', async function (req, res) {
