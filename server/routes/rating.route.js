@@ -2,8 +2,10 @@ const e = require('express');
 const express = require('express');
 const router = express.Router();
 const model = require('../models/rating.model');
+const motel = require('../models/motel.model');
 const validate = require('../utils/validate');
 let schema = require('../schemas/rating.json');
+const userModel = require('../models/user.model');
 
 router.get('/', async (req, res) => {
   var data = await model.GetAll();
@@ -23,7 +25,18 @@ router.post('/', validate(schema), async function (req, res) {
   //const checkDup = await model.FindRating(object);
   //if (checkDup.length > 0) return res.status(400).end();
   const id = await model.Add(object);
+  const ratings = await model.GetAllRatingByMotelId(object.motel_id);
+  if (ratings.length > 0) {
+    let avg = 0;
+    for (i in ratings) {
+      avg += ratings[i].rating;
+    }
+    avg = avg / ratings.length;
+    const motel_update_rating = motel.Update(object.motel_id, { rating: avg });
+  }
+  const user = await userModel.Single(object.user_id);
   object._id = id;
+  object.user = user[0];
   res.status(201).json(object);
 });
 /*router.put('/:id', async function (req, res) {

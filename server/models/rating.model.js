@@ -23,6 +23,8 @@ module.exports = {
     if (process.env.IS_TEST) {
       id = String('5fccb2931e10b0191c19ac6b');
     }
+    var sort_object = JSON.parse(`{"created_date": -1}`);
+
     var aggregate = [
       {
         $match: {
@@ -38,6 +40,10 @@ module.exports = {
         },
       },
     ];
+    if (!helper.ObjectIsEmpty(sort_object))
+      aggregate.push({
+        $sort: sort_object,
+      });
     /*
     // pagination
     var currentPage = params.page || 1;
