@@ -93,7 +93,6 @@ export  const mutations = {
 
     UPDATE_RATINGS(state, rating)
     {
-      console.log(rating);
       state.motel.ratings.unshift(rating)
     },
 

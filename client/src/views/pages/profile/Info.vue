@@ -11,7 +11,7 @@
             <m-menu></m-menu>
           </v-col>
 
-          <v-col cols="12" md="8" :class="{ 'pa-0': isMobile }">
+          <v-col cols="12" md="8" :class="{ 'pa-0': isMobile }" v-if="!isLoading">
             <v-card tile  style="height: 100%;">
               <v-form ref="form">
                 <v-container>
@@ -25,7 +25,7 @@
                       <v-text-field
                         :disabled="!edit"
                         class="font-weight-bold"
-                        v-model="userInfo.name"
+                        v-model="getUser.name"
                       ></v-text-field>
                     </v-col>
                   </v-row>
@@ -40,7 +40,7 @@
                       <v-text-field
                         :disabled="!edit"
                         class="font-weight-bold"
-                        v-model="userInfo.phone"
+                        v-model="getUser.phone"
                       ></v-text-field>
                     </v-col>
                   </v-row>
@@ -53,7 +53,7 @@
                     </v-col>
                     <v-col cols="8">
                       <v-text-field
-                        v-model="userInfo.address"
+                        v-model="getUser.address"
                         :disabled="!edit"
                         class="font-weight-bold"
                       >
@@ -119,6 +119,10 @@ export default {
 
   mixins: [IsMobile],
 
+  created(){
+    this.retrieveData();
+  },
+
   data() {
     return {
       menuInfo: [
@@ -132,6 +136,7 @@ export default {
       showAvatarDialog: false,
       image: null,
       isSelecting: false,
+      isLoading: true,
     };
   },
 
@@ -157,9 +162,30 @@ export default {
 
     async handleUpdateUserInfo(){
       var userId = this.userInfo._id;
-      const res = await UserService.update(userId, this.userInfo)
+      const res = await UserService.update(userId, this.getUser)
+      if(res.status === 200){
+        toastr.success(
+          "<p> Cập nhật thành công <p>",
+          "Success",
+          { timeOut: 1000 }
+        );
+                  this.edit = false;
+      }else{
+        toastr.error("Internal Server Error", "Error", {
+              timeOut: 1000
+          });
+      }
+    },
 
-      console.log(res);
+    async retrieveData()
+    {
+      var userId = this.userInfo._id;
+      const res = await UserService.fetch(userId);
+
+      if(res.status === 200){
+        this.getUser = res.data[0];
+        this.isLoading = false;
+      }
     }
 
   },

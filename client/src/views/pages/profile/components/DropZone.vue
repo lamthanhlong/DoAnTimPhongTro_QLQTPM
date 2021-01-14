@@ -7,6 +7,7 @@
     @vdropzone-complete="complete"
     @vdropzone-removed-file="remove"
     :useCustomSlot="true"
+    v-model="getData"
   >
     <div class="dropzone-custom-content">
       <h3 class="dropzone-custom-title">ドラッグとドロップして、コンテンツをアップロード。</h3>
@@ -41,8 +42,10 @@ export default {
         addRemoveLinks: true,
         uploadMultiple: true,
         dictRemoveFile: 'Xóa',
-        maxFiles: 2
-      }
+        maxFiles: 2,
+      },
+      getData: [],
+      fileTemp: [],
     };
   },
 
@@ -53,26 +56,22 @@ export default {
       formData.append("myFile", file); 
 
       const res = await UploadService.image(formData);
-      console.log(res);
+      if(res.data){
+        this.getData.push(res.data.link);
+        this.fileTemp.push(file);
+        this.$emit("update:data", this.getData);
+      }
       // var files = this.$refs.myVueDropzone.dropzone.files
-      // this.$emit("update:data", files);
+
       
     },
     remove(file) {
-      // console.log(file)
+      var findIndex = this.fileTemp.indexOf(file);
+      this.getData.splice(findIndex, 1);
+      this.$emit("update:data", this.getData);
     }
   },
 
-  computed: {
-    getImage: {
-      get() {
-        return this.data;
-      },
 
-      set(value) {
-        this.data = value;
-      }
-    }
-  }
 };
 </script>

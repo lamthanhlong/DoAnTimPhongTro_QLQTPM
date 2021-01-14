@@ -74,6 +74,7 @@
 <script>
 
 import RatingService from "@/services/rating";
+import CookieService from "@/services/cookie";
 
 export default {
 
@@ -83,7 +84,8 @@ export default {
       default: false,
     },
     title: String,
-    data: [Array, String]
+    data: [Array, String],
+    motel: Object,
   },
 
 
@@ -92,6 +94,8 @@ export default {
       form: {
         comment: "",
         rating: 1,
+        motel_id: this.motel._id,
+        user_id: CookieService.get('userInfo')._id
       },
       valid: false,
     }
@@ -110,8 +114,8 @@ export default {
     async save(){
 
       if (this.$refs.form.validate()) {
-        const res = await RatingService.store(this.form);
 
+        const res = await RatingService.store(this.form);
         if(res.data)
         { 
 
@@ -122,6 +126,12 @@ export default {
               { timeOut: false }
             );
            this.$emit('update:showFormRating', false);
+        }else{
+           toastr.error(
+              "<p> Đánh giá thất bại <p>",
+              "Error",
+              { timeOut: false }
+            );
         }
 
         this.$refs.form.reset();
