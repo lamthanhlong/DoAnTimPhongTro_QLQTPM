@@ -17,7 +17,7 @@
 
           <v-list two-line>
               <v-list-item-group
-                v-model="selected"
+
                 active-class="pink--text"
                 multiple
               >
@@ -127,6 +127,11 @@ export default {
 
   mixins: [IsMobile],
 
+  created(){
+    this.retrieveData(this.userId);
+  },
+
+
   data(){
     return {
       userId: CookieService.get('userInfo')._id,
@@ -136,18 +141,15 @@ export default {
       pageCounts: 1,
 
       editModal: false,
-      motel: motel,
+      motel: {},
     }
   },
 
-  created(){
-
-    this.retrieveData(this.userId);
-  },
 
   methods: {
     async retrieveData(userId){
       const res = await MotelService.getAllByOwner(userId);
+
       if(res.status === 200)
       {
         this.motels = res.data.data;
@@ -157,7 +159,7 @@ export default {
 
     edit(motel)
     {
-      this.motel = motel;
+      this.motel = {...motel};
       this.editModal = true;
     }
   },

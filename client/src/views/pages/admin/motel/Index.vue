@@ -27,7 +27,8 @@
                         <th class="text-center">Hình ảnh</th>
                         <th class="text-center">Diện tích</th>
                         <th class="text-center">Giá</th>
-                        <th class="text-center">Hành động</th>
+                        <th class="text-center">Xác thực</th>
+                        <th class="text-center">Thao tác</th>
                       </tr>
                     </thead>
                     <tbody>
@@ -40,13 +41,30 @@
                         </td>
                         <td class="text-center">{{ item.area }}</td>
                         <td class="text-center">{{ item.price }} triệu VNĐ</td>
-
+                        <td class="text-center">
+                          <v-chip
+                          small
+                          :color="item.is_verified === true ? 'primary' : 'red'"
+                          dark
+                        >
+                           {{ item.is_verified === true ? "Đã xác thực" : "Chưa xác thực" }}
+                        </v-chip>
+                        </td>
                         <td class="text-center">
                            <btn-detail
                             
                             :title="$lang.DETAIL"
                             v-on:action="edit(item)"
                             color="blue darken-1"
+                            :classProp="`mr-4`"
+                            type="edit"
+                          ></btn-detail>
+
+                           <btn-detail
+                            title="Xác thực"
+                            v-if="!item.is_verified"
+                            v-on:action="verify(item)"
+                            color="green darken-1"
                             :classProp="`mr-4`"
                             type="edit"
                           ></btn-detail>
@@ -145,11 +163,19 @@ export default {
 
 
     edit(item){
-      this.$router.push('/hobbies/' + item.id);
+      
     },
 
     create(){
-      this.$router.push('/hobbies/create');
+
+    },
+
+    async verify(item){
+      var is_verified = !item.is_verified;
+      const res = await MotelService.verifyMotel(item._id);
+      if(res.status === 200){
+        item.is_verified = true;
+      }
     },
 
     async remove(item){

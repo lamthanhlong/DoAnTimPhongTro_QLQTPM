@@ -26,10 +26,15 @@ import ProfileInfo from "@/views/pages/profile/Info.vue";
 import CreatePost from "@/views/pages/profile/CreatePost.vue";
 import ListMotel from '@/views/pages/profile/ListMotel.vue';
 
+import User from "@/views/pages/user/User.vue";
+import UserInfo from "@/views/pages/user/Info.vue";
 
 // admin 
 import AdminMotel from "@/views/pages/admin/motel/Motel.vue";
 import AdminMotelIndex from "@/views/pages/admin/motel/Index.vue";
+
+import AdminUser from "@/views/pages/admin/user/User.vue";
+import AdminUserIndex from "@/views/pages/admin/user/Index.vue";
 
 
 
@@ -77,6 +82,26 @@ const routes = [
         component: Login,
         name: "login"
       },
+      {
+        path: "motels",
+        component: AdminMotel,
+        children: [
+          {
+            path: "",
+            component: AdminMotelIndex
+          },
+        ]
+      },
+      {
+        path: "users",
+        component: AdminUser,
+        children: [
+          {
+            path: "",
+            component: AdminUserIndex
+          },
+        ]
+      }
     ]
   },
 
@@ -86,23 +111,7 @@ const routes = [
   //   component: Home,
   // },
 
-  {
-    path: "/admin",
-    component: AdminLayout,
-    children: [
-      {
-        path: "motels",
-        component: AdminMotel,
-        children: [
-          {
-            path: "",
-            component: AdminMotelIndex
-          },
 
-        ]
-      }
-    ]
-  },
 
   {
     path: "/",
@@ -155,6 +164,18 @@ const routes = [
             component: ListMotel,
             name: "listMotel"
           }
+        ]
+      },
+      {
+        path: "user",
+        component: User,
+        name: "user",
+        children: [
+          {
+            path: ":id",
+            component: UserInfo,
+            name: "userInfo"
+          },
         ]
       }
     ]

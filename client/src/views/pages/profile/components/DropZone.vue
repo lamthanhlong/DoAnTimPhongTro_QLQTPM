@@ -32,6 +32,12 @@ export default {
     vueDropzone: vue2Dropzone
   },
 
+  created(){
+    if(this.data.length){
+      this.$refs.myVueDropzone
+    }
+  },
+
   data: function() {
     return {
       dropzoneOptions: {
@@ -49,7 +55,16 @@ export default {
     };
   },
 
+  watch: {
+    data(data){
+      if(data.length <= 0){
+        this.$refs.myVueDropzone.removeAllFiles();
+      }
+    }
+  },
+
   methods: {
+
     async complete(file) {
 
       const formData = new FormData();

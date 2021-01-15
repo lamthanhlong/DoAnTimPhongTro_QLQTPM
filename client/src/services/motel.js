@@ -42,6 +42,22 @@ export default {
     }
   },
 
+   async update(id, form){
+    try {
+      return await axios.put(this.rootURL + `update/${id}`, form);
+    } catch (error) {
+       return helperCommon.getError(error) || false; 
+    }
+  },
+
+  async verifyMotel(id, form){
+    try {
+      return await axios.put(this.rootURL + `${id}/verify`);
+    } catch (error) {
+       return helperCommon.getError(error) || false; 
+    }
+  },
+
   async getDistricts(cityId)
   {
      try {

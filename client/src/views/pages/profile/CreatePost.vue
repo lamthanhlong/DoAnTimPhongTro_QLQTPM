@@ -180,6 +180,7 @@ export default {
               "Success",
               { timeOut: false }
             );
+           this.form.images = [];
 
         }else{
           toastr.error("Internal Server Error", "Error", {
