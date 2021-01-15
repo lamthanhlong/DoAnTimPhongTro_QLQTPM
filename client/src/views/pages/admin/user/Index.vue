@@ -27,6 +27,7 @@
                         <th class="text-center">Họ tên</th>
                         <th class="text-center">Số điện thoại</th>
                         <th class="text-center">Địa chỉ</th>
+                        <th class="text-center">Xác thực</th>
                         <th class="text-center">Thao tác</th>
                       </tr>
                     </thead>
@@ -40,7 +41,15 @@
                         </td>
                         <td class="text-center">{{ item.phone }}</td>
                         <td class="text-center">{{ item.address }}</td>
-
+                        <td class="text-center">
+                          <v-chip
+                          small
+                          :color="item.is_verified === true ? 'primary' : 'red'"
+                          dark
+                        >
+                           {{ item.is_verified === true ? "Đã xác thực" : "Chưa xác thực" }}
+                        </v-chip>
+                        </td>
                         <td class="text-center">
                            <btn-detail
                             
@@ -50,6 +59,16 @@
                             :classProp="`mr-4`"
                             type="edit"
                           ></btn-detail>
+                          
+                           <btn-detail
+                            title="Xác thực"
+                            v-if="!item.is_verified"
+                            v-on:action="verify(item)"
+                            color="green darken-1"
+                            :classProp="`mr-4`"
+                            type="edit"
+                          ></btn-detail>
+
                         </td>
                       </tr>
                     </tbody>
@@ -150,6 +169,14 @@ export default {
 
     create(){
 
+    },
+
+    async verify(item){
+      var is_verified = !item.is_verified;
+      const res = await UserService.verifyMotel(item._id);
+      if(res.status === 200){
+        item.is_verified = true;
+      }
     },
 
     async remove(item){

@@ -2,15 +2,14 @@
   <nav id="header-top">
     <v-app-bar app>
 
-    <div style="width: 10%;">
-      <v-list-item class="logo" :to="'/'">
-          <v-img
-            width="50"
-            src="@/assets/img/Small_Logo.png"
-          ></v-img>
-        <v-list-item-title>MFIND</v-list-item-title>
-      </v-list-item>
-    </div>
+    <div v-if="!isMobile()">
+        <v-app-bar-nav-icon @click.stop="mini = !mini"></v-app-bar-nav-icon>
+      </div>
+      <div v-else>
+        <v-app-bar-nav-icon @click.stop="drawer = !drawer"></v-app-bar-nav-icon>
+      </div>
+    <v-spacer></v-spacer>
+
 
       <v-spacer></v-spacer>
 
@@ -59,6 +58,7 @@
         </v-list>
       </v-menu>
     </v-app-bar>
+    <navigation v-bind:mini="mini" v-bind:drawer="drawer"></navigation>
   </nav>
 </template>
 
@@ -79,10 +79,11 @@
 
 import SearchHeader from "./SearchHeader";
 import CookieService from "@/services/cookie";
-
+import NavigationDrawer from "./Sidebar";
 export default {
   components: {
-    'search-header': SearchHeader
+    'search-header': SearchHeader,
+    'navigation': NavigationDrawer
   },
 
   data() {
@@ -102,11 +103,6 @@ export default {
   },
 
   mounted() {
-    if(this.userInfo.role === "ADMIN"){
-      this.menuInfo.unshift({
-        title: "Quản lý admin", icon: "mdi-clipboard-list", link: "/admin/users"
-      });
-    }
 
     this.$vuetify.theme.dark = this.getTheme();
   },
