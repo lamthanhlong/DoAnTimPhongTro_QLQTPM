@@ -103,8 +103,13 @@
 					<v-card-text><b>Địa chỉ:</b> {{ motel.user.address }}</v-card-text>
 					
 					<v-card-text>
+
 						<v-btn small outlined @click="openWindowChat(motel.user)">
-							Chat với người bán
+								Chat với người bán
+								<v-icon>mdi-message-processing-outline</v-icon>
+						</v-btn>
+						<v-btn small outlined @click="viewProfileUser(motel.user)" class="ml-6">
+							Xem thông tin
 							<v-icon>mdi-account</v-icon>
 						</v-btn>
 					</v-card-text>
@@ -201,6 +206,10 @@ export default {
 	},
 
 	methods: {
+
+		viewProfileUser(user){
+			this.$router.replace('/user/' + user._id);	
+		},
 
 		addRating(){
 			this.showFormRating = true;

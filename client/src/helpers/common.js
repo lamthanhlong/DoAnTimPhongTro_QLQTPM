@@ -172,6 +172,12 @@ export default {
 
   getMainImageMotel(imageString){
 
+
+    if(typeof imageString === "object")
+    {
+      return imageString[0];
+    }
+
     if(!imageString){
       return null;
     }
@@ -180,6 +186,11 @@ export default {
   },
 
   convertStringToArrayImage(imageString){
+
+    if(typeof imageString === "object")
+    {
+      return imageString;
+    }
 
     if(!imageString)
       return null;

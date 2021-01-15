@@ -10,6 +10,20 @@ export default {
     }
   },
 
+   async fetchPaging(currentPage) {
+
+    try {
+      return  await axios.get(this.rootURL, {
+        params: {
+          page: currentPage,
+        }
+      });
+      return result;
+    } catch (error) {
+       return helperCommon.getError(error) || false; 
+    }
+  },
+
   async update(id, data){
     try {
       return await axios.put(this.rootURL + `${id}`, data);
