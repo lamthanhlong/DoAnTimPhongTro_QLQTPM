@@ -1,6 +1,7 @@
 <template>
   <div id="layout-admin">
-    <toolbar-header></toolbar-header>
+    <header-admin v-if="isAdminRoute"></header-admin>
+    <toolbar-header v-else></toolbar-header>
     <v-main>
       <div id="page-wrapper">
         <div class="main-content">
@@ -15,14 +16,31 @@
 
 <script>
 import Header from "./partials/Header";
+import HeaderAdmin from "./partials/HeaderAdmin";
 import Footer from "./partials/Footer";
 
 
 export default {
   components: { 
     "toolbar-header": Header, 
+    "header-admin": HeaderAdmin,
     "m-footer": Footer, 
   },
+
+  data(){
+    return {
+      isAdminRoute: false,
+    }
+  },
+
+  mounted(){
+    var rootContext = this.$route.matched[0];
+    if(rootContext.hasOwnProperty('name')){
+      if(rootContext.name === "admin"){
+        this.isAdminRoute = true;
+      }
+    }
+  }
 
 };
 </script>

@@ -24,6 +24,14 @@ export default {
     }
   },
 
+  async verifyMotel(id, form){
+    try {
+      return await axios.put(this.rootURL + `${id}/verify`);
+    } catch (error) {
+       return helperCommon.getError(error) || false; 
+    }
+  },
+
   async update(id, data){
     try {
       return await axios.put(this.rootURL + `${id}`, data);
