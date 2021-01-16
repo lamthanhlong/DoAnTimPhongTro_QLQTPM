@@ -118,15 +118,24 @@ module.exports = {
     }
     // Not getting null prices
     query_object.price = Object.assign(query_object.price, { $ne: NaN });
-    if (params.searchkey) {
-      query_object.title = new RegExp(params.searchkey, 'i');
-      query_object.description = new RegExp(params.searchkey, 'i');
-    }
+
     var aggregate = [];
-    if (!helper.ObjectIsEmpty(query_object))
-      aggregate.push({
-        $match: query_object,
-      });
+    if (!helper.ObjectIsEmpty(query_object)){
+      if(params.searchkey){
+        aggregate.push({$match: {$and: [query_object, {$or: [
+          {
+            title: new RegExp(params.searchkey, 'i')
+          },
+          {
+            description: new RegExp(params.searchkey, 'i')
+          },
+          {
+            title: params.searchkey
+          }
+        ]}]}});
+      }
+      else aggregate.push({$match: query_object});
+    }
 
     if (!helper.ObjectIsEmpty(sort_object))
       aggregate.push({
@@ -147,7 +156,22 @@ module.exports = {
     );
 
     var data = await db.aggregate(TableName, aggregate);
-    var count = await db.count(TableName, query_object);
+    var countObject = {}
+    if(params.searchkey){
+      countObject = {$and: [query_object, {$or: [
+        {
+          title: new RegExp(params.searchkey, 'i')
+        },
+        {
+          description: new RegExp(params.searchkey, 'i')
+        },
+        {
+          title: params.searchkey
+        }
+      ]}]};
+    }
+    else countObject = query_object;
+    var count = await db.count(TableName, countObject);
     var pageCounts = helper.calcPageCounts(count, itemPerPage);
 
     return {
