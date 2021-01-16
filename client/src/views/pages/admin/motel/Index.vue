@@ -24,6 +24,7 @@
                    <thead>
                       <tr>
                         <th class="text-center">STT</th>
+                        <th class="text-center" style="width: 25%">Tiêu đề</th>
                         <th class="text-center">Hình ảnh</th>
                         <th class="text-center">Diện tích</th>
                         <th class="text-center">Giá</th>
@@ -35,6 +36,9 @@
                       <tr  v-for="(item, index) in motels" :key="item.id">
                         <td class="text-center">
                            {{ $helper.showIndex(index, currentPage, itemsPerPage) }}
+                        </td>
+                        <td class="text-center" >
+                          {{ item.title }}
                         </td>
                         <td class="text-center">
                           <v-img class="mx-auto" height="70" width="120" :src="$helper.getMainImageMotel(item.images)"></v-img>
@@ -56,7 +60,7 @@
                             :title="$lang.DETAIL"
                             v-on:action="edit(item)"
                             color="blue darken-1"
-                            :classProp="`mr-4`"
+                            :classProp="`ma-2`"
                             type="edit"
                           ></btn-detail>
 
@@ -65,7 +69,7 @@
                             v-if="!item.is_verified"
                             v-on:action="verify(item)"
                             color="green darken-1"
-                            :classProp="`mr-4`"
+                            :classProp="`ma-2`"
                             type="edit"
                           ></btn-detail>
                         </td>
@@ -75,7 +79,7 @@
               </v-simple-table>
             </v-responsive>
           </v-layout>
-                  <v-row justify="center">
+          <v-row justify="center">
             <v-col cols="8">
               <v-container class="max-width">
                  <pagination-custom

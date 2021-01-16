@@ -30,6 +30,8 @@ export default {
 
 
     this.$router.replace("/auth/login");
-  }
+  },
+
+
 };
 </script>

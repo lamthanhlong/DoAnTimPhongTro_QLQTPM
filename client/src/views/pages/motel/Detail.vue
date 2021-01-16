@@ -103,12 +103,11 @@
 					<v-card-text><b>Địa chỉ:</b> {{ motel.user.address }}</v-card-text>
 					
 					<v-card-text>
-
-						<v-btn small outlined @click="openWindowChat(motel.user)">
+						<v-btn class="ma-2" small outlined @click="openWindowChat(motel.user)">
 								Chat với người bán
-								<v-icon>mdi-message-processing-outline</v-icon>
+							<v-icon>mdi-message-processing-outline</v-icon>
 						</v-btn>
-						<v-btn small outlined @click="viewProfileUser(motel.user)" class="ml-6">
+						<v-btn small outlined @click="viewProfileUser(motel.user)" class="ma-2">
 							Xem thông tin
 							<v-icon>mdi-account</v-icon>
 						</v-btn>
@@ -116,7 +115,6 @@
 
 					<v-divider></v-divider>
 
-					<v-card-text>AAAAAAAAA</v-card-text>
 				</v-card>
 			</v-col> 
 		</v-row>
@@ -250,7 +248,8 @@ export default {
 
 	    	var payload = windowMessengerSelected;
 	    	var enablePushWindowMessenger =  this.conditionPushWindowMessenger(this.windowMessengers, windowMessengerSelected)
-    
+    			
+
 		    if(enablePushWindowMessenger)
 		    {
 	    		this.$store.dispatch("chats/openWindowMessenger", payload)

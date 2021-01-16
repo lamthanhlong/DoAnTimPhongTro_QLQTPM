@@ -7,7 +7,6 @@
       <v-flex :class="{ 'pa-4': !isMobile }">
         <v-card flat>
           <v-row no-gutters>
-
             <v-spacer></v-spacer>
           </v-row>
 
@@ -56,7 +55,7 @@
                             :title="$lang.DETAIL"
                             v-on:action="edit(item)"
                             color="blue darken-1"
-                            :classProp="`mr-4`"
+                            :classProp="`ma-2`"
                             type="edit"
                           ></btn-detail>
                           
@@ -65,7 +64,7 @@
                             v-if="!item.is_verified"
                             v-on:action="verify(item)"
                             color="green darken-1"
-                            :classProp="`mr-4`"
+                            :classProp="`ma-2`"
                             type="edit"
                           ></btn-detail>
 
@@ -76,7 +75,7 @@
               </v-simple-table>
             </v-responsive>
           </v-layout>
-                  <v-row justify="center">
+          <v-row justify="center">
             <v-col cols="8">
               <v-container class="max-width">
                  <pagination-custom
@@ -173,7 +172,7 @@ export default {
 
     async verify(item){
       var is_verified = !item.is_verified;
-      const res = await UserService.verifyMotel(item._id);
+      const res = await UserService.verifyUser(item._id);
       if(res.status === 200){
         item.is_verified = true;
       }

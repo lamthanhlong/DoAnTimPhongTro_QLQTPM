@@ -85,6 +85,10 @@ export default {
     'search-header': SearchHeader
   },
 
+  created(){
+    this.userInfo = CookieService.get('userInfo');
+  },
+
   data() {
     return {
       mini: false,
@@ -98,6 +102,7 @@ export default {
       theme: this.getTheme(),
 
       inputSearch: "",
+      userInfo: {},
     };
   },
 
@@ -152,10 +157,6 @@ export default {
       return this.theme ? "mdi-brightness-4" : "mdi-brightness-5";
     },
 
-    userInfo()
-    {
-      return CookieService.get('userInfo');
-    }
   }
 };
 </script>

@@ -24,7 +24,7 @@ export default {
     }
   },
 
-  async verifyMotel(id, form){
+  async verifyUser(id, form){
     try {
       return await axios.put(this.rootURL + `${id}/verify`);
     } catch (error) {
