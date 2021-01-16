@@ -76,6 +76,16 @@
                       </v-card-text>
                       <v-card-actions>
                         <v-btn
+                        class="mr-2"
+                        color="primary"
+                        small
+                        outlined
+                        @click="viewDetail(item)"
+                        >
+                          Xem chi tiết
+                        </v-btn>
+
+                        <v-btn
                         color="primary"
                         small
                         outlined
@@ -161,6 +171,10 @@ export default {
     {
       this.motel = {...motel};
       this.editModal = true;
+    },
+
+    viewDetail(item){
+      this.$router.push('/motels/detail/' + item._id)
     }
   },
 

@@ -12,9 +12,9 @@
 
                   v-model="getMotel.title"
                   :rules="[
-                    $validation.required(getMotel.title, 'Thông tin')
+                    $validation.required(getMotel.title, 'Tiêu đề')
                   ]"
-                  label="Thông tin"
+                  label="Tiêu đề"
                   required
                 ></v-text-field>
 
@@ -63,7 +63,7 @@
                 </m-dropzone>
                <v-subheader >Hình ảnh: </v-subheader>
                 <v-row>
-                  <v-col cols="12" md="6" lg="4" v-for="(item, index) in getMotel.images">
+                  <v-col cols="12" md="6" lg="4" v-for="(item, index) in getMotel.images" :key="index">
                      <v-hover v-slot:default="{ hover }" open-delay="200">
                       <v-card
                         :elevation="hover ? 12 : 2"

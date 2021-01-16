@@ -22,9 +22,9 @@
                       <v-text-field
                         v-model="form.title"
                         :rules="[
-                          $validation.required(form.title, 'Thông tin')
+                          $validation.required(form.title, 'Tiêu đề')
                         ]"
-                        label="Thông tin"
+                        label="Tiêu đề"
                         required
                       ></v-text-field>
 
@@ -147,7 +147,7 @@ export default {
       form: {
         title: "",
         address: "",
-        price: "",
+        price: 0,
         images: "",
         area: 0,
         description: "",

@@ -26,8 +26,6 @@ export  const actions = {
 export  const mutations = {
 
     OPEN_WINDOW_MESSENGER(state, data){
-
-
         data.isVisible = true
         data.listMessengers = [];
         data.message = "";
