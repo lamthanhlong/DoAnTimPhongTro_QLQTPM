@@ -27,7 +27,7 @@ router.post('/', validate(schema), protect, async function (req, res) {
   const object = req.body;
 
   if((await motel.ValidRatingCode(object.motel_id, object.rating_code))===false){
-    res.status(400).json({message: "Invalid rating code!"});
+    res.status(422).json({message: "Invalid rating code!"});
   }
   delete object.rating_code;
 
