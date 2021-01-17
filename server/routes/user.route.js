@@ -9,15 +9,18 @@ const bcrypt = require('bcryptjs');
 const authRouter = require('./auth.route');
 
 const { protect, authorize, sendTokenResponse } = require('../utils/auth');
+
 router.get('/', async (req, res) => {
   var data = await model.GetQuery(req.query);
   res.json(data);
 });
+
 router.get('/:id', async (req, res) => {
   const id = req.params.id;
   var data = await model.Single(id);
   res.json(data);
 });
+
 router.post('/', validate(schema), async function (req, res) {
   let object = req.body;
   const valid = await model.FindByPhone(object.phone);
@@ -30,6 +33,7 @@ router.post('/', validate(schema), async function (req, res) {
   object._id = id;
   sendTokenResponse(object, 201, res);
 });
+
 router.put('/:id', async function (req, res) {
   const object = req.body;
   delete object._id;
@@ -43,15 +47,17 @@ router.put('/:id', async function (req, res) {
   object._id = id;
   delete object.password;
   res.json(object);
-}),
-  router.delete('/:id', async function (req, res) {
-    const id = req.params.id;
-    const check = await model.Delete(id);
+});
+
+router.delete('/:id', async function (req, res) {
+  const id = req.params.id;
+  const check = await model.Delete(id);
     //if (!check) {
     //  return res.status(400).end();
     //}
-    res.json({ success: true });
-  });
+  res.json({ success: true });
+});
+
 router.put(
   '/:id/verify',
   protect,
@@ -66,4 +72,5 @@ router.put(
     return res.status(200).json({ success: true });
   }
 );
+
 module.exports = router;

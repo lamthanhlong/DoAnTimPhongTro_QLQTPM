@@ -15,6 +15,13 @@ router.get(
   motelcontroller.ownerFetchMotels
 );
 
+router.get(
+  '/rating_code/:id',
+  protect,
+  authorize('MOTEL_OWNER'),
+  motelcontroller.getRatingCode
+);
+
 router.get('/:id', motelcontroller.fetch);
 
 router.put(
@@ -34,4 +41,5 @@ router.put(
 );
 
 router.delete('/:id', motelcontroller.delete);
+
 module.exports = router;

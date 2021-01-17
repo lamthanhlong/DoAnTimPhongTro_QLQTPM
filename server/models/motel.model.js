@@ -5,6 +5,7 @@ const TableName = 'Motels';
 const constant = require('../configs/constant');
 const { query } = require('express');
 const { process_params } = require('express/lib/router');
+const randomstring = require('randomstring');
 
 module.exports = {
   //GetAll: () => {
@@ -199,4 +200,26 @@ module.exports = {
   Delete: (id) => {
     return db.deleteOne(TableName, { _id: id });
   },
+  ValidRatingCode: async (id, code) => {
+    var motels = await db.find(TableName, { _id: ObjectId(`${id}`)});
+    if(motels.length<=0) return false;
+    var motel = motels[0];
+    var result = helper.MinusTime(new Date(), motel.modified_date);
+    if(motel.rating_code && code==motel.rating_code && result.year==0 && result.month==0 && result.day<=1) return true;
+    return false;
+  },
+  GetRatingCode: async (id) => {
+    var motels = await db.find(TableName, { _id: ObjectId(`${id}`)});
+    if(motels.length<=0) return false;
+    var motel = motels[0];
+    var result = helper.MinusTime(new Date(), motel.modified_date);
+    if(motel.rating_code && result && result.year==0 && result.month==0 && result.day<=1) return motel.rating_code;
+    motel.rating_code = randomstring.generate(5);
+    if((await module.exports.Update(id, {rating_code: motel.rating_code})) == 1){
+      return motel.rating_code;
+    }
+    else{
+      return false;
+    }
+  }
 };

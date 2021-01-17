@@ -5,6 +5,7 @@ const helper = require('../utils/helper');
 const constant = require('../configs/constant');
 const nodemon = require('nodemon');
 const { config } = require('chai');
+const motel = require('./motel.model');
 
 module.exports = {
   GetAll: () => {
@@ -64,8 +65,8 @@ module.exports = {
   },
   FindRating: (obj) => {
     return db.find(TableName, {
-      user_id: obj.user_id,
-      motel_id: obj.motel_id,
+      user_id: ObjectId(`${obj.user_id}`),
+      motel_id: ObjectId(`${obj.motel_id}`),
     });
   },
   Add: (obj) => {
@@ -74,7 +75,7 @@ module.exports = {
     obj.motel_id = ObjectId(`${obj.motel_id}`);
     return db.insertOne(TableName, obj);
   },
-  /*Update: (id, obj) => {
+  Update: (id, obj) => {
     obj.modified_date = new Date();
     if (process.env.IS_TEST) {
       return db.updateOne(TableName, { _id: id }, obj);
@@ -86,11 +87,22 @@ module.exports = {
       },
       obj
     );
-  },*/
+  },
   Delete: (id) => {
     if (process.env.IS_TEST) {
       id = '5fccb2931e10b0191c19ac6b';
     }
     return db.deleteOne(TableName, { _id: ObjectId(`${id}`) });
   },
+  UpdateMotelRatings: async (id) => {
+    const ratings = await module.exports.GetAllRatingByMotelId(id);
+    if (ratings.length > 0) {
+      let avg = 0;
+      for (i in ratings) {
+        avg += ratings[i].rating;
+      }
+      avg = avg / ratings.length;
+      return await motel.Update(id, { rating: avg });
+    }
+  }
 };
