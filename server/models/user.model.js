@@ -33,9 +33,25 @@ module.exports = {
     return db.find(TableName);
   },*/
   GetQuery: async (params) => {
+    var sort_object = {};
+    if (params.sort) {
+      var sort = params.sort.split('-');
+      if (sort.length == 1) sort.push('asc');
+      sort_object = JSON.parse(`{"${sort[0]}": ${sort[1] == 'asc' ? 1 : -1}}`);
+    }
+
     var aggregate = [];
     var currentPage = params.page || 1;
     var itemPerPage = params.itemPerPage || constant.DEFAULT_PAGINATION_ITEMS;
+
+    if (!helper.ObjectIsEmpty(sort_object))
+      aggregate.push({
+        $sort: sort_object,
+      });
+    
+    if(params.searchkey){
+      aggregate.push({$match: {phone: params.searchkey}});
+    }  
 
     // pagination
     var { limit, skip } = helper.calcPagination(currentPage, itemPerPage);
@@ -48,8 +64,11 @@ module.exports = {
       }
     );
 
+    var countObject = {}
+    if(params.searchkey) countObject = {phone: params.searchkey};
+    
     var data = await db.aggregate(TableName, aggregate);
-    var count = await db.count(TableName, {});
+    var count = await db.count(TableName, countObject);
     var pageCounts = helper.calcPageCounts(count, itemPerPage);
 
     return {

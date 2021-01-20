@@ -4,13 +4,14 @@ const model = require('../models/user.model');
 const validate = require('../utils/validate');
 const schema = require('../schemas/user.json');
 const bcrypt = require('bcryptjs');
+const { protect, authorize } = require('../utils/auth');
 
 //Re - route to other resources
 const authRouter = require('./auth.route');
 
 const { protect, authorize, sendTokenResponse } = require('../utils/auth');
 
-router.get('/', async (req, res) => {
+router.get('/', protect, authorize("ADMIN"), async (req, res) => {
   var data = await model.GetQuery(req.query);
   res.json(data);
 });
