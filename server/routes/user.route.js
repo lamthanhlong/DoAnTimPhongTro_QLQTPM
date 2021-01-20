@@ -4,7 +4,6 @@ const model = require('../models/user.model');
 const validate = require('../utils/validate');
 const schema = require('../schemas/user.json');
 const bcrypt = require('bcryptjs');
-const { protect, authorize } = require('../utils/auth');
 
 //Re - route to other resources
 const authRouter = require('./auth.route');
