@@ -202,7 +202,7 @@ export default {
               "Success",
               { timeOut: false }
             );
-
+            this.$emit("update:editModal", false);
         }else{
           toastr.error("Internal Server Error", "Error", {
               timeOut: 1000

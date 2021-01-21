@@ -88,7 +88,8 @@ const routes = [
         children: [
           {
             path: "",
-            component: AdminMotelIndex
+            component: AdminMotelIndex,
+            name: "adminMotelIndex"
           },
         ]
       },
@@ -98,7 +99,8 @@ const routes = [
         children: [
           {
             path: "",
-            component: AdminUserIndex
+            component: AdminUserIndex,
+            name: "adminUserIndex"
           },
         ]
       }

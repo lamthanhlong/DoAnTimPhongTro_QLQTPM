@@ -7,6 +7,9 @@
       <v-flex :class="{ 'pa-4': !isMobile }">
         <v-card flat>
           <v-row no-gutters>
+            <v-col cols="12" sm="6" md="4" lg="4">
+              <m-search :data.sync="search"></m-search>
+            </v-col>
             <v-spacer></v-spacer>
           </v-row>
 
@@ -101,17 +104,21 @@
 //mixin
 import IsMobile from "@/mixins/is_mobile";
 
+// components
+import Search from "./components/index/Search";
 
 // services
 import UserService from "@/services/user";
 export default {
 
+  components: {
+    'm-search': Search
+  },
+
   mixins: [IsMobile],
 
   created(){
-      var query = Object.assign({}, this.$route.query);
-      query.page = this.currentPage;
-    this.retrieveData(query);
+    this.retrieveData(this.$route.query);
   },
 
   data(){
@@ -119,34 +126,45 @@ export default {
       currentPage: parseInt(this.$route.query.page) || 1,
       itemsPerPage: this.$constant.pagination.ITEMS_PER_PAGE,
 
-      isLoading: false,
+      isLoading: true,
       pageCounts: 1,
-      users: [],
+      search: ""
     }
+  },
+
+  computed: {
+     users: {
+      get(){
+        return this.$store.getters["users/users"];
+      }
+    },
+  },
+
+
+  watch: {
+    users(data){
+      if(data.length){
+         this.$store.dispatch("components/actionProgressHeader", { option: "hide" })
+         this.isLoading = false
+      }else{
+        this.$store.dispatch("components/actionProgressHeader", { option: "hide" })
+        this.isLoading = false
+      }
+    },
   },
 
   methods: {
 
-    async retrieveData(query)
-    {
-      this.isLoading = true;
-      this.$store.dispatch("components/actionProgressHeader", {option: "show"});
+     async retrieveData(query)
+     {
+
+      var payLoad = query;
+      payLoad.page = this.currentPage;
+      this.$store.dispatch("components/actionProgressHeader", { option: "show" })
       setTimeout(async () => {
+        this.$store.dispatch("users/fetchPaging", payLoad);
+      }, 200);
 
-        var currentPage = query.page || 1;
-        const res = await UserService.fetchPaging(currentPage);
-
-        if(res){
-          this.$store.dispatch('components/actionProgressHeader', {option: "hide"});
-          this.users = res.data.data;
-          this.pageCounts = res.data.pageCounts;
-          this.isLoading = false;
-        }else{
-           this.$store.dispatch('components/actionProgressHeader', {option: "hide"});
-           this.isLoading = false;
-        }
-
-      }, 200)
     },
 
     nextPage(){
@@ -161,14 +179,6 @@ export default {
       this.retrieveData(query);
     },
 
-
-    edit(item){
-
-    },
-
-    create(){
-
-    },
 
     async verify(item){
       var is_verified = !item.is_verified;

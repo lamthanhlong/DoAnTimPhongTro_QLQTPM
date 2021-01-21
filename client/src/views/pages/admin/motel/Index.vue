@@ -7,8 +7,78 @@
       <v-flex :class="{ 'pa-4': !isMobile }">
         <v-card flat>
           <v-row no-gutters>
+                <v-row no-gutter >
+              <v-col cols="12" sm="3" md="2" lg="2">
+                <filter-form
+                label="Tỉnh, TP"
+                :items="cities"
+                :data.sync="filterAddress.city"
+                v-on:action="changeCityEnvent()"
+                ></filter-form>
+              </v-col>
 
-            <v-spacer></v-spacer>
+              <v-col cols="12" sm="3" md="2" lg="2">
+                <filter-form
+                label="Quận, huyện"
+                :items="districts"
+                :data.sync="filterAddress.district"
+                v-on:action="changeDistrictEnvent()"
+                ></filter-form>
+              </v-col>
+
+              <v-col cols="12" sm="4" md="4" lg="4">
+                <div class="d-flex">
+                  <v-btn 
+                  v-if="!$route.query.price || $route.query.price.split('-')[0] === `0`"
+                  class="mr-4"
+                  depressed
+                  @click="showSlider(`price`)"
+                  >
+                    Giá Thuê +
+                  </v-btn>
+
+                 <v-btn
+                    v-else
+                    outlined
+                    @click="showSlider(`price`)"
+                    outlined
+                    color="primary"
+                     class="mr-4"
+                  >{{ showFilterPrice }}</v-btn>
+
+                  <v-btn
+                  v-if="!$route.query.area || $route.query.area.split('-')[0] === `0`" 
+                  depressed
+                  @click="showSlider(`area`)"
+                   class="mr-4"
+                  >
+                    Diện Tích +
+                  </v-btn>
+
+                  <v-btn
+                    v-else
+                    outlined
+                    @click="showSlider(`area`)"
+                    outlined
+                    color="primary"
+                     class="mr-4"
+
+                  >{{ showFilterArea }}m<sup>2</sup>
+                </v-btn>
+
+                 <v-btn
+                  outlined
+                  depressed
+                  @click="showListFilter()"
+                  >
+                    Lọc
+                    <v-icon>
+                      mdi-filter-outline
+                    </v-icon>
+                  </v-btn>
+                </div>
+              </v-col>
+          </v-row>
           </v-row>
 
           <v-layout
@@ -105,6 +175,13 @@
 //mixin
 import IsMobile from "@/mixins/is_mobile";
 
+// components
+import Filter from "./components/index/Filter";
+import MItem from "./components/index/Item";
+import SliderPrice from "./components/index/SliderPrice";
+import SliderArea from "./components/index/SliderArea";
+import ListFilter from "./components/index/ListFilter";
+
 
 // services
 import MotelService from "@/services/motel";
@@ -112,45 +189,207 @@ export default {
 
   mixins: [IsMobile],
 
-  created(){
-      var query = Object.assign({}, this.$route.query);
-      query.page = this.currentPage;
-    this.retrieveData(query);
+  components: {
+      'filter-form': Filter,
+      'm-item': MItem,
+      'm-slider-price': SliderPrice,
+      'm-slider-area': SliderArea,
+      'm-list-filter': ListFilter,
   },
 
   data(){
     return {
-      currentPage: parseInt(this.$route.query.page) || 1,
-      itemsPerPage: this.$constant.pagination.ITEMS_PER_PAGE,
 
-      isLoading: false,
-      pageCounts: 1,
-      motels: [],
+      itemsPerPage: this.$constant.pagination.ITEMS_PER_PAGE,
+      isLoading: true,
+      isVisiblePriceModal: false,
+      isVisibleAreaModal: false,
+      isVisibleListFilter: false,
+
+      price: {
+        title: "Giá thuê +",
+        step: 0.5,
+        max: 20,
+        type: "price",
+        value: 0,
+      },
+
+      area: {
+        title: "Diện tích +",
+        step: 5,
+        max: 200,
+        type: "area",
+        value: 0,
+      },
+
+
+      districts: [],
+      wards: [],
+
+      cities: [
+        {
+          id: 1,
+          name: "Hồ Chí Minh",
+        },
+        {
+          id: 2,
+          name: "Hà Nội",
+        },
+        {
+          id: 3,
+          name: "Đà Nẵng",
+        }
+      ],
+
+      filterAddress: {
+        district: this.$route.query.district || "",
+        ward: "",
+        city:  this.$route.query.city || "",
+      },
+
+
+      sortPrice: {},
+
+      sort: [
+        {
+          key: "price_asc",
+          name: "Giá thấp nhất"
+        },
+         {
+          key: "price_desc",
+          name: "Giá cao nhất"
+        }
+      ]
     }
+  },
+
+
+  created(){
+
+    var city = this.cities.find(item => item.name === this.filterAddress.city);
+
+    this.handleCityEvent(city)
+
+    this.retrieveData(this.$route.query);
+  },
+
+  computed: {
+    currentPage: {
+      get(){
+         return this.$store.getters["motels/currentPage"]
+      },
+      set(page){
+        this.$store.commit('motels/UPDATE_CURRENT_PAGE', page)
+      }
+    },
+    pageCounts(){
+      return this.$store.getters["motels/pageCounts"]
+    },
+
+    motels: {
+      get(){
+        return this.$store.getters["motels/motels"];
+      }
+    },
+
+    showFilterPrice: {
+      get(){
+        return  this.$route.query.price + ' triệu VNĐ';
+      }
+    },
+
+    showFilterArea: {
+      get(){
+        return  this.$route.query.area;
+      }
+    },
+
+  },
+
+
+  watch: {
+    motels(data){
+      if(data.length){
+         this.$store.dispatch("components/actionProgressHeader", { option: "hide" })
+         this.isLoading = false
+      }else{
+        this.$store.dispatch("components/actionProgressHeader", { option: "hide" })
+        this.isLoading = false
+      }
+    },
   },
 
   methods: {
 
-    async retrieveData(query)
-    {
-      this.isLoading = true;
-      this.$store.dispatch("components/actionProgressHeader", {option: "show"});
-      setTimeout(async () => {
+    changeCityEnvent(){
+        var query = Object.assign({}, this.$route.query);
+        delete query.district;
 
-        var currentPage = query.page || 1;
-        const res = await MotelService.fetchPaging(currentPage);
+        query.city = this.filterAddress.city.name;
 
-        if(res){
-          this.$store.dispatch('components/actionProgressHeader', {option: "hide"});
-          this.motels = res.data.data;
-          this.pageCounts = res.data.pageCounts;
-          this.isLoading = false;
-        }else{
-           this.$store.dispatch('components/actionProgressHeader', {option: "hide"});
-           this.isLoading = false;
+        this.$router.push({
+            name: 'adminMotelIndex', 
+            query: query
+        });
+
+        this.handleCityEvent(this.filterAddress.city); 
+        this.retrieveData(query);
+    },
+
+    changeDistrictEnvent(){
+
+        var query = Object.assign({}, this.$route.query);
+        query.district = this.filterAddress.district.name;
+
+        this.$router.push({
+            name: 'adminMotelIndex', 
+            query: query
+        });
+
+        this.retrieveData(query);
+    },
+
+    showListFilter(){
+      this.isVisibleListFilter = true;
+    },
+
+    async handleCityEvent(city){
+ 
+      if(city){
+          this.filterAddress.city = city;
+        var cityId = city.id;
+         const districtResponse = await MotelService.getDistricts(cityId);
+
+
+        if(districtResponse.data){
+          this.districts = districtResponse.data.data
         }
 
-      }, 200)
+        var query = Object.assign({}, this.$route.query);
+      }
+
+    },
+
+    showSlider(type){
+
+      if(type === "price"){
+
+       this.isVisiblePriceModal = true;  
+      }else if(type === "area"){
+         this.isVisibleAreaModal = true;  
+      }
+
+
+    },
+
+    viewDetail(item){
+      var id = item._id;
+       this.$router.push({
+            name: "motelDetail",
+            params: {
+                id: item._id
+            }
+      })
     },
 
     nextPage(){
@@ -165,36 +404,17 @@ export default {
       this.retrieveData(query);
     },
 
+    async retrieveData(query){
 
-    edit(item){
-      
-    },
+      var payLoad = query;
+      payLoad.page = this.currentPage;
+      this.$store.dispatch("components/actionProgressHeader", { option: "show" })
+      setTimeout(async () => {
+        this.$store.dispatch("motels/fetchPaging", payLoad);
+      }, 200);
 
-    create(){
-
-    },
-
-    async verify(item){
-      var is_verified = !item.is_verified;
-      const res = await MotelService.verifyMotel(item._id);
-      if(res.status === 200){
-        item.is_verified = true;
-      }
-    },
-
-    async remove(item){
-      var conf = confirm(this.$lang.REMOVE_CONFIRM);
-
-      if(conf){
-        const res = await MotelService.delete(item.id);
-        if(!res){
-          toastr.error(this.$lang.REMOVE_FAIL, this.$lang.ERROR, { timeOut: 1000 });
-        }else{
-          toastr.success(this.$lang.REMOVE_SUCCESS, this.$lang.SUCCESS, { timeOut: 1000 });
-        }
-      }
     }
-  },
+  }
 
 
 };

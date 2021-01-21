@@ -91,9 +91,9 @@ export  const mutations = {
       state.currentPage = page;
     },
 
-    UPDATE_RATINGS(state, rating)
+    UPDATE_RATINGS(state, ratings)
     {
-      state.motel.ratings.unshift(rating)
+      state.motel.ratings = ratings
     },
 
     DESTROY_MOTEL(){

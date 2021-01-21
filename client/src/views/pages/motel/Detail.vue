@@ -103,7 +103,7 @@
 					<v-card-text><b>Địa chỉ:</b> {{ motel.user.address }}</v-card-text>
 					
 					<v-card-text>
-						<v-btn class="ma-2" small outlined @click="openWindowChat(motel.user)">
+						<v-btn v-show="motel.user._id !== userInfo._id" class="ma-2" small outlined @click="openWindowChat(motel.user)">
 								Chat với người bán
 							<v-icon>mdi-message-processing-outline</v-icon>
 						</v-btn>

@@ -31,6 +31,19 @@
                   </v-col>
 
                   <v-col cols="12">
+                    <v-text-field  
+                    label="Mã đánh giá"
+                    outlined
+                    clearable
+                    v-model="form.rating_code"
+                     :rules="[
+                        $validation.required(form.rating_code, 'Mã đánh giá')
+                      ]"
+                    >
+                    </v-text-field>
+                  </v-col>
+
+                  <v-col cols="12">
                      <v-textarea
                      outlined
                      rows="5"
@@ -94,6 +107,7 @@ export default {
       form: {
         comment: "",
         rating: 1,
+        rating_code: "",
         motel_id: this.motel._id,
         user_id: CookieService.get('userInfo')._id
       },
@@ -116,9 +130,8 @@ export default {
       if (this.$refs.form.validate()) {
 
         const res = await RatingService.store(this.form);
-        if(res.data)
+        if(res.status === 200)
         { 
-
           this.$store.dispatch("motels/updateRatings", res.data);
            toastr.success(
               "<p> Đánh giá thành công <p>",
@@ -126,7 +139,15 @@ export default {
               { timeOut: false }
             );
            this.$emit('update:showFormRating', false);
-        }else{
+        }
+        else if(res.status === 422){
+           toastr.error(
+              "<p>"+ res.data.message +"<p>",
+              "Error",
+              { timeOut: false }
+            );
+        }
+        else{
            toastr.error(
               "<p> Đánh giá thất bại <p>",
               "Error",
