@@ -173,7 +173,7 @@ export default {
 
 	mixins: [IsMobile],
 
-    components: {
+  components: {
     	'filter-form': Filter,
     	'm-item': MItem,
       'm-slider-price': SliderPrice,

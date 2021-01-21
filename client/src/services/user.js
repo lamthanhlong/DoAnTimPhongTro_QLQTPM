@@ -10,12 +10,13 @@ export default {
     }
   },
 
-   async fetchPaging(currentPage) {
+   async fetchPaging(currentPage, searchkey) {
 
     try {
       return  await axios.get(this.rootURL, {
         params: {
           page: currentPage,
+          searchkey: searchkey
         }
       });
       return result;
