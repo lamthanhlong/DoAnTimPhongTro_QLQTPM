@@ -24,7 +24,7 @@ module.exports = {
     if (process.env.IS_TEST) {
       id = String('5fccb2931e10b0191c19ac6b');
     }
-    var sort_object = JSON.parse(`{"created_date": -1}`);
+    var sort_object = JSON.parse(`{"modified_date": -1}`);
 
     var aggregate = [
       {
@@ -104,5 +104,5 @@ module.exports = {
       avg = avg / ratings.length;
       return await motel.Update(id, { rating: avg });
     }
-  }
+  },
 };

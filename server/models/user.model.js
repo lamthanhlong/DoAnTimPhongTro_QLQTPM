@@ -6,16 +6,18 @@ const helper = require('../utils/helper');
 const constant = require('../configs/constant');
 module.exports = {
   getSignedJwtToken: async (user_id) => {
-    if (process.env.CHANGE_ID){
-      user_id = "5fccb2931e10b0191c19ac6b";
+    if (process.env.CHANGE_ID) {
+      user_id = '5fccb2931e10b0191c19ac6b';
     }
-    const obj_query = {_id: process.env.IS_TEST ? user_id : ObjectId(`${user_id}`)};
-    
+    const obj_query = {
+      _id: process.env.IS_TEST ? user_id : ObjectId(`${user_id}`),
+    };
+
     var users = await db.find(TableName, obj_query);
-    
+
     if (users.length == 0) {
       return;
-    } else{
+    } else {
       const user = users[0];
       return jwt.sign(
         {
@@ -48,10 +50,18 @@ module.exports = {
       aggregate.push({
         $sort: sort_object,
       });
-    
-    if(params.searchkey){
-      aggregate.push({$match: {phone: params.searchkey}});
-    }  
+
+    if (params.searchkey) {
+      aggregate.push({
+        $match: {
+          $or: [
+            { phone: params.searchkey },
+            { name: params.searchkey },
+            { address: params.searchkey },
+          ],
+        },
+      });
+    }
 
     // pagination
     var { limit, skip } = helper.calcPagination(currentPage, itemPerPage);
@@ -64,9 +74,9 @@ module.exports = {
       }
     );
 
-    var countObject = {}
-    if(params.searchkey) countObject = {phone: params.searchkey};
-    
+    var countObject = {};
+    if (params.searchkey) countObject = { phone: params.searchkey };
+
     var data = await db.aggregate(TableName, aggregate);
     var count = await db.count(TableName, countObject);
     var pageCounts = helper.calcPageCounts(count, itemPerPage);
