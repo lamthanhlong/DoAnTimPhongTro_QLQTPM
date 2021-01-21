@@ -66,8 +66,12 @@
                             {{ item.price }} triệu VNĐ
                           </div>
 
-                          <div>
+                          <div class="my-4 subtitle-1 red--text font-weight-bold">
                             <code>{{item.area}}m<sup>2</sup></code>
+                          </div>
+
+                          <div v-show="item.rating_code"> 
+                            Mã đánh giá: <code>{{item.rating_code}}</code>
                           </div>
 
                           <div class="my-4 subtitle-1 text-decoration-underline" v-if="item.has_furniture">
@@ -93,6 +97,17 @@
                         >
                           Sửa
                         </v-btn>
+
+                        <v-btn
+                        v-show="!item.rating_code"
+                        color="primary"
+                        small
+                        outlined
+                        @click="getRatingCode(item)"
+                        >
+                          Lấy mã đánh giá
+                        </v-btn>
+
                       </v-card-actions>
                     </v-col>
                 </v-row>
@@ -175,6 +190,15 @@ export default {
 
     viewDetail(item){
       this.$router.push('/motels/detail/' + item._id)
+    },
+
+    async getRatingCode(item)
+    {
+      const res = await MotelService.getRatingCode(item._id);
+      console.log(res.data);
+      if(res.data){
+        item.rating_code = res.data.rating_code
+      }
     }
   },
 

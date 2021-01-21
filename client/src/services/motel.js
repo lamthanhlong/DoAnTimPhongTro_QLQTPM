@@ -96,8 +96,17 @@ export default {
 
        return helperCommon.getError(error) || false; 
     }
-  }
+  },
 
+  async getRatingCode(id)
+  {
+    try {
+      return await axios.get(this.rootURL + `rating_code/${id}`);
+    } catch (error) {
+
+       return helperCommon.getError(error) || false; 
+    }
+  }
 
 
 };

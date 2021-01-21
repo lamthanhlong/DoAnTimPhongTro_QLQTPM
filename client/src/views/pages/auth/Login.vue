@@ -130,7 +130,7 @@ export default {
            
           } else {
             setTimeout(() => {
-              toastr.error("Email hoặc mật khẩu không chính xác", "Error", { timeOut: 1000 });
+              toastr.error("SĐT hoặc mật khẩu không chính xác", "Error", { timeOut: 1000 });
                this.$store.dispatch("components/progressLoading", { option: "hide" })
             }, 1500);
           }

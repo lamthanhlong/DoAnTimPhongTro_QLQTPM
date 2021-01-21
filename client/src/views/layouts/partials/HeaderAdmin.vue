@@ -9,17 +9,7 @@
         <v-app-bar-nav-icon @click.stop="drawer = !drawer"></v-app-bar-nav-icon>
       </div>
     <v-spacer></v-spacer>
-
-
-      <v-spacer></v-spacer>
-
-
-      <v-col cols="6" lg="4" md="4">
-        <search-header
-        :data.sync="inputSearch"
-        >
-        </search-header>
-      </v-col>
+  
 
 <!--       <div style="width: 60px;">
         <v-btn icon @click="switchMode()">
