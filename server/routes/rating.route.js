@@ -26,30 +26,36 @@ router.get('/motel/:id', async function (req, res) {
 router.post('/', validate(schema), protect, async function (req, res) {
   const object = req.body;
 
-  if((await motel.ValidRatingCode(object.motel_id, object.rating_code))===false){
-    res.status(422).json({message: "Invalid rating code!"});
+  if (
+    (await motel.ValidRatingCode(object.motel_id, object.rating_code)) === false
+  ) {
+    res.status(422).json({ message: 'Invalid rating code!' });
   }
   delete object.rating_code;
 
   const checkDup = await model.FindRating(object);
   //if (checkDup.length > 0) return res.status(400).json({message: "You had already rating for this motel"});
   var status = 500;
-  if (checkDup.length > 0){
-    if((await model.Update(checkDup[0]._id, {rating: object.rating, comment: object.comment})) <= 0){
-      return res.status(500).json({message: "Update raitng fail!"});
+  if (checkDup.length > 0) {
+    if (
+      (await model.Update(checkDup[0]._id, {
+        rating: object.rating,
+        comment: object.comment,
+      })) <= 0
+    ) {
+      return res.status(500).json({ message: 'Update raitng fail!' });
     }
     const motel_update_rating = await model.UpdateMotelRatings(object.motel_id);
-    if (motel_update_rating<=0){
-      return res.status(500).json({message: "Can't update ratings of motel"});
+    if (motel_update_rating <= 0) {
+      return res.status(500).json({ message: "Can't update ratings of motel" });
     }
     status = 200;
     object._id = checkDup[0]._id;
-  }
-  else{
+  } else {
     const id = await model.Add(object);
     const motel_update_rating = await model.UpdateMotelRatings(object.motel_id);
-    if (motel_update_rating<=0){
-      return res.status(500).json({message: "Can't update ratings of motel"});
+    if (motel_update_rating <= 0) {
+      return res.status(500).json({ message: "Can't update ratings of motel" });
     }
     status = 201;
     object._id = id;
@@ -57,7 +63,8 @@ router.post('/', validate(schema), protect, async function (req, res) {
 
   const user = await userModel.Single(object.user_id);
   object.Users = user;
-  return res.status(status).json(object);
+  const ratings = await model.GetAllRatingByMotelId(object.motel_id);
+  return res.status(status).json(ratings);
 });
 
 /*router.put('/:id', async function (req, res) {
