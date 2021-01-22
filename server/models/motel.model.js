@@ -76,7 +76,7 @@ module.exports = {
   GetQuery: async (params) => {
     var sort_object = {};
     if (params.sort) {
-      var sort = params.sort.split('_');
+      var sort = params.sort.split('-');
       if (sort.length == 1) sort.push('asc');
       sort_object = JSON.parse(`{"${sort[0]}": ${sort[1] == 'asc' ? 1 : -1}}`);
     }

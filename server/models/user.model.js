@@ -57,7 +57,8 @@ module.exports = {
           $or: [
             { phone: params.searchkey },
             { name: params.searchkey },
-            { address: params.searchkey },
+            { phone: new RegExp(params.searchkey, 'i') },
+            { name: new RegExp(params.searchkey, 'i') },
           ],
         },
       });
