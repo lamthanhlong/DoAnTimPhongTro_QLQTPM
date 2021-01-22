@@ -27,8 +27,9 @@ export  const actions = {
 
       const currentPage = payload.page;
       const searchkey = payload.searchkey || null;
+      const isVerified = payload.isVerified ;
 
-      const res = await UserService.fetchPaging(currentPage, searchkey);
+      const res = await UserService.fetchPaging(currentPage, searchkey, isVerified);
       if(res.data){
         var data = res.data;
         commit("FETCH_PAGING", data);

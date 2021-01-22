@@ -32,14 +32,7 @@
                   v-model="form.password"
                 ></v-text-field>
 
-                <div class="pb-4 caption d-flex">
-                  <v-flex class="text-right">
-                    <router-link to="/forget-password"
-                      >Forget password</router-link
-                    >
-                  </v-flex>
-                </div>
-
+     
                 <v-btn block color="primary" @click="login()">Login</v-btn>
 
                 <hr />

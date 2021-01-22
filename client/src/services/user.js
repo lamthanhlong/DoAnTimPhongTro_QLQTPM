@@ -10,13 +10,14 @@ export default {
     }
   },
 
-   async fetchPaging(currentPage, searchkey) {
+   async fetchPaging(currentPage, searchkey, isVerified) {
 
     try {
       return  await axios.get(this.rootURL, {
         params: {
           page: currentPage,
-          searchkey: searchkey
+          searchkey: searchkey,
+          is_verified: isVerified
         }
       });
       return result;
