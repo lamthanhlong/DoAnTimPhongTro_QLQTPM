@@ -24,7 +24,7 @@ router.get('/:id', async (req, res) => {
 router.post('/', validate(schema), async function (req, res) {
   let object = req.body;
   const valid = await model.FindByPhone(object.phone);
-  if (!object.role) object.role = 'MOTEL_OWNER';
+  if (!object.role) object.role = 'USER';
   if (valid.length > 0)
     return res.status(400).json({ err_msg: 'user has already signed up' });
   const hash = bcrypt.hashSync(object.password, 10);

@@ -32,7 +32,7 @@ module.exports = {
   },
 
   update: async (req, res) => {
-    if (req.accessTokenPayload.role === 'MOTEL_OWNER') {
+    if (req.accessTokenPayload.role === 'USER') {
       const single = await motel.Single(req.params.id);
 
       if (single[0].owner_id != req.accessTokenPayload.id)

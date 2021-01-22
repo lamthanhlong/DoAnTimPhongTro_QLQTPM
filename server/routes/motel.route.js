@@ -11,14 +11,12 @@ router.get('/local', motelcontroller.getLocals);
 router.get(
   '/user/:id',
   protect,
-  authorize('ADMIN', 'MOTEL_OWNER'),
   motelcontroller.ownerFetchMotels
 );
 
 router.get(
   '/rating_code/:id',
   protect,
-  authorize('MOTEL_OWNER'),
   motelcontroller.getRatingCode
 );
 
@@ -36,7 +34,6 @@ router.post('/store', validate(schema), motelcontroller.store);
 router.put(
   '/update/:id',
   protect,
-  authorize('ADMIN', 'MOTEL_OWNER'),
   motelcontroller.update
 );
 

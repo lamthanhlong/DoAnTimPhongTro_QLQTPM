@@ -24,7 +24,7 @@ var insertCrawlData = function () {
                     address: item.Address,
                     images: '',
                     description: '',
-                    role: "MOTEL_OWNER",
+                    role: "USER",
                     is_verified: false,
                     modified_date: now,
                     created_date: now
