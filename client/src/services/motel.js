@@ -5,7 +5,7 @@ export default {
 
   rootURL: '/motel/',
 
-  async fetchPaging(currentPage, searchkey, price, city, district, area, filterPrice) {
+  async fetchPaging(currentPage, searchkey, price, city, district, area, filterPrice, isVerified) {
 
     try {
       return  await axios.get(this.rootURL, {
@@ -17,6 +17,7 @@ export default {
           district: district,
           area: area,
           sort: filterPrice,
+          is_verified: isVerified
         }
       });
       return result;
