@@ -122,7 +122,7 @@ export default {
 
           } else {
 
-            toastr.error("Internal Server Error", "Error", {
+            toastr.error(res.data.err_msg, "Error", {
               timeOut: 1000
             });
 

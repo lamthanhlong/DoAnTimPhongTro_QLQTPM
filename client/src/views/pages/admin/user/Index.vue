@@ -53,14 +53,6 @@
                         </v-chip>
                         </td>
                         <td class="text-center">
-                           <btn-detail
-                            
-                            :title="$lang.DETAIL"
-                            v-on:action="edit(item)"
-                            color="blue darken-1"
-                            :classProp="`ma-2`"
-                            type="edit"
-                          ></btn-detail>
                           
                            <btn-detail
                             title="Xác thực"
