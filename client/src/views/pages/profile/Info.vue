@@ -65,7 +65,7 @@
                   <v-row>
                     <v-spacer></v-spacer>
 
-                    <v-btn @click="edit = true" color="success" small>
+                    <v-btn @click="edit = true" color="success" small v-show="!edit">
                       Edit
                     </v-btn>
 
@@ -82,6 +82,7 @@
 
                     <v-btn
                       @click="edit = false"
+                      v-show="edit"
                       color="warning"
                       class="mr-4"
                       small

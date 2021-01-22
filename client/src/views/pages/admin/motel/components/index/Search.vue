@@ -1,6 +1,6 @@
 <template>
  	<v-text-field
-	    placeholder="Search phone..."
+	    placeholder="Search title..."
 	    v-model="getData"
 	    :label="label"
 	    outlined
@@ -41,20 +41,20 @@ export default{
 
 	      var query = Object.assign({}, this.$route.query);
 
-	      query.searchkey = this.getData;
+	      query.searchKey = this.getData;
 	      this.$router.push({
-	          name: 'adminUserIndex', 
+	          name: 'adminMotelIndex', 
 	          query: query
 	      });
 
 
 	      var payLoad = Object.assign({}, query);
-	      payLoad.searchkey = this.getData;
+	      payLoad.searchKey = this.getData;
 
 
 	      this.$store.dispatch("components/actionProgressHeader", { option: "show" })
 	      setTimeout(async () => {
-	       this.$store.dispatch("users/fetchPaging", payLoad);
+	       this.$store.dispatch("motels/fetchPaging", payLoad);
 	      }, 200);
 
 	      this.$emit("update:data", this.getData);

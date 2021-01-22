@@ -7,79 +7,12 @@
       <v-flex :class="{ 'pa-4': !isMobile }">
         <v-card flat>
           <v-row no-gutters>
-                <v-row no-gutter >
-              <v-col cols="12" sm="3" md="2" lg="2">
-                <filter-form
-                label="Tỉnh, TP"
-                :items="cities"
-                :data.sync="filterAddress.city"
-                v-on:action="changeCityEnvent()"
-                ></filter-form>
-              </v-col>
-
-              <v-col cols="12" sm="3" md="2" lg="2">
-                <filter-form
-                label="Quận, huyện"
-                :items="districts"
-                :data.sync="filterAddress.district"
-                v-on:action="changeDistrictEnvent()"
-                ></filter-form>
-              </v-col>
-
-              <v-col cols="12" sm="4" md="4" lg="4">
-                <div class="d-flex">
-                  <v-btn 
-                  v-if="!$route.query.price || $route.query.price.split('-')[0] === `0`"
-                  class="mr-4"
-                  depressed
-                  @click="showSlider(`price`)"
-                  >
-                    Giá Thuê +
-                  </v-btn>
-
-                 <v-btn
-                    v-else
-                    outlined
-                    @click="showSlider(`price`)"
-                    outlined
-                    color="primary"
-                     class="mr-4"
-                  >{{ showFilterPrice }}</v-btn>
-
-                  <v-btn
-                  v-if="!$route.query.area || $route.query.area.split('-')[0] === `0`" 
-                  depressed
-                  @click="showSlider(`area`)"
-                   class="mr-4"
-                  >
-                    Diện Tích +
-                  </v-btn>
-
-                  <v-btn
-                    v-else
-                    outlined
-                    @click="showSlider(`area`)"
-                    outlined
-                    color="primary"
-                     class="mr-4"
-
-                  >{{ showFilterArea }}m<sup>2</sup>
-                </v-btn>
-
-                 <v-btn
-                  outlined
-                  depressed
-                  @click="showListFilter()"
-                  >
-                    Lọc
-                    <v-icon>
-                      mdi-filter-outline
-                    </v-icon>
-                  </v-btn>
-                </div>
-              </v-col>
+            <v-col cols="12" sm="6" md="4" lg="4">
+              <m-search :data.sync="search"></m-search>
+            </v-col>
+            <v-spacer></v-spacer>
           </v-row>
-          </v-row>
+
 
           <v-layout
             v-resize="onResize"
@@ -125,14 +58,6 @@
                         </v-chip>
                         </td>
                         <td class="text-center">
-                           <btn-detail
-                            
-                            :title="$lang.DETAIL"
-                            v-on:action="edit(item)"
-                            color="blue darken-1"
-                            :classProp="`ma-2`"
-                            type="edit"
-                          ></btn-detail>
 
                            <btn-detail
                             title="Xác thực"
@@ -176,12 +101,7 @@
 import IsMobile from "@/mixins/is_mobile";
 
 // components
-import Filter from "./components/index/Filter";
-import MItem from "./components/index/Item";
-import SliderPrice from "./components/index/SliderPrice";
-import SliderArea from "./components/index/SliderArea";
-import ListFilter from "./components/index/ListFilter";
-
+import Search from "./components/index/Search";
 
 // services
 import MotelService from "@/services/motel";
@@ -190,11 +110,7 @@ export default {
   mixins: [IsMobile],
 
   components: {
-      'filter-form': Filter,
-      'm-item': MItem,
-      'm-slider-price': SliderPrice,
-      'm-slider-area': SliderArea,
-      'm-list-filter': ListFilter,
+      'm-search': Search,
   },
 
   data(){
@@ -206,69 +122,14 @@ export default {
       isVisibleAreaModal: false,
       isVisibleListFilter: false,
 
-      price: {
-        title: "Giá thuê +",
-        step: 0.5,
-        max: 20,
-        type: "price",
-        value: 0,
-      },
-
-      area: {
-        title: "Diện tích +",
-        step: 5,
-        max: 200,
-        type: "area",
-        value: 0,
-      },
-
-
-      districts: [],
-      wards: [],
-
-      cities: [
-        {
-          id: 1,
-          name: "Hồ Chí Minh",
-        },
-        {
-          id: 2,
-          name: "Hà Nội",
-        },
-        {
-          id: 3,
-          name: "Đà Nẵng",
-        }
-      ],
-
-      filterAddress: {
-        district: this.$route.query.district || "",
-        ward: "",
-        city:  this.$route.query.city || "",
-      },
-
-
-      sortPrice: {},
-
-      sort: [
-        {
-          key: "price_asc",
-          name: "Giá thấp nhất"
-        },
-         {
-          key: "price_desc",
-          name: "Giá cao nhất"
-        }
-      ]
+      search: "",
     }
   },
 
 
   created(){
 
-    var city = this.cities.find(item => item.name === this.filterAddress.city);
-
-    this.handleCityEvent(city)
+  
 
     this.retrieveData(this.$route.query);
   },
@@ -292,18 +153,6 @@ export default {
       }
     },
 
-    showFilterPrice: {
-      get(){
-        return  this.$route.query.price + ' triệu VNĐ';
-      }
-    },
-
-    showFilterArea: {
-      get(){
-        return  this.$route.query.area;
-      }
-    },
-
   },
 
 
@@ -320,67 +169,6 @@ export default {
   },
 
   methods: {
-
-    changeCityEnvent(){
-        var query = Object.assign({}, this.$route.query);
-        delete query.district;
-
-        query.city = this.filterAddress.city.name;
-
-        this.$router.push({
-            name: 'adminMotelIndex', 
-            query: query
-        });
-
-        this.handleCityEvent(this.filterAddress.city); 
-        this.retrieveData(query);
-    },
-
-    changeDistrictEnvent(){
-
-        var query = Object.assign({}, this.$route.query);
-        query.district = this.filterAddress.district.name;
-
-        this.$router.push({
-            name: 'adminMotelIndex', 
-            query: query
-        });
-
-        this.retrieveData(query);
-    },
-
-    showListFilter(){
-      this.isVisibleListFilter = true;
-    },
-
-    async handleCityEvent(city){
- 
-      if(city){
-          this.filterAddress.city = city;
-        var cityId = city.id;
-         const districtResponse = await MotelService.getDistricts(cityId);
-
-
-        if(districtResponse.data){
-          this.districts = districtResponse.data.data
-        }
-
-        var query = Object.assign({}, this.$route.query);
-      }
-
-    },
-
-    showSlider(type){
-
-      if(type === "price"){
-
-       this.isVisiblePriceModal = true;  
-      }else if(type === "area"){
-         this.isVisibleAreaModal = true;  
-      }
-
-
-    },
 
     viewDetail(item){
       var id = item._id;
