@@ -99,7 +99,6 @@
                         </v-btn>
 
                         <v-btn
-                        v-show="!item.rating_code"
                         color="primary"
                         small
                         outlined
