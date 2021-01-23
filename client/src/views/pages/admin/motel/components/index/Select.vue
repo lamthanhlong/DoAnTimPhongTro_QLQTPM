@@ -1,17 +1,18 @@
 <template>
 	<v-select
-	:items="items"
-	placeholder=" "
-	item-text="name"
-	v-model="getData"
-	return-object
-	@change="emitChange()"
-	@input="emitChange()"
-	:label="label"
-	outlined
-	dense
-	> 
-</v-select>
+		:items="items"
+		placeholder=" "
+		item-text="name"
+		v-model="getData"
+		return-object
+		@change="emitChange()"
+		@input="emitChange()"
+		:label="label"
+		outlined
+		dense
+		label="Xác thực"
+		> 
+	</v-select>
 </template>
 
 
@@ -35,7 +36,7 @@ export default{
 	    emitChange(){
 	      var query = Object.assign({}, this.$route.query);
 
-	      query.verify = this.getData;
+	      query.isVerified = this.getData;
 	      this.$router.push({
 	          name: 'adminMotelIndex', 
 	          query: query
@@ -43,7 +44,7 @@ export default{
 
 
 	      var payLoad = Object.assign({}, query);
-	      payLoad.verify = this.getData;
+	      payLoad.isVerified = this.getData;
 
 	      this.$store.dispatch("components/actionProgressHeader", { option: "show" })
 	      setTimeout(async () => {

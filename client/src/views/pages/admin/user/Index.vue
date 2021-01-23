@@ -6,9 +6,12 @@
     <v-row>
       <v-flex :class="{ 'pa-4': !isMobile }">
         <v-card flat>
-          <v-row no-gutters>
+          <v-row>
             <v-col cols="12" sm="6" md="4" lg="4">
               <m-search :data.sync="search"></m-search>
+            </v-col>
+            <v-col cols="12" sm="6" md="3" lg="3">
+              <m-filter :items="items"></m-filter>
             </v-col>
             <v-spacer></v-spacer>
           </v-row>
@@ -98,13 +101,15 @@ import IsMobile from "@/mixins/is_mobile";
 
 // components
 import Search from "./components/index/Search";
+import Filter from "./components/index/Select";
 
 // services
 import UserService from "@/services/user";
 export default {
 
   components: {
-    'm-search': Search
+    'm-search': Search,
+     'm-filter': Filter
   },
 
   mixins: [IsMobile],
@@ -120,7 +125,23 @@ export default {
 
       isLoading: true,
       pageCounts: 1,
-      search: ""
+      search: "",
+      items: [
+        {
+          key: null,
+          name: "Tất cả"
+        },
+
+        {
+          key: true,
+          name: "Đã xác thực"
+        },
+        {
+          key: false,
+          name: "Chưa xác thực"
+        }
+      ],
+
     }
   },
 
