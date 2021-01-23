@@ -50,17 +50,20 @@ module.exports = {
       aggregate.push({
         $sort: sort_object,
       });
-
-    if (params.searchkey) {
+    
+    var searchobjs = [];
+    if(params.searchkey){
+      searchobjs = [
+        { phone: params.searchkey },
+        { name: params.searchkey },
+        { phone: new RegExp(params.searchkey, 'i') },
+        { name: new RegExp(params.searchkey, 'i') },
+      ]
+    }
+    if(params.is_verified) searchobjs.push({ is_verified: params.is_verified=='true'});
+    if (searchobjs.length > 0) {
       aggregate.push({
-        $match: {
-          $or: [
-            { phone: params.searchkey },
-            { name: params.searchkey },
-            { phone: new RegExp(params.searchkey, 'i') },
-            { name: new RegExp(params.searchkey, 'i') },
-          ],
-        },
+        $match: { $or: searchobjs }
       });
     }
 

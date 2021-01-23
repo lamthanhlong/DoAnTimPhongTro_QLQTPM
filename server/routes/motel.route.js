@@ -29,7 +29,7 @@ router.put(
   motelcontroller.verifyMotel
 );
 
-router.post('/store', validate(schema), motelcontroller.store);
+router.post('/store', protect, validate(schema), motelcontroller.store);
 
 router.put(
   '/update/:id',
@@ -37,6 +37,6 @@ router.put(
   motelcontroller.update
 );
 
-router.delete('/:id', motelcontroller.delete);
+router.delete('/:id', protect, motelcontroller.delete);
 
 module.exports = router;

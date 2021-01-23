@@ -122,18 +122,18 @@ module.exports = {
 
     var aggregate = [];
     if (!helper.ObjectIsEmpty(query_object)){
+      var searchobjs = [];
       if(params.searchkey){
-        aggregate.push({$match: {$and: [query_object, {$or: [
-          {
-            title: new RegExp(params.searchkey, 'i')
-          },
-          {
-            description: new RegExp(params.searchkey, 'i')
-          },
-          {
-            title: params.searchkey
-          }
-        ]}]}});
+        searchobjs = [
+          { title: new RegExp(params.searchkey, 'i') },
+          { description: new RegExp(params.searchkey, 'i') },
+          { title: params.searchkey }
+        ]
+      }
+      if(params.is_verified) searchobjs.push({ is_verified: params.is_verified=='true'});
+
+      if(searchobjs.length > 0){
+        aggregate.push({$match: {$and: [query_object, {$or: searchobjs}]}});
       }
       else aggregate.push({$match: query_object});
     }

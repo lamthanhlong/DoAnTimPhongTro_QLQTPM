@@ -34,7 +34,7 @@ router.post('/', validate(schema), async function (req, res) {
   sendTokenResponse(object, 201, res);
 });
 
-router.put('/:id', async function (req, res) {
+router.put('/:id', protect, async function (req, res) {
   const object = req.body;
   delete object._id;
   delete object.modified_date;
@@ -49,7 +49,7 @@ router.put('/:id', async function (req, res) {
   res.json(object);
 });
 
-router.delete('/:id', async function (req, res) {
+router.delete('/:id', protect, authorize('ADMIN'), async function (req, res) {
   const id = req.params.id;
   const check = await model.Delete(id);
     //if (!check) {
