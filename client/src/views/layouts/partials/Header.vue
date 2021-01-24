@@ -107,12 +107,17 @@ export default {
   },
 
   mounted() {
-    if(this.userInfo.role === "ADMIN"){
-      this.menuInfo.unshift({
-        title: "Quản lý admin", icon: "mdi-clipboard-list", link: "/admin/users"
-      });
-    }
 
+    if(this.userInfo)
+    {
+      if(this.userInfo.role === "ADMIN"){
+        this.menuInfo.unshift({
+          title: "Quản lý admin", icon: "mdi-clipboard-list", link: "/admin/users"
+        });
+      }
+
+    }
+   
     this.$vuetify.theme.dark = this.getTheme();
   },
 
