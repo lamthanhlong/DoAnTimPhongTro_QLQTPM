@@ -37,6 +37,6 @@ router.put(
   motelcontroller.update
 );
 
-router.delete('/:id', protect, motelcontroller.delete);
+//router.delete('/:id', protect, motelcontroller.delete);
 
 module.exports = router;

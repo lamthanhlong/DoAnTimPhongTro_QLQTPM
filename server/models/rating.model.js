@@ -12,18 +12,11 @@ module.exports = {
     return db.find(TableName);
   },
   Single: (id) => {
-    if (process.env.IS_TEST) {
-      id = '5fccb2931e10b0191c19ac6b';
-    }
     return db.find(TableName, {
       _id: ObjectId(`${id}`),
     });
   },
-  GetAllRatingByMotelId: async (id, params) => {
-    let new_id = id;
-    if (process.env.IS_TEST) {
-      id = String('5fccb2931e10b0191c19ac6b');
-    }
+  GetAllRatingByMotelId: async (id) => {
     var sort_object = JSON.parse(`{"modified_date": -1}`);
 
     var aggregate = [
@@ -45,21 +38,6 @@ module.exports = {
       aggregate.push({
         $sort: sort_object,
       });
-    /*
-    // pagination
-    var currentPage = params.page || 1;
-    var itemPerPage = params.itemPerPage || constant.DEFAULT_PAGINATION_ITEMS;
-
-    // pagination
-    var { limit, skip } = helper.calcPagination(currentPage, itemPerPage);
-    aggregate.push(
-      {
-        $limit: limit,
-      },
-      {
-        $skip: skip,
-      }
-    );*/
     var data = await db.aggregate(TableName, aggregate);
     return data;
   },
@@ -77,9 +55,6 @@ module.exports = {
   },
   Update: (id, obj) => {
     obj.modified_date = new Date();
-    if (process.env.IS_TEST) {
-      return db.updateOne(TableName, { _id: id }, obj);
-    }
     return db.updateOne(
       TableName,
       {
@@ -89,9 +64,6 @@ module.exports = {
     );
   },
   Delete: (id) => {
-    if (process.env.IS_TEST) {
-      id = '5fccb2931e10b0191c19ac6b';
-    }
     return db.deleteOne(TableName, { _id: ObjectId(`${id}`) });
   },
   UpdateMotelRatings: async (id) => {

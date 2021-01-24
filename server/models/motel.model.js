@@ -12,10 +12,6 @@ module.exports = {
   //  return db.find(TableName);
   //},
   Single: (id) => {
-    let new_id = id;
-    if (process.env.IS_TEST) {
-      id = '5fccb2931e10b0191c19ac6b';
-    }
     var aggregate = [
       {
         $match: {
@@ -34,10 +30,6 @@ module.exports = {
     return db.aggregate(TableName, aggregate);
   },
   OwnerGet: async (owner_id, params) => {
-    let new_id = owner_id;
-    if (process.env.IS_TEST) {
-      owner_id = '5fccb2931e10b0191c19ac4c';
-    }
     query_object = {};
     query_object.owner_id = ObjectId(`${owner_id}`);
     sort_object = {};
@@ -197,9 +189,9 @@ module.exports = {
       obj
     );
   },
-  Delete: (id) => {
-    return db.deleteOne(TableName, { _id: id });
-  },
+  //Delete: (id) => {
+  //  return db.deleteOne(TableName, { _id: id });
+  //},
   ValidRatingCode: async (id, code) => {
     var motels = await db.find(TableName, { _id: ObjectId(`${id}`)});
     if(motels.length<=0) return false;
@@ -213,7 +205,7 @@ module.exports = {
     if(motels.length<=0) return false;
     var motel = motels[0];
     var result = helper.MinusTime(new Date(), motel.modified_date);
-    if(motel.rating_code && result && result.year==0 && result.month==0 && result.day<=1) return motel.rating_code;
+    if(motel.rating_code && result && result.year==0 && result.month==0 && result.day==0) return motel.rating_code;
     motel.rating_code = randomstring.generate(5);
     if((await module.exports.Update(id, {rating_code: motel.rating_code})) == 1){
       return motel.rating_code;

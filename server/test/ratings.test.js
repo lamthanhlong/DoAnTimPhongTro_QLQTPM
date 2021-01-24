@@ -1,3 +1,4 @@
+/*
 process.env.IS_TEST = true;
 
 //Require the dev-dependencies
@@ -92,7 +93,6 @@ describe('Ratings', () => {
     });
   });
 
-<<<<<<< HEAD
   // describe('POST /', () => {
   //   it('it should not Post Rating to Motel Id because of duplication', (done) => {
   //     const rating = {
@@ -112,8 +112,6 @@ describe('Ratings', () => {
   //       .timeout(5000);
   //   });
   // });
-
-=======
   describe('POST /', () => {
     it('it should not Post Rating to Motel Id because of duplication', (done) => {
       const rating = {
@@ -134,10 +132,6 @@ describe('Ratings', () => {
     });
   });
 /*
-<<<<<<< HEAD
->>>>>>> 4a248e6ae848ebbf3518351fbd6ad5d116b09216
-=======
->>>>>>> 4a248e6ae848ebbf3518351fbd6ad5d116b09216
   describe('DELETE /', () => {
     it('it should Delete Rating by Id', (done) => {
       const id = 3;
@@ -196,5 +190,6 @@ describe('Ratings', () => {
           done();
         });
     });
-  });*/
+  });//
 });
+*/

@@ -35,6 +35,11 @@ module.exports = {
     if (req.accessTokenPayload.role === 'USER') {
       const single = await motel.Single(req.params.id);
 
+      if(single.length <= 0)
+        return res
+          .status(403)
+          .json({ err_msg: 'User not have permission to edit' });
+
       if (single[0].owner_id != req.accessTokenPayload.id)
         return res
           .status(403)
@@ -72,6 +77,7 @@ module.exports = {
       return res.json({ count: cities.length, data: cities });
     }
   },
+  /*
   delete: async (req, res) => {
     const motels = await motel.Single(req.params.id);
     const ratings = await rating.GetAllRatingByMotelId(
@@ -85,9 +91,9 @@ module.exports = {
     }
     const del = await motel.Delete(req.params.id);
     res.status(200).json({ success: 'true' });
-  },
+  },*/
   verifyMotel: async (req, res) => {
-    const motels = await motel.Single(req.params.id);
+    //const motels = await motel.Single(req.params.id);
     await motel.Update(req.params.id, { is_verified: true });
     return res.status(200).json({ success: true });
   },
