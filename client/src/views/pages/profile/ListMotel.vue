@@ -194,9 +194,14 @@ export default {
     async getRatingCode(item)
     {
       const res = await MotelService.getRatingCode(item._id);
-      console.log(res.data);
       if(res.data){
-        item.rating_code = res.data.rating_code
+        item.rating_code = res.data.rating_code;
+         toastr.success(
+              "<p> Lấy mã đánh giá thành công <p>",
+              "Success",
+              { timeOut: false }
+            );
+        this.$forceUpdate();
       }
     }
   },
