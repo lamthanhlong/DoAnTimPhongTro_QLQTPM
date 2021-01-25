@@ -150,6 +150,7 @@ module.exports = {
 
     var data = await db.aggregate(TableName, aggregate);
     var countObject = {}
+    if(params.is_verified) query_object.is_verified = params.is_verified == 'true';
     if(params.searchkey){
       countObject = {$and: [query_object, {$or: [
         {
@@ -166,7 +167,8 @@ module.exports = {
     else countObject = query_object;
     var count = await db.count(TableName, countObject);
     var pageCounts = helper.calcPageCounts(count, itemPerPage);
-
+    
+    console.log(count, pageCounts);
     return {
       data,
       count,

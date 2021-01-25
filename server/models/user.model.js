@@ -48,19 +48,38 @@ module.exports = {
         $sort: sort_object,
       });
     
-    var searchobjs = [];
-    if(params.searchkey){
-      searchobjs = [
-        { phone: params.searchkey },
-        { name: params.searchkey },
-        { phone: new RegExp(params.searchkey, 'i') },
-        { name: new RegExp(params.searchkey, 'i') },
-      ]
+    var searchobjs = {};
+    if(params.is_verified){
+      if(params.searchkey){
+        searchobjs = {
+          $and: [{ is_verified: params.is_verified=='true'}, {$or: [
+            { phone: params.searchkey },
+            { name: params.searchkey },
+            { phone: new RegExp(params.searchkey, 'i') },
+            { name: new RegExp(params.searchkey, 'i') },
+          ]}]
+        }
+      }
+      else{
+        searchobjs = { is_verified: params.is_verified=='true'};
+      }
     }
-    if(params.is_verified) searchobjs.push({ is_verified: params.is_verified=='true'});
-    if (searchobjs.length > 0) {
+    else{
+      if(params.searchkey){
+        searchobjs = {
+          $or: [
+            { phone: params.searchkey },
+            { name: params.searchkey },
+            { phone: new RegExp(params.searchkey, 'i') },
+            { name: new RegExp(params.searchkey, 'i') },
+          ]
+        }
+      }
+    }
+
+    if (!helper.ObjectIsEmpty(searchobjs)) {
       aggregate.push({
-        $match: { $or: searchobjs }
+        $match: searchobjs
       });
     }
 
@@ -75,11 +94,8 @@ module.exports = {
       }
     );
 
-    var countObject = {};
-    if (params.searchkey) countObject = { phone: params.searchkey };
-
     var data = await db.aggregate(TableName, aggregate);
-    var count = await db.count(TableName, countObject);
+    var count = await db.count(TableName, searchobjs);
     var pageCounts = helper.calcPageCounts(count, itemPerPage);
 
     return {
