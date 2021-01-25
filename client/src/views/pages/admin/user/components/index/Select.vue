@@ -72,6 +72,9 @@ export default{
 			      	delete query.isVerified;
 			      }
 
+			       delete query.page;
+		      	   this.$store.dispatch("users/updateCurrentPage", {currentPage: 1});
+
 
 			      this.$router.push({
 			          name: 'adminUserIndex', 

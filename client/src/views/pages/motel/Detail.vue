@@ -48,7 +48,11 @@
 
 				            <div>
 				              <code>{{motel.area}}m<sup>2</sup></code>
-				            </div>
+				            </div>	
+
+				            <div class="mt-4">
+				              <code  v-show="motel.is_verified">Đã xác thực</code>
+				            </div>	
 
 				            <div class="my-4 subtitle-1 text-decoration-underline" v-if="motel.has_furniture">
 				              Có nội thất
