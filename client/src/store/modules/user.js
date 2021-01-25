@@ -36,6 +36,11 @@ export  const actions = {
       }
     },
 
+    updateCurrentPage({commit}, payload)
+    {
+      commit("UPDATE_CURRENT_PAGE", payload.currentPage);
+    },
+
     updateRatings({commit}, payload){
       commit("UPDATE_RATINGS", payload);
     },

@@ -17,18 +17,16 @@
 <script type="text/javascript">
 export default{
 	props: {
-		data: {
-			type: [Array, String, Object, Number]
-		},
-    items: Array,
+		
+    	items: Array,
 	    label: String,
-		},
+	},
 
-		data(){
-			return {
+	data(){
+		return {
 
-				
-	    }
+			data: {}
+    	}
 	},
 
 	computed: {
@@ -51,7 +49,6 @@ export default{
 					}else{
 
 					}
-
 				}
 
 				return this.data
@@ -65,22 +62,23 @@ export default{
 			      {
 			      	query.isVerified = data.key;
 			      }else{
-		
 			      	delete query.isVerified;
 			      }
 
+		      	  delete query.page;
+		      	  this.$store.dispatch("motels/updateCurrentPage", {currentPage: 1});
 
 			      this.$router.push({
-			          name: 'adminUserIndex', 
+			          name: 'adminMotelIndex', 
 			          query: query
 			      });
 
-			       var payLoad = Object.assign({}, query);
+			      var payLoad = Object.assign({}, query);
 			      payLoad.isVerified = data.key;
 
 			      this.$store.dispatch("components/actionProgressHeader", { option: "show" })
 			      setTimeout(async () => {
-			       this.$store.dispatch("users/fetchPaging", payLoad);
+			       this.$store.dispatch("motels/fetchPaging", payLoad);
 			      }, 200);
 
 			}	

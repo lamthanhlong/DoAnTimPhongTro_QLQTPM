@@ -56,8 +56,11 @@ export  const actions = {
     {
       const id = payload.id;
       const res = await MotelService.store(payload);
-      
-      
+    },
+
+    updateCurrentPage({commit}, payload)
+    {
+      commit("UPDATE_CURRENT_PAGE", payload.currentPage);
     },
 
     updateRatings({commit}, payload){

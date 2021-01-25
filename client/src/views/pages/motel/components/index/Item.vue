@@ -43,6 +43,7 @@
               <code>{{getItem.area}}m<sup>2</sup></code>
             </div>
 
+  
             <div class="my-4 subtitle-1 text-decoration-underline" v-if="getItem.has_furniture">
               Có nội thất
             </div>

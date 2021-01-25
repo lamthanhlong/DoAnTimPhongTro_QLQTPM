@@ -149,9 +149,9 @@ export default {
 
 
   created(){
-
-  
-
+    if(this.$route.query.hasOwnProperty('page')){
+       this.$store.commit('motels/UPDATE_CURRENT_PAGE', parseInt(this.$route.query.page));
+    }
     this.retrieveData(this.$route.query);
   },
 
@@ -217,6 +217,7 @@ export default {
 
       var payLoad = query;
       payLoad.page = this.currentPage;
+
       this.$store.dispatch("components/actionProgressHeader", { option: "show" })
       setTimeout(async () => {
         this.$store.dispatch("motels/fetchPaging", payLoad);
