@@ -48,6 +48,9 @@
                         v-model.number="form.price" 
                         type="number" 
                         label="Giá"
+                        :rules="[
+                          $validation.required(form.price, 'Giá')
+                        ]"
                       >
 
                       <template v-slot:append>
@@ -58,8 +61,8 @@
 
                       <v-text-field
                         v-model="form.address"
-                       :rules="[
-                          $validation.required(form.price, 'Địa chỉ')
+                        :rules="[
+                          $validation.required(form.address, 'Địa chỉ')
                         ]"
                         label="Địa chỉ"
                         required
@@ -82,6 +85,9 @@
                       name="descriptions" label="Mô tả"
                       class="no-resize"
                        v-model="form.description"
+                       :rules="[
+                          $validation.required(form.description, 'Mô tả')
+                        ]"
                       >
                         
                       </v-textarea>

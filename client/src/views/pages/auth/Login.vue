@@ -23,7 +23,7 @@
 
                 <v-text-field
                   id="password"
-                  label="Mật khảu"
+                  label="Mật khẩu"
                   prepend-icon="mdi-lock"
                   type="password"
                   :rules="[
