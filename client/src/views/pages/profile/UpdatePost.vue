@@ -36,7 +36,9 @@
                 </v-text-field>
 
                 <v-text-field
-
+                  :rules="[
+                    $validation.required(getMotel.price, 'Giá')
+                  ]"
                   v-model.number="getMotel.price" 
                   type="number" 
                   label="Giá"
@@ -49,7 +51,7 @@
                 <v-text-field
                   v-model="getMotel.address"
                  :rules="[
-                    $validation.required(getMotel.price, 'Địa chỉ')
+                    $validation.required(getMotel.address, 'Địa chỉ')
                   ]"
                   label="Địa chỉ"
                   required
@@ -101,6 +103,9 @@
                 name="descriptions" label="Mô tả"
                 class="no-resize"
                  v-model="getMotel.description"
+                 :rules="[
+                    $validation.required(getMotel.description, 'Mô tả')
+                  ]"
                 >
                   
                 </v-textarea>

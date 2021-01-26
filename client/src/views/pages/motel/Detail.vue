@@ -90,8 +90,7 @@
 
 				            <v-card-text>
 				              <h3>Lượt đánh giá: </h3>
-				              <m-rating :ratings="motel.ratings">
-				              </m-rating>
+				              <m-rating :ratings="motel.ratings"></m-rating>
 							</v-card-text>
 				      
 				        </v-card>

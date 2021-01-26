@@ -15,6 +15,7 @@
                 >
                 <v-list-item-subtitle>{{ getUser.phone }}</v-list-item-subtitle
                 >
+                <v-list-item-subtitle v-show="getUser.is_verified"> <v-icon>mdi-check-bold</v-icon> Đã xác thực</v-list-item-subtitle>
               </v-list-item-content>
             </v-list-item>
           </v-col>

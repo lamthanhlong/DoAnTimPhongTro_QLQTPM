@@ -70,10 +70,14 @@
                       </tr>
                     </tbody>
                 </template>
+                <template v-if="users.length <= 0 && isLoading === false">
+                    <h2 class="text-left d-flex" >Không tìm thấy dữ liệu</h2>
+                </template>
               </v-simple-table>
             </v-responsive>
           </v-layout>
-          <v-row justify="center">
+
+          <v-row justify="center" v-if="users.length > 0">
             <v-col cols="8">
               <v-container class="max-width">
                  <pagination-custom
