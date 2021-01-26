@@ -24,7 +24,7 @@
                   ></v-text-field>
 
                   <v-text-field
-                    label="Password"
+                    label="Mật khẩu"
                     prepend-icon="mdi-lock"
                     type="password"
                     v-model="form.password"

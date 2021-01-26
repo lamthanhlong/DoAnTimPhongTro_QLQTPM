@@ -19,9 +19,9 @@
                 <v-list-item-title class="title"
                   >{{ userInfo.name }}</v-list-item-title
                 >
-                <v-list-item-subtitle
-                  >{{ userInfo.phone }}</v-list-item-subtitle
-                >
+                <v-list-item-subtitle>{{ userInfo.phone }}</v-list-item-subtitle >
+
+                <v-list-item-subtitle v-show="userInfo.is_verified"> <v-icon>mdi-check-bold</v-icon> Đã xác thực</v-list-item-subtitle>
               </v-list-item-content>
             </v-list-item>
           </v-col>
