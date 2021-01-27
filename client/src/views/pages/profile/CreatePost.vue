@@ -22,9 +22,9 @@
                       <v-text-field
                         v-model="form.title"
                         :rules="[
-                          $validation.required(form.title, 'Thông tin')
+                          $validation.required(form.title, 'Tiêu đề')
                         ]"
-                        label="Thông tin"
+                        label="Tiêu đề"
                         required
                       ></v-text-field>
 
@@ -48,6 +48,9 @@
                         v-model.number="form.price" 
                         type="number" 
                         label="Giá"
+                        :rules="[
+                          $validation.required(form.price, 'Giá')
+                        ]"
                       >
 
                       <template v-slot:append>
@@ -58,8 +61,8 @@
 
                       <v-text-field
                         v-model="form.address"
-                       :rules="[
-                          $validation.required(form.price, 'Địa chỉ')
+                        :rules="[
+                          $validation.required(form.address, 'Địa chỉ')
                         ]"
                         label="Địa chỉ"
                         required
@@ -82,6 +85,9 @@
                       name="descriptions" label="Mô tả"
                       class="no-resize"
                        v-model="form.description"
+                       :rules="[
+                          $validation.required(form.description, 'Mô tả')
+                        ]"
                       >
                         
                       </v-textarea>
@@ -147,7 +153,7 @@ export default {
       form: {
         title: "",
         address: "",
-        price: "",
+        price: 0,
         images: "",
         area: 0,
         description: "",
@@ -165,6 +171,12 @@ export default {
     async save(){
 
       if (this.$refs.form.validate()) {
+
+        if(this.form.images.length > 0){
+          this.form.images = this.form.images.join(";");
+        }
+
+
         const res = await MotelService.store(this.form);
 
         if(res.status === 201)
@@ -174,11 +186,12 @@ export default {
               "Success",
               { timeOut: false }
             );
+           this.form.images = [];
 
         }else{
-           toastr.error("Internal Server Error", "Error", {
+          toastr.error("Internal Server Error", "Error", {
               timeOut: 1000
-            });
+          });
         }
           
         this.$refs.form.reset();

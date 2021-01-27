@@ -5,23 +5,20 @@ const helper = require('../utils/helper');
 const constant = require('../configs/constant');
 const nodemon = require('nodemon');
 const { config } = require('chai');
+const motel = require('./motel.model');
 
 module.exports = {
   GetAll: () => {
     return db.find(TableName);
   },
   Single: (id) => {
-    if (!process.env.IS_TEST)
-      return db.find(TableName, {
-        _id: ObjectId(`${id}`),
-      });
-    else return db.find(TableName, { _id: id });
+    return db.find(TableName, {
+      _id: ObjectId(`${id}`),
+    });
   },
-  GetAllRatingByMotelId: async (id, params) => {
-    let new_id = id;
-    if (process.env.IS_TEST) {
-      id = String('5fccb2931e10b0191c19ac6b');
-    }
+  GetAllRatingByMotelId: async (id) => {
+    var sort_object = JSON.parse(`{"modified_date": -1}`);
+
     var aggregate = [
       {
         $match: {
@@ -37,45 +34,27 @@ module.exports = {
         },
       },
     ];
-
-    // pagination
-    var currentPage = params.page || 1;
-    var itemPerPage = params.itemPerPage || constant.DEFAULT_PAGINATION_ITEMS;
-
-    // pagination
-    var { limit, skip } = helper.calcPagination(currentPage, itemPerPage);
-    aggregate.push(
-      {
-        $limit: limit,
-      },
-      {
-        $skip: skip,
-      }
-    );
+    if (!helper.ObjectIsEmpty(sort_object))
+      aggregate.push({
+        $sort: sort_object,
+      });
     var data = await db.aggregate(TableName, aggregate);
-    if (!process.env.IS_TEST) {
-      return data;
-    }
-
-    if (process.env.IS_TEST) {
-      return db.find(TableName, { motel_id: new_id });
-    }
+    return data;
   },
   FindRating: (obj) => {
     return db.find(TableName, {
-      user_id: obj.user_id,
-      motel_id: obj.motel_id,
+      user_id: ObjectId(`${obj.user_id}`),
+      motel_id: ObjectId(`${obj.motel_id}`),
     });
   },
   Add: (obj) => {
     obj.created_date = obj.modified_date = new Date();
+    obj.user_id = ObjectId(`${obj.user_id}`);
+    obj.motel_id = ObjectId(`${obj.motel_id}`);
     return db.insertOne(TableName, obj);
   },
   Update: (id, obj) => {
     obj.modified_date = new Date();
-    if (process.env.IS_TEST) {
-      return db.updateOne(TableName, { _id: id }, obj);
-    }
     return db.updateOne(
       TableName,
       {
@@ -85,8 +64,17 @@ module.exports = {
     );
   },
   Delete: (id) => {
-    if (!process.env.IS_TEST) {
-      return db.deleteOne(TableName, { _id: ObjectId(`${id}`) });
-    } else return db.deleteOne(TableName, { _id: id });
+    return db.deleteOne(TableName, { _id: ObjectId(`${id}`) });
+  },
+  UpdateMotelRatings: async (id) => {
+    const ratings = await module.exports.GetAllRatingByMotelId(id);
+    if (ratings.length > 0) {
+      let avg = 0;
+      for (i in ratings) {
+        avg += ratings[i].rating;
+      }
+      avg = avg / ratings.length;
+      return await motel.Update(id, { rating: avg });
+    }
   },
 };

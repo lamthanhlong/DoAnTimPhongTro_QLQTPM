@@ -7,15 +7,17 @@ const validate = require('../utils/validate');
 const schema = require('../schemas/user.json');
 const { getSignedJwtToken } = require('../models/user.model');
 const { protect, authorize, sendTokenResponse } = require('../utils/auth');
+
 router.get('/me', protect, async (req, res) => {
   const user = await model.Single(req.accessTokenPayload.id);
   if (user.length == 0)
     return res.status(404).json({ err_msg: 'User not found!!!' });
   return res.status(200).json(user[0]);
 });
+
 router.post('/me', protect, async (req, res) => {
   const user = req.body;
-  const id = user._id;
+  const id = req.accessTokenPayload.id;
   delete user._id;
   delete user.phone;
   if (user.password) {
@@ -25,15 +27,11 @@ router.post('/me', protect, async (req, res) => {
   user._id = id;
   return res.status(200).json(user);
 });
+
 router.post('/login', async function (req, res) {
   const { phone, password } = req.body;
   if (!phone || !password) {
     return res.status(400).json({ err_msg: 'Please input phone & password' });
-  }
-  if (phone == '' || password == '') {
-    return res
-      .status(400)
-      .json({ err_msg: 'Please input correct login information' });
   }
   let user = await model.FindByPhone(phone);
 
@@ -57,10 +55,11 @@ router.post('/login', async function (req, res) {
   );
   res.status(200).json({ user, token: accessToken });
 });
+
 router.post('/register', validate(schema), async function (req, res) {
   let object = req.body;
   const valid = await model.FindByPhone(object.phone);
-  if (!object.role) object.role = 'MOTEL_OWNER';
+  if (!object.role) object.role = 'USER';
   if (valid.length > 0)
     return res.status(400).json({ err_msg: 'user has already signed up' });
   const hash = bcrypt.hashSync(object.password, 10);
@@ -69,4 +68,5 @@ router.post('/register', validate(schema), async function (req, res) {
   object._id = id;
   sendTokenResponse(object, 201, res);
 });
+
 module.exports = router;

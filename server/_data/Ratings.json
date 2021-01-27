@@ -1,8 +1,8 @@
 [
   {
     "_id": 1,
-    "user_id": 2,
-    "motel_id": 1,
+    "user_id": "5fccb2931e10b0191c19ac62",
+    "motel_id": "5fccb2931e10b0191c19ac62",
     "rating": 4,
     "comment": "phòng trọ tạm được, hàng xóm thân thiện.",
     "modified_date": "2020-12-19T08:34:59.964Z",
@@ -10,8 +10,8 @@
   },
   {
     "_id": 2,
-    "user_id": 4,
-    "motel_id": 1,
+    "user_id": "5fccb2931e10b0191c19ac63",
+    "motel_id": "5fccb2931e10b0191c19ac63",
     "rating": 4,
     "comment": "chỗ trọ gần công viên, chủ nhà thân thiện, nhiệt tình.",
     "modified_date": "2020-12-19T08:34:59.964Z",
@@ -19,8 +19,8 @@
   },
   {
     "_id": 3,
-    "user_id": 5,
-    "motel_id": 1,
+    "user_id": "5fccb2931e10b0191c19ac64",
+    "motel_id": "5fccb2931e10b0191c19ac64",
     "rating": 4,
     "comment": "phòng trọ tạm được.",
     "modified_date": "2020-12-19T08:34:59.964Z",
@@ -28,8 +28,8 @@
   },
   {
     "_id": 4,
-    "user_id": 1,
-    "motel_id": 2,
+    "user_id": "5fccb2931e10b0191c19ac65",
+    "motel_id": "5fccb2931e10b0191c19ac65",
     "rating": 5,
     "comment": "phòng trọ sạch sẽ, giá tốt, hàng xóm thân thiện.",
     "modified_date": "2020-12-19T08:34:59.964Z",
@@ -37,8 +37,8 @@
   },
   {
     "_id": 5,
-    "user_id": 12,
-    "motel_id": 13,
+    "user_id": "5fccb2931e10b0191c19ac66",
+    "motel_id": "5fccb2931e10b0191c19ac66",
     "rating": 5,
     "comment": "chủ nhà thân thiện, nhiệt tình.",
     "modified_date": "2020-12-19T08:34:59.964Z",
@@ -46,8 +46,8 @@
   },
   {
     "_id": 6,
-    "user_id": 6,
-    "motel_id": 9,
+    "user_id": "5fccb2931e10b0191c19ac67",
+    "motel_id": "5fccb2931e10b0191c19ac67",
     "rating": 4,
     "comment": "hàng xóm thân thiện.",
     "modified_date": "2020-12-19T08:34:59.964Z",
@@ -55,17 +55,17 @@
   },
   {
     "_id": 7,
-    "user_id": 3,
-    "motel_id": 2,
+    "user_id": "5fccb2931e10b0191c19ac68",
+    "motel_id": "5fccb2931e10b0191c19ac68",
     "rating": 5,
     "comment": "hàng xóm toàn trai đẹp, gái xinh.",
     "modified_date": "2020-12-19T08:34:59.964Z",
     "created_date": "2020-12-19T08:34:59.964Z"
   },
   {
-    "_id": 8,
-    "user_id": 30,
-    "motel_id": 4,
+    "_id": "5fccb2931e10b0191c19ac6b",
+    "user_id": "5fccb2931e10b0191c19ac6b",
+    "motel_id": "5fccb2931e10b0191c19ac6b",
     "rating": 5,
     "comment": "chỗ trọ gần công viên, chỗ trọ gần công viên.",
     "modified_date": "2020-12-19T08:34:59.964Z",

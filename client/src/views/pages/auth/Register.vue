@@ -24,7 +24,7 @@
                   ></v-text-field>
 
                   <v-text-field
-                    label="Password"
+                    label="Mật khẩu"
                     prepend-icon="mdi-lock"
                     type="password"
                     v-model="form.password"
@@ -122,7 +122,7 @@ export default {
 
           } else {
 
-            toastr.error("Internal Server Error", "Error", {
+            toastr.error(res.data.err_msg, "Error", {
               timeOut: 1000
             });
 

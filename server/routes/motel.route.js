@@ -10,21 +10,32 @@ router.get('/local', motelcontroller.getLocals);
 
 router.get(
   '/user/:id',
-  protect,
-  authorize('ADMIN', 'MOTEL_OWNER'),
   motelcontroller.ownerFetchMotels
+);
+
+router.get(
+  '/rating_code/:id',
+  protect,
+  motelcontroller.getRatingCode
 );
 
 router.get('/:id', motelcontroller.fetch);
 
-router.post('/store', validate(schema), motelcontroller.store);
+router.put(
+  '/:id/verify',
+  protect,
+  authorize('ADMIN'),
+  motelcontroller.verifyMotel
+);
+
+router.post('/store', protect, validate(schema), motelcontroller.store);
 
 router.put(
   '/update/:id',
   protect,
-  authorize('ADMIN', 'MOTEL_OWNER'),
   motelcontroller.update
 );
 
-router.delete('/:id', motelcontroller.delete);
+//router.delete('/:id', protect, motelcontroller.delete);
+
 module.exports = router;

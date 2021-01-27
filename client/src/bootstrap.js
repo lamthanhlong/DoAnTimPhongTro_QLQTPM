@@ -20,6 +20,7 @@ import Pagination from '@/components/Pagination.vue';
 import ProgressHeader from "@/components/progress/ProgressHeader.vue";
 import ProgressLoading from "@/components/progress/ProgressLoading.vue";
 
+import ButtonDetail from '@/components/button/ButtonDetail';
 import ButtonSave from '@/components/button/ButtonSave';
 import ButtonCancel from '@/components/button/ButtonCancel';
 
@@ -56,6 +57,7 @@ global.toastr.options.closeMethod = "fadeOut";
 global.toastr.options.closeDuration = 500;
 global.toastr.options.closeEasing = "swing";
 
+Vue.component('btn-detail', ButtonDetail);
 Vue.component('btn-save', ButtonSave);
 Vue.component('btn-cancel', ButtonCancel);
 

@@ -23,7 +23,7 @@
 
                 <v-text-field
                   id="password"
-                  label="Mật khảu"
+                  label="Mật khẩu"
                   prepend-icon="mdi-lock"
                   type="password"
                   :rules="[
@@ -32,14 +32,7 @@
                   v-model="form.password"
                 ></v-text-field>
 
-                <div class="pb-4 caption d-flex">
-                  <v-flex class="text-right">
-                    <router-link to="/forget-password"
-                      >Forget password</router-link
-                    >
-                  </v-flex>
-                </div>
-
+     
                 <v-btn block color="primary" @click="login()">Login</v-btn>
 
                 <hr />
@@ -130,7 +123,7 @@ export default {
            
           } else {
             setTimeout(() => {
-              toastr.error(res.data.message, "Error", { timeOut: 1000 });
+              toastr.error("SĐT hoặc mật khẩu không chính xác", "Error", { timeOut: 1000 });
                this.$store.dispatch("components/progressLoading", { option: "hide" })
             }, 1500);
           }

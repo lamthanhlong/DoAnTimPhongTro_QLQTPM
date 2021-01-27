@@ -1,8 +1,9 @@
 const motel = require('../models/motel.model');
 const rating = require('../models/rating.model');
 const local = require('../utils/local');
-const helper = require('../utils/helper');
-var randomstring = require('randomstring');
+//const helper = require('../utils/helper');
+//var randomstring = require('randomstring');
+
 module.exports = {
   fetchPaging: async (req, res) => {
     return res.json(await motel.GetQuery(req.query));
@@ -26,13 +27,18 @@ module.exports = {
     const object = req.body;
     const id = await motel.Add(object);
     object._id = id;
-    object.rating_code = randomstring.generate();
+    //object.rating_code = randomstring.generate();
     return res.status(201).json(object);
   },
 
   update: async (req, res) => {
-    if (req.accessTokenPayload.role === 'MOTEL_OWNER') {
+    if (req.accessTokenPayload.role === 'USER') {
       const single = await motel.Single(req.params.id);
+
+      if(single.length <= 0)
+        return res
+          .status(403)
+          .json({ err_msg: 'User not have permission to edit' });
 
       if (single[0].owner_id != req.accessTokenPayload.id)
         return res
@@ -71,6 +77,7 @@ module.exports = {
       return res.json({ count: cities.length, data: cities });
     }
   },
+  /*
   delete: async (req, res) => {
     const motels = await motel.Single(req.params.id);
     const ratings = await rating.GetAllRatingByMotelId(
@@ -84,5 +91,17 @@ module.exports = {
     }
     const del = await motel.Delete(req.params.id);
     res.status(200).json({ success: 'true' });
+  },*/
+  verifyMotel: async (req, res) => {
+    //const motels = await motel.Single(req.params.id);
+    await motel.Update(req.params.id, { is_verified: true });
+    return res.status(200).json({ success: true });
   },
+  getRatingCode: async (req, res) => {
+    var r = await motel.GetRatingCode(req.params.id);
+    if(motel.GetRatingCode(req.params.id)===false){
+      return res.status(500).json({message: "unknow error!"});
+    }
+    return res.status(200).json({rating_code: r});
+  }
 };

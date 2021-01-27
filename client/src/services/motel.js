@@ -5,7 +5,7 @@ export default {
 
   rootURL: '/motel/',
 
-  async fetchPaging(currentPage, searchkey, price, city, district, area, filterPrice) {
+  async fetchPaging(currentPage, searchkey, price, city, district, area, filterPrice, isVerified) {
 
     try {
       return  await axios.get(this.rootURL, {
@@ -17,6 +17,7 @@ export default {
           district: district,
           area: area,
           sort: filterPrice,
+          is_verified: isVerified
         }
       });
       return result;
@@ -37,6 +38,22 @@ export default {
   async store(form){
     try {
       return await axios.post(this.rootURL + `store`, form);
+    } catch (error) {
+       return helperCommon.getError(error) || false; 
+    }
+  },
+
+   async update(id, form){
+    try {
+      return await axios.put(this.rootURL + `update/${id}`, form);
+    } catch (error) {
+       return helperCommon.getError(error) || false; 
+    }
+  },
+
+  async verifyMotel(id, form){
+    try {
+      return await axios.put(this.rootURL + `${id}/verify`);
     } catch (error) {
        return helperCommon.getError(error) || false; 
     }
@@ -80,8 +97,17 @@ export default {
 
        return helperCommon.getError(error) || false; 
     }
-  }
+  },
 
+  async getRatingCode(id)
+  {
+    try {
+      return await axios.get(this.rootURL + `rating_code/${id}`);
+    } catch (error) {
+
+       return helperCommon.getError(error) || false; 
+    }
+  }
 
 
 };

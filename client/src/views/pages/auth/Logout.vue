@@ -20,7 +20,7 @@ export default {
 
     }
     // clear user in cookies
-    this.$cookies.remove("accessToken");
+    this.$cookies.remove("userToken");
     this.$cookies.remove("userInfo");
 
     // clear store
@@ -30,6 +30,8 @@ export default {
 
 
     this.$router.replace("/auth/login");
-  }
+  },
+
+
 };
 </script>

@@ -5,16 +5,13 @@ const TableName = 'Motels';
 const constant = require('../configs/constant');
 const { query } = require('express');
 const { process_params } = require('express/lib/router');
+const randomstring = require('randomstring');
 
 module.exports = {
-  GetAll: () => {
-    return db.find(TableName);
-  },
+  //GetAll: () => {
+  //  return db.find(TableName);
+  //},
   Single: (id) => {
-    let new_id = id;
-    if (process.env.IS_TEST) {
-      id = '5fccb2931e10b0191c19ac6b';
-    }
     var aggregate = [
       {
         $match: {
@@ -30,19 +27,12 @@ module.exports = {
         },
       },
     ];
-    if (!process.env.IS_TEST) {
-      return db.aggregate(TableName, aggregate);
-    }
-
-    if (process.env.IS_TEST) {
-      return db.find(TableName, { _id: new_id });
-    }
+    return db.aggregate(TableName, aggregate);
   },
   OwnerGet: async (owner_id, params) => {
-    let new_id = owner_id;
-    if (process.env.IS_TEST) {
-      owner_id = '5fccb2931e10b0191c19ac4c';
-    }
+    query_object = {};
+    query_object.owner_id = ObjectId(`${owner_id}`);
+    sort_object = {};
     if (params.is_verified) {
       query_object.is_verified = JSON.parse(params.is_verified);
     }
@@ -50,15 +40,7 @@ module.exports = {
       query_object.has_furniture = JSON.parse(params.has_furniture);
     }
     var aggregate = [];
-    if (!helper.ObjectIsEmpty(query_object))
-      aggregate.push({
-        $match: query_object,
-      });
-
-    if (!helper.ObjectIsEmpty(sort_object))
-      aggregate.push({
-        $sort: sort_object,
-      });
+    aggregate.push({ $match: query_object });
     var currentPage = params.page || 1;
     var itemPerPage = params.itemPerPage || constant.DEFAULT_PAGINATION_ITEMS;
 
@@ -74,25 +56,19 @@ module.exports = {
     );
 
     var data = await db.aggregate(TableName, aggregate);
-    var count = await db.count(TableName, {});
+    var count = await db.count(TableName, query_object);
     var pageCounts = helper.calcPageCounts(count, itemPerPage);
 
-    if (!process.env.IS_TEST) {
-      return {
-        data,
-        count,
-        pageCounts,
-      };
-    }
-
-    if (process.env.IS_TEST) {
-      return db.find(TableName, { owner_id: new_id });
-    }
+    return {
+      data,
+      count,
+      pageCounts,
+    };
   },
   GetQuery: async (params) => {
     var sort_object = {};
     if (params.sort) {
-      var sort = params.sort.split('_');
+      var sort = params.sort.split('-');
       if (sort.length == 1) sort.push('asc');
       sort_object = JSON.parse(`{"${sort[0]}": ${sort[1] == 'asc' ? 1 : -1}}`);
     }
@@ -135,15 +111,24 @@ module.exports = {
     }
     // Not getting null prices
     query_object.price = Object.assign(query_object.price, { $ne: NaN });
-    if (params.searchkey) {
-      query_object.title = new RegExp(params.searchkey, 'i');
-      query_object.description = new RegExp(params.searchkey, 'i');
-    }
+
     var aggregate = [];
-    if (!helper.ObjectIsEmpty(query_object))
-      aggregate.push({
-        $match: query_object,
-      });
+    if (!helper.ObjectIsEmpty(query_object)){
+      var searchobjs = [];
+      if(params.searchkey){
+        searchobjs = [
+          { title: new RegExp(params.searchkey, 'i') },
+          { description: new RegExp(params.searchkey, 'i') },
+          { title: params.searchkey }
+        ]
+      }
+      if(params.is_verified) query_object.is_verified = params.is_verified=='true';
+
+      if(searchobjs.length > 0){
+        aggregate.push({$match: {$and: [query_object, {$or: searchobjs}]}});
+      }
+      else aggregate.push({$match: query_object});
+    }
 
     if (!helper.ObjectIsEmpty(sort_object))
       aggregate.push({
@@ -164,9 +149,26 @@ module.exports = {
     );
 
     var data = await db.aggregate(TableName, aggregate);
-    var count = await db.count(TableName, query_object);
+    var countObject = {}
+    if(params.is_verified) query_object.is_verified = params.is_verified == 'true';
+    if(params.searchkey){
+      countObject = {$and: [query_object, {$or: [
+        {
+          title: new RegExp(params.searchkey, 'i')
+        },
+        {
+          description: new RegExp(params.searchkey, 'i')
+        },
+        {
+          title: params.searchkey
+        }
+      ]}]};
+    }
+    else countObject = query_object;
+    var count = await db.count(TableName, countObject);
     var pageCounts = helper.calcPageCounts(count, itemPerPage);
 
+    console.log(data.length, aggregate);
     return {
       data,
       count,
@@ -181,24 +183,37 @@ module.exports = {
   Update: (id, obj) => {
     obj.modified_date = new Date();
     let new_id = id;
-    if (!process.env.IS_TEST) {
-      return db.updateOne(
-        TableName,
-        {
-          _id: ObjectId(`${id}`),
-        },
-        obj
-      );
-    }
-    if (process.env.IS_TEST) {
-      return db.updateOne(TableName, { _id: new_id }, obj);
-    }
-  },
-  Delete: (id) => {
-    if (!process.env.IS_TEST)
-      return db.deleteOne(TableName, {
+    return db.updateOne(
+      TableName,
+      {
         _id: ObjectId(`${id}`),
-      });
-    else return db.deleteOne(TableName, { _id: id });
+      },
+      obj
+    );
   },
+  //Delete: (id) => {
+  //  return db.deleteOne(TableName, { _id: id });
+  //},
+  ValidRatingCode: async (id, code) => {
+    var motels = await db.find(TableName, { _id: ObjectId(`${id}`)});
+    if(motels.length<=0) return false;
+    var motel = motels[0];
+    var result = helper.MinusTime(new Date(), motel.modified_date);
+    if(motel.rating_code && code==motel.rating_code && result.year==0 && result.month==0 && result.day<=1) return true;
+    return false;
+  },
+  GetRatingCode: async (id) => {
+    var motels = await db.find(TableName, { _id: ObjectId(`${id}`)});
+    if(motels.length<=0) return false;
+    var motel = motels[0];
+    var result = helper.MinusTime(new Date(), motel.modified_date);
+    if(motel.rating_code && result && result.year==0 && result.month==0 && result.day==0) return motel.rating_code;
+    motel.rating_code = randomstring.generate(5);
+    if((await module.exports.Update(id, {rating_code: motel.rating_code})) == 1){
+      return motel.rating_code;
+    }
+    else{
+      return false;
+    }
+  }
 };

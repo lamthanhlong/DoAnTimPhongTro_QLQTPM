@@ -40,7 +40,7 @@
       >
         <template v-slot:activator="{ on: activeMenu }">
           <v-avatar v-on="activeMenu">
-            <img src="https://gamek.mediacdn.vn/133514250583805952/2020/3/7/anh-1-1583592253266481895600.jpg" alt="Avatar" />
+            <img src="@/assets/img/avatar_default.png" alt="Avatar" />
           </v-avatar>
         </template>
         <v-list>
@@ -85,6 +85,10 @@ export default {
     'search-header': SearchHeader
   },
 
+  created(){
+    this.userInfo = CookieService.get('userInfo');
+  },
+
   data() {
     return {
       mini: false,
@@ -98,11 +102,22 @@ export default {
       theme: this.getTheme(),
 
       inputSearch: "",
+      userInfo: {},
     };
   },
 
   mounted() {
 
+    if(this.userInfo)
+    {
+      if(this.userInfo.role === "ADMIN"){
+        this.menuInfo.unshift({
+          title: "Quản lý admin", icon: "mdi-clipboard-list", link: "/admin/users"
+        });
+      }
+
+    }
+   
     this.$vuetify.theme.dark = this.getTheme();
   },
 
@@ -147,10 +162,6 @@ export default {
       return this.theme ? "mdi-brightness-4" : "mdi-brightness-5";
     },
 
-    userInfo()
-    {
-      return CookieService.get('userInfo');
-    }
   }
 };
 </script>

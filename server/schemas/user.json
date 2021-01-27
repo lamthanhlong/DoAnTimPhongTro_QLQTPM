@@ -16,7 +16,7 @@
     },
     "role": {
       "type": "string",
-      "enum": ["MOTEL_OWNER", "ADMIN", "CUSTOMER"]
+      "enum": ["ADMIN", "USER"]
     },
     "images": {
       "type": "string"

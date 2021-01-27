@@ -48,7 +48,11 @@
 
 				            <div>
 				              <code>{{motel.area}}m<sup>2</sup></code>
-				            </div>
+				            </div>	
+
+				            <div class="mt-4">
+				              <code  v-show="motel.is_verified">Đã xác thực</code>
+				            </div>	
 
 				            <div class="my-4 subtitle-1 text-decoration-underline" v-if="motel.has_furniture">
 				              Có nội thất
@@ -70,7 +74,7 @@
 				          color="basil"
 				          flat
 				        >
-				        	<v-card-text>
+				        	<v-card-text class="d-flex">
 				        	 <v-rating
 				                :value="motel.rating"
 				                color="amber"
@@ -79,12 +83,14 @@
 				                readonly
 				                size="20"
 				              ></v-rating>
+				              <v-spacer></v-spacer>
+
+				              <v-btn outlined small color="primary" @click="addRating()">Đánh giá</v-btn>
 				            </v-card-text>
 
 				            <v-card-text>
 				              <h3>Lượt đánh giá: </h3>
-				              <m-rating :ratings="motel.ratings">
-				              </m-rating>
+				              <m-rating :ratings="motel.ratings"></m-rating>
 							</v-card-text>
 				      
 				        </v-card>
@@ -100,26 +106,39 @@
 					<v-card-text><b>Địa chỉ:</b> {{ motel.user.address }}</v-card-text>
 					
 					<v-card-text>
-						<v-btn small outlined @click="openWindowChat(motel.user)">
-							Chat với người bán
+
+						<v-btn v-show="userInfo && motel.user._id !== userInfo._id" class="ma-2" small outlined @click="openWindowChat(motel.user)">
+								Chat với người bán
+							<v-icon>mdi-message-processing-outline</v-icon>
+						</v-btn>
+						<v-btn small outlined @click="viewProfileUser(motel.user)" class="ma-2">
+							Xem thông tin
 							<v-icon>mdi-account</v-icon>
 						</v-btn>
 					</v-card-text>
 
 					<v-divider></v-divider>
 
-					<v-card-text>AAAAAAAAA</v-card-text>
 				</v-card>
 			</v-col> 
 		</v-row>
+
+		<form-rating
+		v-if="showFormRating"
+		title="Đánh giá phòng trọ"
+		:motel="motel"
+		:showFormRating.sync="showFormRating"
+		>
+		</form-rating>
 	</v-container>
 </template>
 
 <script type="text/javascript">
 
 // components	
-import Carousel from "./components/detail/Carousel"
-import Rating from "./components/detail/Rating"
+import Carousel from "./components/detail/Carousel";
+import Rating from "./components/detail/Rating";
+import AddRating from "./components/detail/AddRating";
 
 // service
 import CookieService from "@/services/cookie";
@@ -133,7 +152,8 @@ export default {
 
     components: {
     	'm-carousel': Carousel,
-    	'm-rating': Rating
+    	'm-rating': Rating,
+    	'form-rating': AddRating
 	},
 
 	data(){
@@ -146,6 +166,8 @@ export default {
 	        ],
 	         text: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.',
 	        userInfo: CookieService.get('userInfo'),
+
+	        showFormRating: false,
 		}
 	},
 
@@ -187,6 +209,21 @@ export default {
 
 	methods: {
 
+		viewProfileUser(user){
+			this.$router.replace('/user/' + user._id);	
+		},
+
+		addRating()
+		{
+			if(!this.userInfo)
+			{
+				this.$router.replace("/auth/login");
+				return false;
+			}
+
+			this.showFormRating = true;
+		},
+
 		conditionPushWindowMessenger(windowMessengers, windowMessengerSelected){
 	      var checkExist = this.windowMessengers.some(item => { return item.id === windowMessengerSelected.id});
 
@@ -222,7 +259,8 @@ export default {
 
 	    	var payload = windowMessengerSelected;
 	    	var enablePushWindowMessenger =  this.conditionPushWindowMessenger(this.windowMessengers, windowMessengerSelected)
-    
+    			
+
 		    if(enablePushWindowMessenger)
 		    {
 	    		this.$store.dispatch("chats/openWindowMessenger", payload)

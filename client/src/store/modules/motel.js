@@ -34,10 +34,9 @@ export  const actions = {
       const district = payload.district || null;
       const area = payload.area || null;
       const filterPrice = payload.sort || null;
+      const isVerified = payload.isVerified;
 
-
-
-      const res = await MotelService.fetchPaging(currentPage, searchKey, price, city, district, area, filterPrice);
+      const res = await MotelService.fetchPaging(currentPage, searchKey, price, city, district, area, filterPrice, isVerified);
       if(res.data){
         var data = res.data;
         commit("FETCH_PAGING", data);
@@ -57,8 +56,15 @@ export  const actions = {
     {
       const id = payload.id;
       const res = await MotelService.store(payload);
-      
-      console.log(res);
+    },
+
+    updateCurrentPage({commit}, payload)
+    {
+      commit("UPDATE_CURRENT_PAGE", payload.currentPage);
+    },
+
+    updateRatings({commit}, payload){
+      commit("UPDATE_RATINGS", payload);
     },
 
     reset({commit}){
@@ -83,12 +89,15 @@ export  const mutations = {
         state.motel.ratings = motel.Ratings
         delete motel.Ratings;
       }
-
-
     },
 
     UPDATE_CURRENT_PAGE(state, page){
       state.currentPage = page;
+    },
+
+    UPDATE_RATINGS(state, ratings)
+    {
+      state.motel.ratings = ratings
     },
 
     DESTROY_MOTEL(){

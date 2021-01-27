@@ -95,6 +95,10 @@
             </v-row>
            </v-layout>
 
+          <v-layout v-if="motels.length <= 0 && isLoading === false">
+              <h2 class="text-center d-flex" style="justify-content: center;">Không tìm thấy dữ liệu</h2>
+          </v-layout>
+
           <v-row justify="center">
             <v-col cols="8">
               <v-container class="max-width">
@@ -169,7 +173,7 @@ export default {
 
 	mixins: [IsMobile],
 
-    components: {
+  components: {
     	'filter-form': Filter,
     	'm-item': MItem,
       'm-slider-price': SliderPrice,
@@ -181,7 +185,7 @@ export default {
 		return {
 
 	    itemsPerPage: this.$constant.pagination.ITEMS_PER_PAGE,
-	    isLoading: false,
+	    isLoading: true,
       isVisiblePriceModal: false,
       isVisibleAreaModal: false,
       isVisibleListFilter: false,
@@ -247,8 +251,12 @@ export default {
   created(){
 
     var city = this.cities.find(item => item.name === this.filterAddress.city);
-
     this.handleCityEvent(city)
+
+    if(this.$route.query.hasOwnProperty('page')){
+       this.$store.commit('motels/UPDATE_CURRENT_PAGE', parseInt(this.$route.query.page));
+    }
+   
 
     this.retrieveData(this.$route.query);
   },
@@ -258,7 +266,8 @@ export default {
       get(){
          return this.$store.getters["motels/currentPage"]
       },
-      set(page){
+      set(page)
+      {
         this.$store.commit('motels/UPDATE_CURRENT_PAGE', page)
       }
     },
@@ -289,10 +298,13 @@ export default {
 
   watch: {
     motels(data){
-      if(data.length)
+      if(data.length){
          this.$store.dispatch("components/actionProgressHeader", { option: "hide" })
-       else
-         this.$store.dispatch("components/actionProgressHeader", { option: "hide" })
+         this.isLoading = false
+      }else{
+        this.$store.dispatch("components/actionProgressHeader", { option: "hide" })
+        this.isLoading = false
+      }
     },
   },
 
@@ -389,9 +401,12 @@ export default {
       setTimeout(async () => {
         this.$store.dispatch("motels/fetchPaging", payLoad);
       }, 200);
+    }     
+  },
 
-    }
-  }
+  beforeDestroy(){
+    this.$store.dispatch("motels/reset");
+  },
 }
 
 </script>

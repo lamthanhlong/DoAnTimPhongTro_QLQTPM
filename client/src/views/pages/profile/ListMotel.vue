@@ -17,7 +17,7 @@
 
           <v-list two-line>
               <v-list-item-group
-                v-model="selected"
+
                 active-class="pink--text"
                 multiple
               >
@@ -66,14 +66,48 @@
                             {{ item.price }} triệu VNĐ
                           </div>
 
-                          <div>
+                          <div class="my-4 subtitle-1 red--text font-weight-bold">
                             <code>{{item.area}}m<sup>2</sup></code>
+                          </div>
+
+                          <div v-show="item.rating_code"> 
+                            Mã đánh giá: <code>{{item.rating_code}}</code>
                           </div>
 
                           <div class="my-4 subtitle-1 text-decoration-underline" v-if="item.has_furniture">
                             Có nội thất
                           </div>
-                        </v-card-text>
+                      </v-card-text>
+                      <v-card-actions>
+                        <v-btn
+                        class="mr-2"
+                        color="primary"
+                        small
+                        outlined
+                        @click="viewDetail(item)"
+                        >
+                          Xem chi tiết
+                        </v-btn>
+
+                        <v-btn
+                        color="primary"
+                        small
+                        outlined
+                        @click="edit(item)"
+                        >
+                          Sửa
+                        </v-btn>
+
+                        <v-btn
+                        color="primary"
+                        small
+                        outlined
+                        @click="getRatingCode(item)"
+                        >
+                          Lấy mã đánh giá
+                        </v-btn>
+
+                      </v-card-actions>
                     </v-col>
                 </v-row>
                   <v-divider
@@ -86,6 +120,12 @@
         </v-card>
       </v-col>
     </v-row>
+    <m-update-post  
+    :editModal.sync="editModal"
+    v-if="editModal"
+    :motel.sync="motel"
+    >
+    </m-update-post>
   </v-container>
 </v-layout>
 </template>
@@ -97,6 +137,7 @@ import CookieService from "@/services/cookie";
 
 // component
 import Menu from './components/Menu.vue';
+import UpdatePost from "./UpdatePost.vue";
 
 // mixins
 import IsMobile from "@/mixins/is_mobile";
@@ -104,10 +145,16 @@ import IsMobile from "@/mixins/is_mobile";
 export default {
 
   components: {
-    'm-menu': Menu
+    'm-menu': Menu,
+    'm-update-post': UpdatePost
   },
 
   mixins: [IsMobile],
+
+  created(){
+    this.retrieveData(this.userId);
+  },
+
 
   data(){
     return {
@@ -116,23 +163,46 @@ export default {
       motels: [],
       currentPage: 1,
       pageCounts: 1,
+
+      editModal: false,
+      motel: {},
     }
   },
 
-  created(){
-
-    this.retrieveData(this.userId);
-  },
 
   methods: {
     async retrieveData(userId){
       const res = await MotelService.getAllByOwner(userId);
+
       if(res.status === 200)
       {
         this.motels = res.data.data;
         this.pageCounts = res.data.pageCounts;
       }
-  
+    },
+
+    edit(motel)
+    {
+      this.motel = {...motel};
+      this.editModal = true;
+    },
+
+    viewDetail(item){
+      this.$router.push('/motels/detail/' + item._id)
+    },
+
+    async getRatingCode(item)
+    {
+      const res = await MotelService.getRatingCode(item._id);
+      if(res.data){
+        item.rating_code = res.data.rating_code;
+         toastr.success(
+              "<p> Lấy mã đánh giá thành công <p>",
+              "Success",
+              { timeOut: false }
+            );
+        this.$forceUpdate();
+      }
     }
   },
 

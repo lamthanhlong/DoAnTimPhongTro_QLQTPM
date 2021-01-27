@@ -1,13 +1,10 @@
 <template>
-<v-layout id="window-chat" v-if="userInfo">
+<v-layout id="window-chat" v-show="show">
    <div class="d-flex window-chat" v-if="windowMessengers.length">
       <div v-for="item, index in windowMessengers">
         <v-card v-show="item.isVisible" class="mr-4" >
           <v-toolbar dark color="primary darken-1">
-
             <v-toolbar-title>{{ item.name }}</v-toolbar-title>
-
-
             <v-spacer></v-spacer>
                 <v-btn 
                   icon  
@@ -17,7 +14,6 @@
                   <v-icon>mdi-close</v-icon>
                 </v-btn>
           </v-toolbar>
-
 
           <v-card-text
             @v-chat-scroll-top-reached="loadMoreMessenger"
@@ -136,12 +132,26 @@ export default {
       statusUserLeave: false,
 
       message: "",
-
+      show: false
     }
   },
 
+
   mounted(){
     this.subscribeSendMessenger();
+    if(this.windowMessengers.length > 0 ){
+       this.userInfo = CookieService.get('userInfo')
+      this.show = true;
+    }
+  },
+
+  watch: {
+    windowMessengers(data){
+      if(data.length > 0){
+        this.userInfo = CookieService.get('userInfo')
+        this.show = true;
+      }
+    }
   },
 
   computed: {
@@ -150,20 +160,12 @@ export default {
         return this.$store.getters["chats/windowMessengers"];
       }
     },
-
-    userInfo: {
-      get(){
-        return CookieService.get('userInfo');
-      }
-    }
   },
 
   methods: {
     loadMoreMessenger() {},
 
     subscribeSendMessenger(){
-
-
       this.sockets.subscribe(this.$socketEvent.USER_SEND_MESSENGER, res => {
         if (res) {
 
@@ -191,8 +193,6 @@ export default {
               }
             })
           }
-
-
         }
 
         this.$forceUpdate()
@@ -201,7 +201,6 @@ export default {
 
 
     sendMessenger(receiver){
-
 
       var data = {
         message: this.message,
@@ -215,7 +214,7 @@ export default {
         }
       })
 
-       this.$socket.emit(this.$socketEvent.USER_SEND_MESSENGER, data, receiver);
+       this.$socket.emit(this.$socketEvent.USER_SEND_MESSENGER, data, receiver._id);
        this.clearMessage();
     },
 
