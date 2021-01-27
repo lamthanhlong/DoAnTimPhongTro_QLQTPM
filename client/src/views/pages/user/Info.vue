@@ -70,11 +70,6 @@
                           <div class="my-4 subtitle-1 red--text font-weight-bold">
                             <code>{{item.area}}m<sup>2</sup></code>
                           </div>
-                          
-                          <div v-show="item.rating_code"> 
-                            Mã đánh giá: <code>{{item.rating_code}}</code>
-                          </div>
-
 
                           <div class="my-4 subtitle-1 text-decoration-underline" v-if="item.has_furniture">
                             Có nội thất
