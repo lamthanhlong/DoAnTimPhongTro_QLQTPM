@@ -46,7 +46,7 @@
       >
         <template v-slot:activator="{ on: activeMenu }">
           <v-avatar v-on="activeMenu">
-            <img src="https://gamek.mediacdn.vn/133514250583805952/2020/3/7/anh-1-1583592253266481895600.jpg" alt="Avatar" />
+            <img src="@/assets/img/avatar_default.png" alt="Avatar" />
           </v-avatar>
         </template>
         <v-list>

@@ -122,7 +122,7 @@ module.exports = {
           { title: params.searchkey }
         ]
       }
-      if(params.is_verified) searchobjs.push({ is_verified: params.is_verified=='true'});
+      if(params.is_verified) query_object.is_verified = params.is_verified=='true';
 
       if(searchobjs.length > 0){
         aggregate.push({$match: {$and: [query_object, {$or: searchobjs}]}});
@@ -150,6 +150,7 @@ module.exports = {
 
     var data = await db.aggregate(TableName, aggregate);
     var countObject = {}
+    if(params.is_verified) query_object.is_verified = params.is_verified == 'true';
     if(params.searchkey){
       countObject = {$and: [query_object, {$or: [
         {
@@ -167,6 +168,7 @@ module.exports = {
     var count = await db.count(TableName, countObject);
     var pageCounts = helper.calcPageCounts(count, itemPerPage);
 
+    console.log(data.length, aggregate);
     return {
       data,
       count,

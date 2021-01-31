@@ -70,10 +70,14 @@
                       </tr>
                     </tbody>
                 </template>
+                <template v-if="users.length <= 0 && isLoading === false">
+                    <h2 class="text-left d-flex" >Không tìm thấy dữ liệu</h2>
+                </template>
               </v-simple-table>
             </v-responsive>
           </v-layout>
-          <v-row justify="center">
+
+          <v-row justify="center" v-if="users.length > 0">
             <v-col cols="8">
               <v-container class="max-width">
                  <pagination-custom
@@ -115,16 +119,17 @@ export default {
   mixins: [IsMobile],
 
   created(){
+    if(this.$route.query.hasOwnProperty('page')){
+       this.$store.commit('users/UPDATE_CURRENT_PAGE', parseInt(this.$route.query.page));
+    }
     this.retrieveData(this.$route.query);
   },
 
   data(){
     return {
-      currentPage: parseInt(this.$route.query.page) || 1,
       itemsPerPage: this.$constant.pagination.ITEMS_PER_PAGE,
 
       isLoading: true,
-      pageCounts: 1,
       search: "",
       items: [
         {
@@ -151,6 +156,19 @@ export default {
         return this.$store.getters["users/users"];
       }
     },
+     pageCounts(){
+      return this.$store.getters["users/pageCounts"]
+    },
+
+    currentPage: {
+      get(){
+         return this.$store.getters["users/currentPage"]
+      },
+      set(page){
+        this.$store.commit('users/UPDATE_CURRENT_PAGE', page)
+      }
+    },
+
   },
 
 

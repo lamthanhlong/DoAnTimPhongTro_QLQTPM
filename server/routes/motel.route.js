@@ -10,7 +10,6 @@ router.get('/local', motelcontroller.getLocals);
 
 router.get(
   '/user/:id',
-  protect,
   motelcontroller.ownerFetchMotels
 );
 

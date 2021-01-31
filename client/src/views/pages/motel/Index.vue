@@ -251,8 +251,12 @@ export default {
   created(){
 
     var city = this.cities.find(item => item.name === this.filterAddress.city);
-
     this.handleCityEvent(city)
+
+    if(this.$route.query.hasOwnProperty('page')){
+       this.$store.commit('motels/UPDATE_CURRENT_PAGE', parseInt(this.$route.query.page));
+    }
+   
 
     this.retrieveData(this.$route.query);
   },
@@ -262,7 +266,8 @@ export default {
       get(){
          return this.$store.getters["motels/currentPage"]
       },
-      set(page){
+      set(page)
+      {
         this.$store.commit('motels/UPDATE_CURRENT_PAGE', page)
       }
     },
@@ -396,9 +401,12 @@ export default {
       setTimeout(async () => {
         this.$store.dispatch("motels/fetchPaging", payLoad);
       }, 200);
+    }     
+  },
 
-    }
-  }
+  beforeDestroy(){
+    this.$store.dispatch("motels/reset");
+  },
 }
 
 </script>

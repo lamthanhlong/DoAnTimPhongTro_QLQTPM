@@ -48,7 +48,11 @@
 
 				            <div>
 				              <code>{{motel.area}}m<sup>2</sup></code>
-				            </div>
+				            </div>	
+
+				            <div class="mt-4">
+				              <code  v-show="motel.is_verified">Đã xác thực</code>
+				            </div>	
 
 				            <div class="my-4 subtitle-1 text-decoration-underline" v-if="motel.has_furniture">
 				              Có nội thất
@@ -91,8 +95,7 @@
 
 				            <v-card-text>
 				              <h3>Lượt đánh giá: </h3>
-				              <m-rating :ratings="motel.ratings">
-				              </m-rating>
+				              <m-rating :ratings="motel.ratings"></m-rating>
 							</v-card-text>
 				      
 				        </v-card>

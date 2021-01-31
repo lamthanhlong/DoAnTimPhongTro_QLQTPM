@@ -74,13 +74,22 @@
                       </tr>
                     </tbody>
                 </template>
+
+
+                <template v-if="motels.length <= 0 && isLoading === false">
+                    <h2 class="text-left d-flex" >Không tìm thấy dữ liệu</h2>
+                </template>
+
               </v-simple-table>
             </v-responsive>
           </v-layout>
+
+
           <v-row justify="center">
             <v-col cols="8">
               <v-container class="max-width">
                  <pagination-custom
+                  v-if="motels.length > 0"
                   :pageCounts="pageCounts"
                   :currentPage.sync="currentPage"
                   :key="currentPage"
@@ -149,9 +158,9 @@ export default {
 
 
   created(){
-
-  
-
+    if(this.$route.query.hasOwnProperty('page')){
+       this.$store.commit('motels/UPDATE_CURRENT_PAGE', parseInt(this.$route.query.page));
+    }
     this.retrieveData(this.$route.query);
   },
 
@@ -213,10 +222,19 @@ export default {
       this.retrieveData(query);
     },
 
+    async verify(item){
+      var is_verified = !item.is_verified;
+      const res = await MotelService.verifyMotel(item._id);
+      if(res.status === 200){
+        item.is_verified = true;
+      }
+    },
+
     async retrieveData(query){
 
       var payLoad = query;
       payLoad.page = this.currentPage;
+
       this.$store.dispatch("components/actionProgressHeader", { option: "show" })
       setTimeout(async () => {
         this.$store.dispatch("motels/fetchPaging", payLoad);

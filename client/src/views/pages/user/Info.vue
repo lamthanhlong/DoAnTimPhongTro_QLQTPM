@@ -67,7 +67,7 @@
                             {{ item.price }} triệu VNĐ
                           </div>
 
-                          <div>
+                          <div class="my-4 subtitle-1 red--text font-weight-bold">
                             <code>{{item.area}}m<sup>2</sup></code>
                           </div>
 
