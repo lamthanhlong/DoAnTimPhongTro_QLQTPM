@@ -81,7 +81,12 @@
 				              ></v-rating>
 				              <v-spacer></v-spacer>
 
-				              <v-btn outlined small color="primary" @click="addRating()">Đánh giá</v-btn>
+				              <v-btn 
+				              v-show="$version > 1"
+				              outlined 
+				              small 
+				              color="primary" 
+				              @click="addRating()">Đánh giá</v-btn>
 				            </v-card-text>
 
 				            <v-card-text>
@@ -108,7 +113,13 @@
 								Chat với người bán
 							<v-icon>mdi-message-processing-outline</v-icon>
 						</v-btn>
-						<v-btn small outlined @click="viewProfileUser(motel.user)" class="ma-2">
+						<v-btn 
+						v-show="$version > 1"
+						small 
+						outlined 
+						@click="viewProfileUser(motel.user)" 
+						class="ma-2" 
+						>
 							Xem thông tin
 							<v-icon>mdi-account</v-icon>
 						</v-btn>
