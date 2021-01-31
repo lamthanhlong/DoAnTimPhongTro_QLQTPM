@@ -29,7 +29,13 @@
       </div> -->
 
       <div v-if="!userInfo">
-        <v-btn outlined small color="primary" @click="login()">
+        <v-btn 
+        v-show="$version > 1"
+        outlined 
+        small 
+        color="primary" 
+        @click="login()"
+        >
           Đăng nhập
         </v-btn>
       </div>
@@ -107,15 +113,18 @@ export default {
   },
 
   mounted() {
-
-    if(this.userInfo)
+    console.log(this.$version)
+    if(this.$version > 1.1)
     {
-      if(this.userInfo.role === "ADMIN"){
-        this.menuInfo.unshift({
-          title: "Quản lý admin", icon: "mdi-clipboard-list", link: "/admin/users"
-        });
-      }
+      if(this.userInfo)
+      {
+        if(this.userInfo.role === "ADMIN"){
+          this.menuInfo.unshift({
+            title: "Quản lý admin", icon: "mdi-clipboard-list", link: "/admin/users"
+          });
+        }
 
+      }
     }
    
     this.$vuetify.theme.dark = this.getTheme();

@@ -33,6 +33,7 @@ import constant from '@/config/constant';
 import lang from '@/config/lang';
 
 
+
 Vue.config.productionTip = false;
 Vue.config.devtools = true;
 
@@ -74,6 +75,7 @@ Vue.prototype.$validation = helperValidation;
 Vue.prototype.$constant = constant;
 Vue.prototype.$lang = lang;
 Vue.prototype.$socketEvent = SocketEvent;
+Vue.prototype.$version = parseFloat(process.env.VUE_APP_VERSION);
 
 Vue.component('breadcrumbs', BreadCrumbs);
 Vue.component('pagination-custom', Pagination);
