@@ -86,6 +86,7 @@ namespace Crawler
             {
                 errorString += $"[{err.Message.Replace("\r", "").Replace("\n", " ")}] {err.URL}\n";
             }
+            Directory.CreateDirectory(Config.ResultDirectory);
             File.WriteAllText($"{Config.ResultDirectory}/CrawlerErrors_{Config.TotalFile}.log", errorString);
         }
     }

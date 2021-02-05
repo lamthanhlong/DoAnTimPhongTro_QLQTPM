@@ -2,9 +2,5 @@
   "mongodb": {
     "host": "mongodb+srv://FindMotel:LVh7m2n6OPfbA7MT@cluster0.oiucn.mongodb.net/{DataBaseName}?retryWrites=true&w=majority",
     "database": "TheBestSolution_FindMotel"
-  },
-  "mongodb_test": {
-    "host": "mongodb+srv://quan:123@quan.cdbzn.mongodb.net/{DataBaseName}?retryWrites=true&w=majority",
-    "database": "Motel_Find_Test"
   }
 }

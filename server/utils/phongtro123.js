@@ -128,4 +128,5 @@ var insertDummyUserRating = function () {
     });
 }
 
-insertDummyUserRating();
+insertCrawlData();
+//insertDummyUserRating();
